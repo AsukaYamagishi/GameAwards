@@ -133,6 +133,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SorutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,37 +145,50 @@
   <ItemGroup>
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInput.h" />
-    <ClInclude Include="ModelObj.h" />
-    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="ModelInput.h" />
+    <ClInclude Include="ModelDraw.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Object3D.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBeam.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Title.h" />
-    <ClInclude Include="Tutorial.h" />
+    <ClInclude Include="EndGame.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="WindowsAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ModelObj.cpp" />
-    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="ModelInput.cpp" />
+    <ClCompile Include="ModelDraw.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="Object3D.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBeam.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Title.cpp" />
-    <ClCompile Include="Tutorial.cpp" />
+    <ClCompile Include="EndGame.cpp" />
     <ClCompile Include="WindowsAPI.cpp" />
   </ItemGroup>
   <ItemGroup>

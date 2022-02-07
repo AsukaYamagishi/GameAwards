@@ -18,9 +18,10 @@
 #include"DirectXCommon.h"
 #include"SafeDelete.h"
 #include"GameScene.h"
-#include"ModelObj.h"
+#include"ModelDraw.h"
 #include"Title.h"
 #include "SceneManager.h"
+#include "ModelManager.h"
 
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"d3d12.lib")
@@ -69,6 +70,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	audio = new Audio();
 	audio->Init();
 
+	ModelInput::StaticInitialize(dxCommon->GetDevice());
+	ModelManager::GetIns()->Initialize();
+
 	
 	////DirectInput(入力)初期化処理
 	KeyboardInput* input = KeyboardInput::GetInstance();
@@ -80,13 +84,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	////描画初期化処理　ここから
 #pragma region スプライト/3Dオブジェクト静的初期化
 	// スプライト静的初期化
-	if (!Object2D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+	if (!Sprite::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
 	}
 
 	// 3Dオブジェクト静的初期化
 	if (!Object3D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+
+	if (!ModelDraw::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
 	}

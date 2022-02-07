@@ -7,6 +7,10 @@
 #include "Audio.h"
 #include "KeyboardInput.h"
 #include <vector>
+#include "Player.h"
+#include "PlayerBullet.h"
+#include "Enemy.h"
+#include "Collision.h"
 
 
 using namespace Microsoft::WRL;
@@ -25,10 +29,40 @@ private: //メンバ変数
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
 	DebugText debugText;
+	Sprite* spriteBG;
 
 	//ゲームシーン用
+	Sprite* sprite = nullptr;
 	//音楽
 	Audio::SoundData soundData[3];
+
+	//プレイヤー
+	Player* player;
+	//プレイヤー弾
+	vector<PlayerBullet*> bullets;
+
+	//敵
+	vector<Enemy*> enemys;
+
+
+	//時間経過カウンター
+	int counter = 0;
+	//ゲームシーン終了用
+	int deadEnemyCount = 0;
+	
+
+
+	//壁
+	/*ModelDraw* wall[4] = { nullptr };
+	enum WALL {
+		up,
+		down,
+		left,
+		right
+	};*/
+
+public:
+	bool gameEndFlag = false;
 
 #pragma endregion
 
@@ -39,7 +73,7 @@ public: //静的メンバ関数
 #pragma endregion
 
 #pragma region ゲッター/セッター
-	//a
+	
 #pragma endregion
 
 #pragma region メンバ関数

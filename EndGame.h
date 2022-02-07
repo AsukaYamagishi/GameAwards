@@ -2,15 +2,18 @@
 #include "SafeDelete.h"
 #include "DirectXCommon.h"
 #include <DirectXMath.h>
+#include "Sprite.h"
+#include "Object3D.h"
+#include "DebugText.h"
 #include "Audio.h"
 #include "KeyboardInput.h"
-#include "Sprite.h"
+#include "ModelDraw.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
 //ゲームシーン
-class Title
+class EndGame
 {
 #pragma region 変数
 private: //静的メンバ変数
@@ -20,28 +23,21 @@ private: //メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
-	
+	DebugText debugText;
+
 	//ゲームシーン用
 	Sprite* spriteBG = nullptr;
+	Sprite* sprite1 = nullptr;
 
+	//Audio::SoundData soundData[2];
 #pragma endregion
 
-#pragma region 静的メンバ関数
-
-private: //静的メンバ関数
-public: //静的メンバ関数
-#pragma endregion
-
-#pragma region ゲッター/セッター
-	//a
-#pragma endregion
-
-#pragma region メンバ関数
+#pragma region 関数
 public: //メンバ関数
 	//コンストラクタ
-	Title();
+	EndGame();
 	//デストラクタ
-	~Title();
+	~EndGame();
 	//初期化
 	void Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
 	//毎フレーム更新処理
@@ -50,3 +46,4 @@ public: //メンバ関数
 	void Draw();
 #pragma endregion
 };
+

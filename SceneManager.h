@@ -1,7 +1,7 @@
 #pragma once
 #include "GameScene.h"
 #include "Title.h"
-#include "Tutorial.h"
+#include "EndGame.h"
 
 class SceneManager
 {
@@ -12,13 +12,13 @@ private: //ƒƒ“ƒo•Ï”
 	Audio* audio = nullptr;
 	GameScene* game = nullptr;
 	Title* title = nullptr;
-	Tutorial* tutorial = nullptr;
+	EndGame* end = nullptr;
 
 	//ƒV[ƒ“‘JˆÚ”Ô†
 	enum SceneNo {
 		titleScene,
-		tutorialScene,
-		gameScene
+		gameScene,
+		endScene
 	};
 	SceneNo sceneNo = titleScene;
 

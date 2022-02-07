@@ -52,16 +52,22 @@
     <Filter Include="ソース ファイル\GameScene\TitleScene">
       <UniqueIdentifier>{1b49f521-cf5d-49ff-88ea-6c4504ae5e71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GameScene\Tutorial">
+    <Filter Include="ソース ファイル\Model">
+      <UniqueIdentifier>{8314fef5-0ad0-453a-ab9d-4f8af7263dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Collision">
+      <UniqueIdentifier>{aadc5487-d596-4163-8a57-3d0dc5b0a530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player\beam">
+      <UniqueIdentifier>{2f77fcf6-e214-4f6c-afa4-aa855fb1008a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameScene\EndGame">
       <UniqueIdentifier>{2134dae5-8f52-4c16-8b5b-75845e43db62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
       <Filter>ソース ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3D.h">
-      <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="WindowsAPI.h">
       <Filter>ソース ファイル\Base</Filter>
@@ -81,17 +87,11 @@
     <ClInclude Include="DirectXCommon.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="ModelObj.h">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>ソース ファイル\GameScene\GamePlayScene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>ソース ファイル\GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>ソース ファイル\Player\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ソース ファイル\Player</Filter>
@@ -99,19 +99,46 @@
     <ClInclude Include="Title.h">
       <Filter>ソース ファイル\GameScene\TitleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Tutorial.h">
-      <Filter>ソース ファイル\GameScene\Tutorial</Filter>
-    </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelManager.h">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelDraw.h">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelInput.h">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ソース ファイル\Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBeam.h">
+      <Filter>ソース ファイル\Player\beam</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGame.h">
+      <Filter>ソース ファイル\GameScene\EndGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3D.cpp">
-      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="WindowsAPI.cpp">
       <Filter>ソース ファイル\Base</Filter>
@@ -131,17 +158,11 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="ModelObj.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>ソース ファイル\GameScene\GamePlayScene</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>ソース ファイル\Player\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル\Player</Filter>
@@ -149,11 +170,38 @@
     <ClCompile Include="Title.cpp">
       <Filter>ソース ファイル\GameScene\TitleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Tutorial.cpp">
-      <Filter>ソース ファイル\GameScene\Tutorial</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelManager.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelDraw.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelInput.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionPrimitive.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBeam.cpp">
+      <Filter>ソース ファイル\Player\beam</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGame.cpp">
+      <Filter>ソース ファイル\GameScene\EndGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

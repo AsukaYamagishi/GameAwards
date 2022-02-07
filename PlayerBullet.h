@@ -1,13 +1,13 @@
 #pragma once
 #include "SafeDelete.h"
 #include "DirectXCommon.h"
-#include "KeyboardInput.h"
-#include "Audio.h"
 #include "ModelDraw.h"
 #include "ModelManager.h"
+#include "Vector3.h"
+#include "CollisionPrimitive.h"
 
 #include <DirectXMath.h>
-class Player {
+class PlayerBullet {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -15,9 +15,9 @@ class Player {
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	Player();
-	~Player();
-	void Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
+	PlayerBullet(Vector3 playerPos);
+	~PlayerBullet();
+	static void Initialize(DirectXCommon* dxCommon);
 
 	/// <summary>
 	/// ñàÉtÉåÅ[ÉÄèàóù
@@ -29,19 +29,21 @@ public:
 	/// </summary>
 	void Draw();
 
-	
+
 public:
-	ModelDraw* player = nullptr;
+	bool isAlive;
+	Sphere sphere;
 
 private:
-	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
-	Audio* audio = nullptr;
+	static DirectXCommon* dxCommon;
 
-	float move = 5.0f;
-	int hp = 10;
+	ModelDraw* bullet = nullptr;
+	const float move = 8.0f;
+
+	Vector3 pos = { 0,0,0 };
 	
-	
-	
+	Vector3 startPos = { 0,0,0 };
+
+
 
 };

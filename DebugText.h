@@ -2,7 +2,7 @@
 #include<Windows.h>
 #include<string>
 
-#include"Object2D.h"
+#include"Sprite.h"
 
 class DebugText
 {
@@ -17,7 +17,7 @@ public:
 private:
 	//メンバ変数
 	//スプライトの配列
-	Object2D* textSprites[maxCharCount];
+	Sprite* textSprites[maxCharCount];
 	//配列の添え字
 	int textIndex = 0;
 
