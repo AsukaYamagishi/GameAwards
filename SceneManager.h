@@ -20,7 +20,7 @@ private: //ƒƒ“ƒo•Ï”
 		gameScene,
 		endScene
 	};
-	SceneNo sceneNo = titleScene;
+	SceneNo sceneNo;
 
 #pragma endregion
 

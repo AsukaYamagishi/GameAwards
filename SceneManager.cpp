@@ -26,10 +26,10 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	end = new EndGame();
 	//end->Init(dxCommon, input, audio);
 	game = new GameScene();
-	//game->Init(dxCommon, input, audio);
+	game->Init(dxCommon, input, audio);
 
 	//ゲーム開始シーンの設定
-	sceneNo = titleScene;
+	sceneNo = gameScene;
 }
 
 void SceneManager::Update()

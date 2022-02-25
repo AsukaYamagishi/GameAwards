@@ -35,16 +35,16 @@ void Player::Update()
 	player->Update();
 
 #pragma region	ƒvƒŒƒCƒ„[ˆÚ“®
-	if (input->PressKey(DIK_UP)) {
+	if (input->PressKey(DIK_UP)|| input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, +move, 0.0f));
 	}
-	if (input->PressKey(DIK_DOWN)) {
+	if (input->PressKey(DIK_DOWN)|| input->PressKey(DIK_S)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
 	}
-	if (input->PressKey(DIK_LEFT)) {
+	if (input->PressKey(DIK_LEFT)|| input->PressKey(DIK_A)) {
 		player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));
 	}
-	if (input->PressKey(DIK_RIGHT)) {
+	if (input->PressKey(DIK_RIGHT)|| input->PressKey(DIK_D)) {
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
 #pragma endregion

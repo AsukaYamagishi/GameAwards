@@ -155,8 +155,6 @@
     <ClInclude Include="ModelDraw.h" />
     <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Object3D.h" />
-    <ClInclude Include="PlayerBeam.h" />
-    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SafeDelete.h" />
@@ -180,8 +178,6 @@
     <ClCompile Include="ModelDraw.cpp" />
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="Object3D.cpp" />
-    <ClCompile Include="PlayerBeam.cpp" />
-    <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />

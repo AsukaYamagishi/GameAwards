@@ -38,30 +38,13 @@ private: //メンバ変数
 
 	//プレイヤー
 	Player* player;
-	//プレイヤー弾
-	vector<PlayerBullet*> bullets;
-
-	//敵
-	vector<Enemy*> enemys;
-
-
-	//時間経過カウンター
-	int counter = 0;
-	//ゲームシーン終了用
-	int deadEnemyCount = 0;
 	
+	//敵
+	//vector<Enemy*> enemys;
 
-
-	//壁
-	/*ModelDraw* wall[4] = { nullptr };
-	enum WALL {
-		up,
-		down,
-		left,
-		right
-	};*/
 
 public:
+	//ゲームシーン終了用
 	bool gameEndFlag = false;
 
 #pragma endregion

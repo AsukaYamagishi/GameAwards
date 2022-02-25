@@ -37,9 +37,6 @@
     <Filter Include="ソース ファイル\Base">
       <UniqueIdentifier>{327f9434-943b-424c-83af-f6cc3d0280d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Player\Bullet">
-      <UniqueIdentifier>{aeaeb892-95ab-4501-b246-30b98868cb6d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\GameScene">
       <UniqueIdentifier>{35c27ec9-e306-49ea-a09f-b2eb21c4ce0e}</UniqueIdentifier>
     </Filter>
@@ -54,9 +51,6 @@
     </Filter>
     <Filter Include="ソース ファイル\Collision">
       <UniqueIdentifier>{aadc5487-d596-4163-8a57-3d0dc5b0a530}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Player\beam">
-      <UniqueIdentifier>{2f77fcf6-e214-4f6c-afa4-aa855fb1008a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\GameScene\EndGame">
       <UniqueIdentifier>{2134dae5-8f52-4c16-8b5b-75845e43db62}</UniqueIdentifier>
@@ -114,17 +108,11 @@
     <ClInclude Include="ModelInput.h">
       <Filter>ソース ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>ソース ファイル\Player\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionPrimitive.h">
       <Filter>ソース ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBeam.h">
-      <Filter>ソース ファイル\Player\beam</Filter>
     </ClInclude>
     <ClInclude Include="EndGame.h">
       <Filter>ソース ファイル\GameScene\EndGame</Filter>
@@ -179,17 +167,11 @@
     <ClCompile Include="ModelInput.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>ソース ファイル\Player\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="CollisionPrimitive.cpp">
       <Filter>ソース ファイル\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBeam.cpp">
-      <Filter>ソース ファイル\Player\beam</Filter>
     </ClCompile>
     <ClCompile Include="EndGame.cpp">
       <Filter>ソース ファイル\GameScene\EndGame</Filter>
