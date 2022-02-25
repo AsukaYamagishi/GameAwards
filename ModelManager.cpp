@@ -11,8 +11,6 @@ ModelManager *ModelManager::GetIns()
 void ModelManager::Initialize()
 {
 	LoadModel(Player, "player");
-	LoadModel(PlayerBullet, "bullet");
-	LoadModel(Enemy, "enemy");
 	//LoadModel(TestDunut, "donut");
 }
 
