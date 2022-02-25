@@ -37,7 +37,7 @@ bool WindowsAPI::WindowCreate()
 
 	//ウィンドウオブジェクトの生成
 	WindowsAPI::hwnd = CreateWindow(WindowsAPI::w.lpszClassName, //クラス名
-							 L"TitlebarName", //タイトルバーの文字
+							 L"ゲーム大賞", //タイトルバーの文字
 							 WS_OVERLAPPEDWINDOW, //標準的なウィンドウスタイル
 							 CW_USEDEFAULT, //表示Ｘ座標（OS依存）
 							 CW_USEDEFAULT, //表示Y座標（OS依存）

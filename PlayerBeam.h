@@ -7,7 +7,7 @@
 #include "ModelManager.h"
 
 #include <DirectXMath.h>
-class Player {
+class PlayerBeam {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -15,8 +15,8 @@ class Player {
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	Player();
-	~Player();
+	PlayerBeam();
+	~PlayerBeam();
 	void Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
 
 	/// <summary>
@@ -29,19 +29,17 @@ public:
 	/// </summary>
 	void Draw();
 
-	
+
 public:
-	ModelDraw* player = nullptr;
 
 private:
 	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
 
+	ModelDraw* beam = nullptr;
 	float move = 5.0f;
-	int hp = 10;
-	
-	
-	
+
+
 
 };

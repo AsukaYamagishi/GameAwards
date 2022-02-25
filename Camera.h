@@ -3,7 +3,7 @@
 #include<d3dx12.h>
 #include<DirectXMath.h>
 
-#include"Object2D.h"
+#include"Sprite.h"
 #include"Object3D.h"
 
 using namespace DirectX;

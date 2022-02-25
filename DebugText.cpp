@@ -6,7 +6,7 @@ void DebugText::Init(UINT texnumber)
 	for (int i = 0; i < _countof(textSprites); i++)
 	{
 		//デバッグテキスト用文字画像を生成する
-		textSprites[i] = Object2D::CreateSprite(texnumber, { 0,0 });
+		textSprites[i] = Sprite::CreateSprite(texnumber, { 0,0 });
 	}
 }
 

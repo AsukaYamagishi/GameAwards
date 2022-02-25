@@ -23,11 +23,13 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	//各シーン生成/最初のシーン初期化
 	title = new Title();
 	title->Init(dxCommon, input, audio);
-	tutorial = new Tutorial();
+	end = new EndGame();
+	//end->Init(dxCommon, input, audio);
 	game = new GameScene();
+	game->Init(dxCommon, input, audio);
 
 	//ゲーム開始シーンの設定
-	sceneNo = titleScene;
+	sceneNo = gameScene;
 }
 
 void SceneManager::Update()
@@ -35,10 +37,20 @@ void SceneManager::Update()
 	//シーン切り替え
 	if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == titleScene)
 	{
-		tutorial->Init(dxCommon, input, audio);
-		sceneNo = tutorialScene;
+		game->Init(dxCommon, input, audio);
+		sceneNo = gameScene;
 	}
-	else if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == tutorialScene)
+	else if (game->gameEndFlag == true && sceneNo == gameScene)
+	{
+		end->Init(dxCommon, input, audio);
+		sceneNo = endScene;
+	}
+	else if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == endScene)
+	{
+		title->Init(dxCommon, input, audio);
+		sceneNo = titleScene;
+	}
+	else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
 	{
 		game->Init(dxCommon, input, audio);
 		sceneNo = gameScene;
@@ -49,11 +61,11 @@ void SceneManager::Update()
 	if (sceneNo == titleScene) {
 		title->Update();
 	}
-	else if (sceneNo == tutorialScene) {
-		tutorial->Update();
-	}
 	else if (sceneNo == gameScene){
 		game->Update();
+	}
+	else if (sceneNo == endScene) {
+		end->Update();
 	}
 #pragma endregion
 
@@ -65,11 +77,11 @@ void SceneManager::Draw()
 	if (sceneNo == titleScene) {
 		title->Draw();
 	}
-	else if (sceneNo == tutorialScene) {
-		tutorial->Draw();
-	}
 	else if (sceneNo == gameScene)
 	{
 		game->Draw();
+	}
+	else if (sceneNo == endScene) {
+		end->Draw();
 	}
 }

@@ -4,6 +4,7 @@
 #include <DirectXMath.h>
 #include "Audio.h"
 #include "KeyboardInput.h"
+#include "Sprite.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -20,6 +21,9 @@ private: //メンバ変数
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
 	
+	//ゲームシーン用
+	Sprite* spriteBG = nullptr;
+
 #pragma endregion
 
 #pragma region 静的メンバ関数

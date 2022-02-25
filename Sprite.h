@@ -12,7 +12,7 @@ using namespace DirectX;
 #pragma comment(lib, "d3dcompiler.lib")
 
 
-class Object2D
+class Sprite
 {
 #pragma region 構造体
 public: //構造体
@@ -94,13 +94,13 @@ public: //静的メンバ関数
 	//描画後処理
 	static void PostDraw();
 	//スプライト生成
-	static Object2D* CreateSprite(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1,1,1,1 }, XMFLOAT2 anchorpoint = { 0.0f,0.0f }, bool isFlipX = false, bool isFlipY = false);
+	static Sprite* CreateSprite(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1,1,1,1 }, XMFLOAT2 anchorpoint = { 0.0f,0.0f }, bool isFlipX = false, bool isFlipY = false);
 	//テクスチャ読み込み
 	static bool LoadTexture(UINT texnumber, const wchar_t* filename);
 
 public: //メンバ関数
 	//コンストラクタ
-	Object2D(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlopY);
+	Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlopY);
 	//初期化
 	bool Init();
 	//描画
