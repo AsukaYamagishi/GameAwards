@@ -19,9 +19,6 @@
     <Filter Include="ソース ファイル\Camera">
       <UniqueIdentifier>{fc67d5c0-5b26-4370-92ba-9856677af0b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{364becc2-7f89-4c0f-add7-a5edaccfb5fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Input">
       <UniqueIdentifier>{36ec04cb-8844-44b0-9670-e10ee9b52576}</UniqueIdentifier>
     </Filter>
@@ -117,9 +114,6 @@
     <ClInclude Include="ModelInput.h">
       <Filter>ソース ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerBullet.h">
       <Filter>ソース ファイル\Player\Bullet</Filter>
     </ClInclude>
@@ -184,9 +178,6 @@
     </ClCompile>
     <ClCompile Include="ModelInput.cpp">
       <Filter>ソース ファイル\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
       <Filter>ソース ファイル\Player\Bullet</Filter>
