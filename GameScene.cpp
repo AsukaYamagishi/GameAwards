@@ -116,7 +116,7 @@ void GameScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//前景スプライト描画
-	sprite->Draw();
+	//sprite->Draw();
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理
