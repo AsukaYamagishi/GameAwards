@@ -45,7 +45,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 		return;
 	}*/
 	//// 背景スプライト生成
-	sprite = Sprite::CreateSprite(3, { 0.0f,0.0f });
+	//sprite = Sprite::CreateSprite(3, { 0.0f,0.0f });
 #pragma endregion
 
 

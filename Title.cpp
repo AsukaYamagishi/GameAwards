@@ -26,12 +26,12 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 
 #pragma region Sprite初期設定
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
-	if (!Sprite::LoadTexture(2, L"Resources/title.png")) {
+	/*if (!Sprite::LoadTexture(2, L"Resources/title.png")) {
 		assert(0);
 		return;
-	}
+	}*/
 	//// 背景スプライト生成
-	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
+	//spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 #pragma endregion
 
 
