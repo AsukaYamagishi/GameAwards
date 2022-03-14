@@ -1,26 +1,61 @@
 #pragma once
-#include<d3d12.h>
-#include<d3dx12.h>
-#include<DirectXMath.h>
-
-#include"Sprite.h"
-#include"Object3D.h"
-
+#include <DirectXMath.h>
+#include "Vector3.h"
 using namespace DirectX;
 
 class Camera
 {
+protected: // エイリアス
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMVECTOR = DirectX::XMVECTOR;
+	using XMMATRIX = DirectX::XMMATRIX;
+
 public:
-	//コンストラクタに引数設定忘れずに
-	Camera(XMFLOAT3 eye, XMFLOAT3 target = { 0,0,0 }, XMFLOAT3 up = { 0,1,0 });
+	Camera(Vector3 eye, Vector3 target = { 0,0,0 }, Vector3 up = { 0,1,0 });
 
-	XMFLOAT3 eye; //視点座標
-	XMFLOAT3 target; //注視点座標
-	XMFLOAT3 up; //上ベクトル
+	//更新
+	void Update();
+	//ビュー行列更新
+	void UpdateViewMatrix();
+	//射影行列を更新
+	void UpdateProjectionMatrix();
 
-	XMMATRIX matView; //カメラ情報
+
+	static void Initialize(const XMFLOAT3 eye = { 0,100,100 });
+	static void SetCam(Camera* cam);
+
+	const XMMATRIX& GetViewProjectionMatrix() {
+		return matViewProjection;
+	}
+	static Camera* GetCam() { return NowMatView; }
+	//ビュー行列取得
+	XMMATRIX GetMatView() { return matView; }
+	//プロジェクション行列取得
+	XMMATRIX GetMatProj() { return matProjection; }
+	//視点座標取得
+	XMFLOAT3 GetEye() { return eye; }
+
+	//void TargetSpin(float length);
+
+	Vector3 eye;				//視点座標
+	Vector3 target;			//注視点座標
+	Vector3 up;				//上方向ベクトル
+	Vector3 front;			//正面ベクトル
+
+	Vector3 angle;			//角度
+protected:
+	//今のカメラ
+	static Camera* NowMatView;
+	//ビュー行列
+	XMMATRIX matView = XMMatrixIdentity();
+	//射影行列
+	XMMATRIX matProjection = XMMatrixIdentity();
+	//ビュー射影行列
+	XMMATRIX matViewProjection = XMMatrixIdentity();//現在ののカメラ
 
 
-	void CameraUpdate(); //カメラ更新
 };
 

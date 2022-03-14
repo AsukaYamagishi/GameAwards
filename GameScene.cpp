@@ -1,6 +1,8 @@
 #include "GameScene.h"
 #include <cassert>
 #include <time.h>
+#include "FbxInput.h"
+#include "FbxDraw.h"
 
 using namespace DirectX;
 
@@ -13,6 +15,8 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	//safe_deleteはここで行う
+	safe_delete(testObject);
+	safe_delete(testModel);
 }
 
 void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
@@ -25,6 +29,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	this->dxCommon = dxCommon;
 	this->input = input;
 	this->audio = audio;
+
+	camera = Camera::GetCam();
 #pragma endregion
 
 #pragma region デバッグテキスト読み込み
@@ -47,11 +53,25 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	//// 背景スプライト生成
 	//sprite = Sprite::CreateSprite(3, { 0.0f,0.0f });
 #pragma endregion
-
+	//デバイスをセット
+	FbxDraw::SetDevice(dxCommon->GetDevice());
+	//カメラをセット
+	FbxDraw::SetCamera(camera);
+	//グラフィックスパイプライン生成
+	FbxDraw::CreateGraphicsPipeline();
 
 #pragma region 3DモデルCreate・初期設定
+	//モデルを指定して読み込み
+	testModel=FbxInput::GetInstance()->LoadFbxFromFile("boneTest");
+	//3Dオブジェクト生成とモデルのセット
+	testObject = new FbxDraw();
+	testObject->Init();
+	testObject->SetModel(testModel);
+	testObject->SetScale({ 10,10,10 });
+	testObject->PlayAnimation(true);
 
 #pragma endregion
+
 
 #pragma region 音楽リソース初期設定
 
@@ -69,7 +89,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 void GameScene::Update()
 {
 	player->Update();
-
+	testObject->Update();
 
 #pragma region デバッグテキスト設定
 #pragma endregion
@@ -109,6 +129,7 @@ void GameScene::Draw()
 #pragma region 3Dモデル描画
 	
 	player->Draw();
+	testObject->Draw(cmdList);
 	
 #pragma endregion
 

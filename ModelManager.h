@@ -13,8 +13,7 @@ private:
 public:
 	enum ModelName {
 		Player,
-		PlayerBullet,
-		Enemy
+		
 	};
 
 public:

@@ -55,6 +55,12 @@
     <Filter Include="ソース ファイル\GameScene\EndGame">
       <UniqueIdentifier>{2134dae5-8f52-4c16-8b5b-75845e43db62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Model\Obj">
+      <UniqueIdentifier>{e8ffab32-26df-4928-90c7-26a76786c4c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Model\FBX">
+      <UniqueIdentifier>{4e0d4d5a-65bd-49e5-a17d-7880d22aa01e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -99,14 +105,8 @@
     <ClInclude Include="ModelManager.h">
       <Filter>ソース ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="ModelDraw.h">
-      <Filter>ソース ファイル\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>ソース ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelInput.h">
-      <Filter>ソース ファイル\Model</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ソース ファイル\Collision</Filter>
@@ -116,6 +116,21 @@
     </ClInclude>
     <ClInclude Include="EndGame.h">
       <Filter>ソース ファイル\GameScene\EndGame</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxInput.h">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelDraw.h">
+      <Filter>ソース ファイル\Model\Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelInput.h">
+      <Filter>ソース ファイル\Model\Obj</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxModel.h">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxDraw.h">
+      <Filter>ソース ファイル\Model\FBX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,14 +173,8 @@
     <ClCompile Include="ModelManager.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="ModelDraw.cpp">
-      <Filter>ソース ファイル\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Object3D.cpp">
       <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelInput.cpp">
-      <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
@@ -176,6 +185,21 @@
     <ClCompile Include="EndGame.cpp">
       <Filter>ソース ファイル\GameScene\EndGame</Filter>
     </ClCompile>
+    <ClCompile Include="FbxInput.cpp">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelDraw.cpp">
+      <Filter>ソース ファイル\Model\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelInput.cpp">
+      <Filter>ソース ファイル\Model\Obj</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxModel.cpp">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxDraw.cpp">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
@@ -185,6 +209,9 @@
       <Filter>HLSL ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\Obj.hlsli">
+      <Filter>HLSL ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\FBX.hlsli">
       <Filter>HLSL ファイル</Filter>
     </None>
   </ItemGroup>
@@ -205,6 +232,12 @@
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ObjVS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FBXPS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
   </ItemGroup>

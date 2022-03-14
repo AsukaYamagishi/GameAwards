@@ -16,6 +16,7 @@ using namespace DirectX;
 #include <vector>
 
 #include "ModelInput.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -37,12 +38,6 @@ public:	 //サブクラス
 		ID3D12GraphicsCommandList *cmdList;		//コマンドリスト
 
 		PipelineSet pipelineSet;				//パイプラインセット
-		XMMATRIX matView;			//ビュー行列
-		XMMATRIX matProjection{};	//射影行列
-
-		XMFLOAT3 eye;				//視点座標
-		XMFLOAT3 target;			//注視点座標
-		XMFLOAT3 up;				//上方向ベクトル
 	};
 
 	//定数バッファ用データ構造体B0
@@ -77,19 +72,10 @@ public:	//静的メンバ関数
 	//オブジェクト初期化処理
 	static ModelDraw *Create(bool isBillboard = false);
 
-	//ビュー行列更新
-	static void UpdateViewMatrix();
-
 	//ブレンドモード変更
 	static void BlendMode(BLENDMODE blendM);
 
-	static Vector3 GetCamPos() { return objectCommon.eye; }
-	static void SetCamPos(Vector3 pos) { objectCommon.eye = pos; }
-	static void SetCamTarget(Vector3 target) { objectCommon.target = target; }
-
 private:	//静的メンバ関数
-	//カメラ生成
-	static void InitializeCamera(int window_width, int window_height);
 	//3Dオブジェクト用パイプライン
 	static bool InitializeGraphicsPipeline();
 

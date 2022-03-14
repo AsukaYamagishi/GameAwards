@@ -11,10 +11,10 @@ bool ModelDraw::StaticInitialize(ID3D12Device *dev, int window_width, int window
 	objectCommon.dev = dev;
 
 	//カメラ初期化
-	objectCommon.eye = { 0.0f,30.0f,-200.0f };
+	/*objectCommon.eye = { 0.0f,30.0f,-200.0f };
 	objectCommon.target = { 0.0f,0.0f,0.0f };
 	objectCommon.up = { 0.0f,1.0f,0.0f };
-	InitializeCamera(window_width, window_height);
+	InitializeCamera(window_width, window_height);*/
 
 	InitializeGraphicsPipeline();		//パイプライン初期化
 	
@@ -40,20 +40,6 @@ void ModelDraw::PostDraw()
 {
 	objectCommon.cmdList = nullptr;
 }
-
-void ModelDraw::InitializeCamera(int window_width, int window_height)
-{
-	//ビュー行列の生成
-	UpdateViewMatrix();
-
-	//透視投影変換
-	objectCommon.matProjection = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(60.0f),
-		(float)window_width / window_height,
-		0.1f, 1000.0f
-	);
-}
-
 
 bool ModelDraw::InitializeGraphicsPipeline()
 {
@@ -233,15 +219,6 @@ bool ModelDraw::InitializeGraphicsPipeline()
 	return true;
 }
 
-
-void ModelDraw::UpdateViewMatrix()
-{
-	objectCommon.matView = XMMatrixLookAtLH(
-		XMLoadFloat3(&objectCommon.eye),
-		XMLoadFloat3(&objectCommon.target),
-		XMLoadFloat3(&objectCommon.up));
-}
-
 void ModelDraw::BlendMode(BLENDMODE blendM)
 {
 }
@@ -321,7 +298,7 @@ void ModelDraw::Update()
 	//定数バッファへデータ転送
 	ConstBufferDataB0 *constMap0 = nullptr;
 	if (SUCCEEDED(constBuffB0->Map(0, nullptr, (void **)&constMap0))) {
-		constMap0->mat = matWorld * objectCommon.matView * objectCommon.matProjection;
+		constMap0->mat = matWorld * Camera::GetCam()->GetMatView() * Camera::GetCam()->GetMatProj();
 		
 		constBuffB0->Unmap(0, nullptr);
 	}

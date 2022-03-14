@@ -22,6 +22,9 @@
 #include"Title.h"
 #include "SceneManager.h"
 #include "ModelManager.h"
+#include "FbxInput.h"
+#include "Camera.h"
+
 
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"d3d12.lib")
@@ -38,6 +41,7 @@ using namespace Microsoft::WRL;
 //Windowsアプリでのエントリーポイント（main関数）
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+	
 
 	//ウィンドウ
 	WindowsAPI* win = nullptr;
@@ -70,6 +74,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	audio = new Audio();
 	audio->Init();
 
+	//カメラ
+	Camera* camera = nullptr;
+	camera->Initialize({ -100,50,100 });
+
 	ModelInput::StaticInitialize(dxCommon->GetDevice());
 	ModelManager::GetIns()->Initialize();
 
@@ -94,18 +102,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		assert(0);
 		return 1;
 	}
+#pragma endregion
 
+#pragma region 3Dモデル静的初期化
+	// Obj
 	if (!ModelDraw::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
 	}
-#pragma endregion
 
-#pragma region 3Dモデル静的初期化
-	/*if (!ModelObj::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
-		assert(0);
-		return 1;
-	}*/
+	// FBX
+	FbxInput::GetInstance()->Init(dxCommon->GetDevice());
+
 #pragma endregion
 	
 
@@ -155,6 +163,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		////////////////DirectX毎フレーム処理 ここまで
 	}
+
+	//解放処理
+	FbxInput::GetInstance()->Fin();
+
+
 	//クラス(new)の消去
 	safe_delete(dxCommon);
 	safe_delete(audio);

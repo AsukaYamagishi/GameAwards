@@ -9,6 +9,7 @@
 #include <vector>
 #include "Player.h"
 #include "Collision.h"
+#include "FbxDraw.h"
 
 
 using namespace Microsoft::WRL;
@@ -26,6 +27,7 @@ private: //メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
+	Camera* camera = nullptr;
 	DebugText debugText;
 	Sprite* spriteBG;
 
@@ -36,6 +38,11 @@ private: //メンバ変数
 
 	//プレイヤー
 	Player* player;
+
+	//FBXモデル
+	FbxModel* testModel = nullptr;
+	FbxDraw* testObject = nullptr;
+
 	
 	//敵
 	//vector<Enemy*> enemys;
