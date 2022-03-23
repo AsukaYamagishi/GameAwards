@@ -33,7 +33,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 
 	//ƒJƒƒ‰‚Ì‚¹‚Á‚¿
-	camera->Initialize({ 0,50,100 });
+	camera->Initialize({ 0,30,130 });
 	camera = Camera::GetCam();
 	camera->target = { 0 ,50 ,0 };
 #pragma endregion
@@ -90,6 +90,8 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 	boss = new Boss();
 	boss->Initialize(dxCommon, input, audio);
+	boss->boss->SetPos(Vector3(0,5,0));
+	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
 
 	stage = new OBJObject();
 	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
@@ -99,8 +101,8 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	weapon = new OBJObject();
 	weapon->Initialize(dxCommon, input, audio, ModelManager::Weapon);
 	weapon->model->SetScale({1, 1, 1});
-	weapon->model->SetRotation({ 0, 90, 0 });
-	weapon->model->SetPos({ 0, 0 , 0 });
+	weapon->model->SetRotation({ 0, 45, 0 });
+	weapon->model->SetPos({ -3.0f, -2 , 1.7f });
 	weapon->model->SetParent(player->player);
 	
 
@@ -109,9 +111,9 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 void GameScene::Update()
 {
-	camera->eye.x = 0;
+	/*camera->eye.x = 0;
 	camera->eye.y = 50;
-	camera->eye.z = -100;
+	camera->eye.z = -100*/;
 
 	camera->Update();
 
@@ -124,10 +126,10 @@ void GameScene::Update()
 	weapon->Update();
 	testObject->Update();
 	camera->eye = player->player->GetPos(); 
-	camera->eye.y = -20.0f;
-	camera->eye.z = -150.0f;
+	camera->eye.y -= 1.0f;
+	camera->eye.z -= 10.0f;
 	camera->target = player->player->GetPos();
-	camera->target.y = 10.0f;
+	//camera->target.y = 10.0f;
 	camera->SetCam(camera);
 	camera->Update();
 

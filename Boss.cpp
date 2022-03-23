@@ -51,8 +51,8 @@ void Boss::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audi
 
 void Boss::Update()
 {
-	boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
-	boss->SetPos(Vector3(0.0f, 10.0f, 0.0f));
+	//boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
+	//boss->SetPos(Vector3(0.0f, 10.0f, 0.0f));
 
 	boss->Update();
 	head->Update();
