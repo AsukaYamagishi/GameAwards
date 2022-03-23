@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "ParticleManager.h"
 #include <cassert>
 #include <time.h>
 #include "FbxInput.h"
@@ -15,6 +16,7 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	//safe_deleteはここで行う
+	safe_delete(particleMan);
 	safe_delete(testObject);
 	safe_delete(testModel);
 }
@@ -75,6 +77,9 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	testObject->SetScale({ 10,10,10 });
 	testObject->PlayAnimation(true);
 
+	//パーティクルの生成
+	particleMan = ParticleManager::Create();
+	particleMan->Update();
 #pragma endregion
 
 
@@ -114,6 +119,31 @@ void GameScene::Update()
 	/*camera->eye.x = 0;
 	camera->eye.y = 50;
 	camera->eye.z = -100*/;
+
+	if (input->PressKeyTrigger(DIK_SPACE)) {
+		for (int i = 0; i < 50; i++) {
+			//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
+			const float rnd_pos = 10.0f;
+			XMFLOAT3 pos{};
+			pos.x = 0;
+			pos.y = 0;
+			pos.z = 10;
+			//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
+			const float rnd_vel = 0.1f;
+			XMFLOAT3 vel{};
+			vel.x = (float)(rand() % 300 - 100) / 100.0f;
+			vel.y = (float)(rand() % 300 - 100) / 100.0f;
+			vel.z = (float)(rand() % 300 - 100) / 100.0f;
+			//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
+			XMFLOAT3 acc{};
+			const float rnd_acc = 0.001f;
+			acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+			//追加
+			particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
+		}
+	}
+	particleMan->Update();
 
 	camera->Update();
 
@@ -162,12 +192,15 @@ void GameScene::Draw()
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	//Object3D::PreDraw(cmdList);
+	
 
 	// 3Dオブクジェクトの描画
 	//object3d->Draw();
+	
 
 	// 3Dオブジェクト描画後処理
 	//Object3D::PostDraw();
+	
 #pragma endregion
 
 #pragma region 3Dモデル描画
@@ -178,7 +211,10 @@ void GameScene::Draw()
 	boss->Draw();
 
 	stage->Draw();
-	skydome->Draw();	
+	skydome->Draw();
+	ParticleManager::PreDraw(cmdList);
+	particleMan->Draw();
+	ParticleManager::PostDraw();
 	//testObject->Draw(cmdList);
 	
 #pragma endregion

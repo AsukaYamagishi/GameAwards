@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\Boss">
       <UniqueIdentifier>{ce0f2d16-91ad-452b-b67b-d9687145b3b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Particle">
+      <UniqueIdentifier>{7a0f758a-929c-4f14-b85d-9f97acca1254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="Boss.h">
       <Filter>ソース ファイル\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
@@ -215,6 +221,9 @@
     <ClCompile Include="Boss.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
@@ -227,6 +236,9 @@
       <Filter>HLSL ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\FBX.hlsli">
+      <Filter>HLSL ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\Particle.hlsli">
       <Filter>HLSL ファイル</Filter>
     </None>
   </ItemGroup>
@@ -253,6 +265,15 @@
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
   </ItemGroup>

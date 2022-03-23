@@ -102,6 +102,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		assert(0);
 		return 1;
 	}
+
+	if (!ParticleManager::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
 #pragma endregion
 
 #pragma region 3Dƒ‚ƒfƒ‹Ã“I‰Šú‰»

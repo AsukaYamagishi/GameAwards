@@ -12,6 +12,7 @@
 #include "FbxDraw.h"
 #include "OBJObject.h"
 #include"Boss.h"
+#include "ParticleManager.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -50,6 +51,9 @@ private: //メンバ変数
 	//FBXモデル
 	FbxModel *testModel = nullptr;
 	FbxDraw *testObject = nullptr;
+
+	//パーティクル
+	ParticleManager* particleMan = nullptr;
 
 
 	//敵
