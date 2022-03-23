@@ -35,6 +35,8 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	//カメラのせっち
 	camera->Initialize({ 0,50,100 });
 	camera = Camera::GetCam();
+	camera->target = { 0 ,50 ,0 };
+#pragma endregion
 
 #pragma region デバッグテキスト読み込み
 	// デバッグテキスト用テクスチャ読み込み
@@ -121,6 +123,14 @@ void GameScene::Update()
 	skydome->Update();
 	weapon->Update();
 	testObject->Update();
+	camera->eye = player->player->GetPos(); 
+	camera->eye.y = -20.0f;
+	camera->eye.z = -150.0f;
+	camera->target = player->player->GetPos();
+	camera->target.y = 10.0f;
+	camera->SetCam(camera);
+	camera->Update();
+
 	boss->Update();
 
 #pragma region デバッグテキスト設定

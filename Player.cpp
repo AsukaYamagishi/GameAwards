@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Camera.h"
 #include <time.h>
 #include <cassert>
 

@@ -44,7 +44,6 @@ public:	 //サブクラス
 	struct ConstBufferDataB0 {
 		XMMATRIX mat;	//3D変換行列
 		XMMATRIX matBillboard;	// ビルボード行列
-
 	};
 	//定数バッファ用データ構造体B1
 	struct ConstBufferDataB1 {
