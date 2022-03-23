@@ -40,7 +40,7 @@ public:
 
 	//void TargetSpin(float length);
 
-	Vector3 eye;				//視点座標
+	Vector3 eye;			//視点座標
 	Vector3 target;			//注視点座標
 	Vector3 up;				//上方向ベクトル
 	Vector3 front;			//正面ベクトル
@@ -55,7 +55,5 @@ protected:
 	XMMATRIX matProjection = XMMatrixIdentity();
 	//ビュー射影行列
 	XMMATRIX matViewProjection = XMMatrixIdentity();//現在ののカメラ
-
-
 };
 
