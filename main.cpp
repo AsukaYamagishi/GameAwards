@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//ƒJƒƒ‰
 	Camera* camera = nullptr;
-	camera->Initialize({ -100,50,100 });
+	
 
 	ModelInput::StaticInitialize(dxCommon->GetDevice());
 	ModelManager::GetIns()->Initialize();

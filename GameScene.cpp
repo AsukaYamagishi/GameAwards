@@ -19,7 +19,7 @@ GameScene::~GameScene()
 	safe_delete(testModel);
 }
 
-void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
 {
 #pragma region nullptrチェック/代入
 	assert(dxCommon);
@@ -29,9 +29,12 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	this->dxCommon = dxCommon;
 	this->input = input;
 	this->audio = audio;
-
-	camera = Camera::GetCam();
 #pragma endregion
+
+
+	//カメラのせっち
+	camera->Initialize({ 0,50,100 });
+	camera = Camera::GetCam();
 
 #pragma region デバッグテキスト読み込み
 	// デバッグテキスト用テクスチャ読み込み
@@ -62,7 +65,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel=FbxInput::GetInstance()->LoadFbxFromFile("boneTest");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("boneTest");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
@@ -81,15 +84,44 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 #pragma endregion
 
 	player = new Player();
-	player->Initialize(dxCommon,input,audio);
+	player->Initialize(dxCommon, input, audio);
+
+	boss = new Boss();
+	boss->Initialize(dxCommon, input, audio);
+
+	stage = new OBJObject();
+	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
+	skydome = new OBJObject();
+	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
+
+	weapon = new OBJObject();
+	weapon->Initialize(dxCommon, input, audio, ModelManager::Weapon);
+	weapon->model->SetScale({1, 1, 1});
+	weapon->model->SetRotation({ 0, 90, 0 });
+	weapon->model->SetPos({ 0, 0 , 0 });
+	weapon->model->SetParent(player->player);
+	
 
 	gameEndFlag = false;
 }
 
 void GameScene::Update()
 {
+	camera->eye.x = 0;
+	camera->eye.y = 50;
+	camera->eye.z = -100;
+
+	camera->Update();
+
+	stage->model->SetScale({ 30,30,30 });
+
+
 	player->Update();
+	stage->Update();
+	skydome->Update();
+	weapon->Update();
 	testObject->Update();
+	boss->Update();
 
 #pragma region デバッグテキスト設定
 #pragma endregion
@@ -129,7 +161,13 @@ void GameScene::Draw()
 #pragma region 3Dモデル描画
 	
 	player->Draw();
-	testObject->Draw(cmdList);
+	weapon->Draw();
+
+	boss->Draw();
+
+	stage->Draw();
+	skydome->Draw();	
+	//testObject->Draw(cmdList);
 	
 #pragma endregion
 

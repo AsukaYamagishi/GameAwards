@@ -7,7 +7,7 @@
 #include "ModelManager.h"
 
 #include <DirectXMath.h>
-class Player {
+class Boss {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -15,8 +15,8 @@ class Player {
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	Player();
-	~Player();
+	Boss();
+	~Boss();
 	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
 
 	/// <summary>
@@ -31,18 +31,21 @@ public:
 
 
 public:
-	ModelDraw *player = nullptr;
-	int attacktime = 0;
+	ModelDraw *boss = nullptr;
+
+	ModelDraw *head = nullptr;
+	ModelDraw *body = nullptr;
+	ModelDraw *leftaram = nullptr;
+	ModelDraw *rightaram = nullptr;
+	ModelDraw *leftleg = nullptr;
+	ModelDraw *rightleg = nullptr;
 
 private:
 	DirectXCommon *dxCommon = nullptr;
 	KeyboardInput *input = nullptr;
 	Audio *audio = nullptr;
 
-	float move = 0.5f;
+	float move = 5.0f;
 	int hp = 10;
-	bool attack = false;
-
-
 
 };

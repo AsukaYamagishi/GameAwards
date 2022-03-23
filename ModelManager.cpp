@@ -10,7 +10,19 @@ ModelManager *ModelManager::GetIns()
 
 void ModelManager::Initialize()
 {
-	LoadModel(Player, "player");
+	LoadModel(Player, "player_human");
+	LoadModel(Stage, "stage");
+	LoadModel(Skydome, "skydome");
+	LoadModel(Weapon, "weapon");
+
+	LoadModel(Face, "face");
+	LoadModel(Body, "Upper_body");
+	LoadModel(Right_arm, "Right_arm");
+	LoadModel(Left_arm, "Left_arm");
+	LoadModel(Leftleg, "Leftleg");
+	LoadModel(Rightleg, "Rightleg");
+
+	LoadModel(Plane, "plane");
 	//LoadModel(TestDunut, "donut");
 }
 
