@@ -30,7 +30,9 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	this->input = input;
 	this->audio = audio;
 
+	camera->Initialize({ 0,30,130 });
 	camera = Camera::GetCam();
+	camera->target = { 0 ,50 ,0 };
 #pragma endregion
 
 #pragma region デバッグテキスト読み込み
@@ -90,6 +92,14 @@ void GameScene::Update()
 {
 	player->Update();
 	testObject->Update();
+	camera->eye = player->player->GetPos(); 
+	camera->eye.y = -20.0f;
+	camera->eye.z = -150.0f;
+	camera->target = player->player->GetPos();
+	camera->target.y = 10.0f;
+	camera->SetCam(camera);
+	camera->Update();
+
 
 #pragma region デバッグテキスト設定
 #pragma endregion

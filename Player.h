@@ -40,8 +40,4 @@ private:
 
 	float move = 5.0f;
 	int hp = 10;
-	
-	
-	
-
 };

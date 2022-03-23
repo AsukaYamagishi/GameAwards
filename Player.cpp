@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Camera.h"
 #include <time.h>
 #include <cassert>
 
@@ -48,7 +49,6 @@ void Player::Update()
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
 #pragma endregion
-
 }
 
 void Player::Draw()
