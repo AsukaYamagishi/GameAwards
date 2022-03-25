@@ -214,6 +214,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void CreateParticle();
+
 	/// <summary>
 	/// パーティクルの追加
 	/// </summary>
