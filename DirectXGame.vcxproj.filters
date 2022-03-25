@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\Audio">
       <UniqueIdentifier>{ac72d6ab-9c10-4cbf-9655-7937f1b3ef28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\DebugText">
-      <UniqueIdentifier>{dc5dc9ea-a4f3-4b2e-9527-6c24c503499c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Base">
       <UniqueIdentifier>{327f9434-943b-424c-83af-f6cc3d0280d9}</UniqueIdentifier>
     </Filter>
@@ -61,6 +58,15 @@
     <Filter Include="ソース ファイル\Model\FBX">
       <UniqueIdentifier>{4e0d4d5a-65bd-49e5-a17d-7880d22aa01e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Camera\DebugText">
+      <UniqueIdentifier>{dc5dc9ea-a4f3-4b2e-9527-6c24c503499c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Boss">
+      <UniqueIdentifier>{ce0f2d16-91ad-452b-b67b-d9687145b3b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Particle">
+      <UniqueIdentifier>{7a0f758a-929c-4f14-b85d-9f97acca1254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -76,7 +82,7 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
     <ClInclude Include="DebugText.h">
-      <Filter>ソース ファイル\DebugText</Filter>
+      <Filter>ソース ファイル\Camera\DebugText</Filter>
     </ClInclude>
     <ClInclude Include="SafeDelete.h">
       <Filter>ソース ファイル\Base</Filter>
@@ -132,6 +138,15 @@
     <ClInclude Include="FbxDraw.h">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClInclude>
+    <ClInclude Include="OBJObject.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
@@ -147,7 +162,7 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
     <ClCompile Include="DebugText.cpp">
-      <Filter>ソース ファイル\DebugText</Filter>
+      <Filter>ソース ファイル\Camera\DebugText</Filter>
     </ClCompile>
     <ClCompile Include="DirectXCommon.cpp">
       <Filter>ソース ファイル\Base</Filter>
@@ -200,6 +215,15 @@
     <ClCompile Include="FbxDraw.cpp">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClCompile>
+    <ClCompile Include="OBJObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
@@ -212,6 +236,9 @@
       <Filter>HLSL ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\FBX.hlsli">
+      <Filter>HLSL ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\Particle.hlsli">
       <Filter>HLSL ファイル</Filter>
     </None>
   </ItemGroup>
@@ -238,6 +265,15 @@
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
   </ItemGroup>

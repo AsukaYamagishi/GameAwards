@@ -44,7 +44,6 @@ public:	 //サブクラス
 	struct ConstBufferDataB0 {
 		XMMATRIX mat;	//3D変換行列
 		XMMATRIX matBillboard;	// ビルボード行列
-
 	};
 	//定数バッファ用データ構造体B1
 	struct ConstBufferDataB1 {
@@ -105,6 +104,7 @@ public:		//メンバ関数
 	Vector3 GetScale() { return scale; }
 	Vector3 GetRotation() { return rotation; }
 	ModelDraw* GetParent() { return parent; }
+	
 
 private:	//メンバ変数
 	XMFLOAT4 color = { 1,1,1,1 };	//色
@@ -118,7 +118,6 @@ private:	//メンバ変数
 	ComPtr<ID3D12Resource> constBuffB1;		//定数バッファ
 	XMMATRIX matWorld;						//ワールド変換行列
 	UINT texNumber = 0;						//テクスチャ番号
-
 	ModelDraw *parent = nullptr;			//親オブジェクトへのポインタ
 
 };

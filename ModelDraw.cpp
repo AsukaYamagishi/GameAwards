@@ -318,4 +318,3 @@ void ModelDraw::Draw()
 	objectModel->Draw(objectCommon.cmdList, constBuffB0, constBuffB1);
 }
 
-

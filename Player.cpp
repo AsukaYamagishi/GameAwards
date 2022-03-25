@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Camera.h"
 #include <time.h>
 #include <cassert>
 
@@ -12,11 +13,11 @@ Player::Player()
 
 Player::~Player()
 {
-	
+
 
 }
 
-void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void Player::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
@@ -27,7 +28,8 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	this->input = input;
 	this->audio = audio;
 
-	player->SetScale(Vector3(10,10,10));
+	player->SetScale(Vector3(1, 1, 1));
+	player->SetPos(Vector3(0, 5, 0));
 }
 
 void Player::Update()
@@ -35,30 +37,57 @@ void Player::Update()
 	player->Update();
 
 #pragma region	プレイヤー移動
-	if (input->PressKey(DIK_UP)|| input->PressKey(DIK_W)) {
-		player->SetPos(player->GetPos() + Vector3(0.0f, +move, 0.0f));
+	if (input->PressKey(DIK_UP) || input->PressKey(DIK_W)) {
+		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));
 	}
-	if (input->PressKey(DIK_DOWN)|| input->PressKey(DIK_S)) {
-		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
+	if (input->PressKey(DIK_DOWN) || input->PressKey(DIK_S)) {
+		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, -move));
 	}
-	if (input->PressKey(DIK_LEFT)|| input->PressKey(DIK_A)) {
+	if (input->PressKey(DIK_LEFT) || input->PressKey(DIK_A)) {
 		player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));
 	}
-	if (input->PressKey(DIK_RIGHT)|| input->PressKey(DIK_D)) {
+	if (input->PressKey(DIK_RIGHT) || input->PressKey(DIK_D)) {
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
 #pragma endregion
+
+
+#pragma region 攻撃
+	if (input->PressKey(DIK_SPACE)) 
+	{
+		attack = true;
+	}
+	if (attack)
+	{
+		Vector3 rota = player->GetRotation();
+		attacktime++;
+		if (attacktime < 30)
+		{
+			player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
+		}
+		else if(rota.y>0)
+		{
+			player->SetRotation(player->GetRotation() + Vector3(0.0f, -5.0f, 0.0f));
+		}
+		else
+		{
+			player->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			attack = false;
+			attacktime = 0;
+		}
+	}
+#pragma endregion
+
 
 }
 
 void Player::Draw()
 {
 	// コマンドリストの取得
-	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);
 	player->Draw();
 	ModelDraw::PostDraw();
-	
-}
 
+}

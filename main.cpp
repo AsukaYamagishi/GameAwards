@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//カメラ
 	Camera* camera = nullptr;
-	camera->Initialize({ -100,50,100 });
+	
 
 	ModelInput::StaticInitialize(dxCommon->GetDevice());
 	ModelManager::GetIns()->Initialize();
@@ -99,6 +99,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// 3Dオブジェクト静的初期化
 	if (!Object3D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+
+	if (!ParticleManager::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
 	}

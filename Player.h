@@ -17,7 +17,7 @@ class Player {
 public:
 	Player();
 	~Player();
-	void Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
+	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
 
 	/// <summary>
 	/// ñàÉtÉåÅ[ÉÄèàóù
@@ -29,19 +29,20 @@ public:
 	/// </summary>
 	void Draw();
 
-	
+
 public:
-	ModelDraw* player = nullptr;
+	ModelDraw *player = nullptr;
+	int attacktime = 0;
 
 private:
-	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
-	Audio* audio = nullptr;
+	DirectXCommon *dxCommon = nullptr;
+	KeyboardInput *input = nullptr;
+	Audio *audio = nullptr;
 
-	float move = 5.0f;
+	float move = 0.5f;
 	int hp = 10;
-	
-	
-	
+	bool attack = false;
+
+
 
 };
