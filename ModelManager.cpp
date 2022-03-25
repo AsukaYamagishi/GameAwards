@@ -10,7 +10,7 @@ ModelManager *ModelManager::GetIns()
 
 void ModelManager::Initialize()
 {
-	LoadModel(Player, "player");
+	//LoadModel(Player, "player");
 	//LoadModel(TestDunut, "donut");
 }
 
