@@ -38,7 +38,6 @@ void Boss::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audi
 	this->input = input;
 	this->audio = audio;
 
-
 	head->SetParent(boss);
 	body->SetParent(boss);
 	rightaram->SetParent(boss);
