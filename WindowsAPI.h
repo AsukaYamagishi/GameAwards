@@ -4,6 +4,7 @@
 class WindowsAPI
 {
 public:
+	static HINSTANCE GetInstance();
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	static bool WindowCreate();
 	static bool WindowClassRelease();

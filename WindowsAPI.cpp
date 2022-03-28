@@ -8,6 +8,11 @@ const int WindowsAPI::window_width = 1280;
 const int WindowsAPI::window_height = 720;
 
 
+HINSTANCE WindowsAPI::GetInstance()
+{
+	return WindowsAPI::w.hInstance;
+}
+
 LRESULT WindowsAPI::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	//メッセージで分岐
