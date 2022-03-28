@@ -37,27 +37,37 @@ void Player::Update()
 	player->Update();
 
 #pragma region	プレイヤー移動
-	if (input->PressKey(DIK_UP) || input->PressKey(DIK_W)) {
+	if (input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));
 	}
-	if (input->PressKey(DIK_DOWN) || input->PressKey(DIK_S)) {
+	if ( input->PressKey(DIK_S)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, -move));
 	}
-	if (input->PressKey(DIK_LEFT) || input->PressKey(DIK_A)) {
+	if ( input->PressKey(DIK_A)) {
 		player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));
 	}
-	if (input->PressKey(DIK_RIGHT) || input->PressKey(DIK_D)) {
+	if (input->PressKey(DIK_D)) {
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
+
+	//デバッグ移動
+	if (input->PressKey(DIK_E)) {
+		player->SetPos(player->GetPos() + Vector3(0.0f, move, 0.0f));
+	}
+	if (input->PressKey(DIK_Q)) {
+		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
+	}
+
 #pragma endregion
 
 
 #pragma region 攻撃
-	if (input->PressKey(DIK_SPACE)) 
+	if (input->PressKey(DIK_SPACE) && attacktime == 0)
 	{
 		attack = true;
+		attacktime += 1;
 	}
-	if (attack)
+	if (attacktime > 0)
 	{
 		Vector3 rota = player->GetRotation();
 		attacktime++;
@@ -65,7 +75,7 @@ void Player::Update()
 		{
 			player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
 		}
-		else if(rota.y>0)
+		else if (rota.y > 0)
 		{
 			player->SetRotation(player->GetRotation() + Vector3(0.0f, -5.0f, 0.0f));
 		}

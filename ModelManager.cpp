@@ -18,9 +18,9 @@ void ModelManager::Initialize()
 	LoadModel(Face, "face");
 	LoadModel(Body, "Upper_body");
 	LoadModel(Right_arm, "Right_arm");
-	LoadModel(Left_arm, "Left_arm");
-	LoadModel(Leftleg, "Leftleg");
+	LoadModel(Left_arm, "Left_arm");	
 	LoadModel(Rightleg, "Rightleg");
+	LoadModel(Leftleg, "Leftleg");
 
 	LoadModel(Plane, "plane");
 	//LoadModel(TestDunut, "donut");

@@ -13,6 +13,8 @@
 #include "OBJObject.h"
 #include"Boss.h"
 #include "ParticleManager.h"
+#include"Primitive.h"
+#include"mCollision.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -39,14 +41,14 @@ private: //メンバ変数
 	Audio::SoundData soundData[3];
 
 	//プレイヤー
-	Player *player;	
+	Player *player = nullptr;	
 	//武器
-	OBJObject *weapon;
+	OBJObject *weapon = nullptr;
 	//ステージ
-	OBJObject *stage;
-	OBJObject *skydome;
+	OBJObject *stage = nullptr;
+	OBJObject *skydome = nullptr;
 	//ボス
-	Boss *boss;
+	Boss *boss = nullptr;
 
 	//FBXモデル
 	FbxModel *testModel = nullptr;
@@ -58,6 +60,11 @@ private: //メンバ変数
 
 	//敵
 	//vector<Enemy*> enemys;
+	bool hitFlag[6] = { false };
+
+
+	Vector3 meye = { 0,0,0 };
+	Vector3 mtarget = { 0,0,0 };
 
 
 public:

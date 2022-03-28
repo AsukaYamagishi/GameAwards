@@ -12,13 +12,13 @@ Boss::Boss()
 	body = ModelDraw::Create();
 	body->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Body));
 	rightaram = ModelDraw::Create();
-	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
+	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
 	leftaram = ModelDraw::Create();
-	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
+	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
 	rightleg = ModelDraw::Create();
-	rightleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
+	rightleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Leftleg));
 	leftleg = ModelDraw::Create();
-	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Leftleg));
+	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
 }
 
 Boss::~Boss()
@@ -44,9 +44,12 @@ void Boss::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audi
 	rightaram->SetParent(boss);
 	leftaram->SetParent(boss);
 	rightleg->SetParent(boss);
-	leftleg->SetParent(boss);
-	//player->SetScale(Vector3(1, 1, 1));
-	//player->SetPos(Vector3(0, 5, 0));
+	leftleg->SetParent(boss);	
+
+	rightaram->SetPos(Vector3(0, 0, 0));
+	leftaram->SetPos(Vector3(0, 0, 0));
+	rightleg->SetPos(Vector3(0, 0, 0));
+	leftleg->SetPos(Vector3(0, 0, 0));
 }
 
 void Boss::Update()
@@ -76,4 +79,70 @@ void Boss::Draw()
 	rightleg->Draw();
 	leftleg->Draw();
 	ModelDraw::PostDraw();
+}
+
+void Boss::HitDamage(int part, int damage)
+{
+	hp -= damage;
+	parthp[part] -= damage;
+}
+
+void Boss::Fall(int part)
+{
+	Vector3 pos;
+	Vector3 fallspeed(0.0f, -0.5f, 0.0f);
+	//“ª
+	if (part == Parts::head)
+	{
+		pos = head->GetPos();
+		if (pos.y > -40)
+		{
+			head->SetPos(head->GetPos() + fallspeed);
+		}
+	}
+	//‚©‚ç‚¾
+	if (part == Parts::body)
+	{
+		pos = body->GetPos();
+		if (pos.y > -20)
+		{
+			body->SetPos(body->GetPos() + fallspeed);
+		}
+	}
+	//‚Ý‚¬‚¤‚Å
+	if (part == Parts::rightaram)
+	{
+		pos = rightaram->GetPos();
+		if (pos.y > -20)
+		{
+			rightaram->SetPos(rightaram->GetPos() + fallspeed);
+		}
+	}
+	//‚Ð‚¾‚è‚¤‚Å
+	if (part == Parts::leftaram)
+	{
+		pos = leftaram->GetPos();
+		if (pos.y > -20)
+		{
+			leftaram->SetPos(leftaram->GetPos() + fallspeed);
+		}
+	}
+	//‚Ý‚¬‚ ‚µ
+	if (part == Parts::rightleg)
+	{
+		pos = rightleg->GetPos();
+		if (pos.y > -10)
+		{
+			rightleg->SetPos(rightleg->GetPos() + fallspeed);
+		}
+	}
+	//‚Ð‚¾‚è‚ ‚µ
+	if (part == Parts::leftleg)
+	{
+		pos = leftleg->GetPos();
+		if (pos.y > -10)
+		{
+			leftleg->SetPos(leftleg->GetPos() + fallspeed);
+		}
+	}
 }
