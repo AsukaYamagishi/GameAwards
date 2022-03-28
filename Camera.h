@@ -35,8 +35,7 @@ public:
 	XMMATRIX GetMatView() { return matView; }
 	//プロジェクション行列取得
 	XMMATRIX GetMatProj() { return matProjection; }
-	//視点座標取得
-	//XMFLOAT3 GetEye() { return eye; }
+	
 
 	//void TargetSpin(float length);
 

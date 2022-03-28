@@ -95,7 +95,7 @@ void FbxDraw::Update()
 	}
 
 	//ボーン配列
-	std::vector<Bone>& bones = model->GetBones();
+	std::vector<FbxModel::Bone>& bones = model->GetBones();
 	//定数バッファ(スキン)へデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);

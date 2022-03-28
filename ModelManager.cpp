@@ -10,9 +10,7 @@ ModelManager *ModelManager::GetIns()
 
 void ModelManager::Initialize()
 {
-<<<<<<< HEAD
 	//LoadModel(Player, "player");
-=======
 	LoadModel(Player, "player_human");
 	LoadModel(Stage, "stage");
 	LoadModel(Skydome, "skydome");
@@ -26,7 +24,6 @@ void ModelManager::Initialize()
 	LoadModel(Rightleg, "Rightleg");
 
 	LoadModel(Plane, "plane");
->>>>>>> 33627d828452657bf52159acf9193d675f1e7812
 	//LoadModel(TestDunut, "donut");
 }
 
