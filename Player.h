@@ -33,6 +33,8 @@ public:
 public:
 	ModelDraw *player = nullptr;
 	int attacktime = 0;
+	bool attack = false;
+	bool enemyWepon = false;
 
 private:
 	DirectXCommon *dxCommon = nullptr;
@@ -41,7 +43,6 @@ private:
 
 	float move = 0.5f;
 	int hp = 10;
-	bool attack = false;
 
 
 
