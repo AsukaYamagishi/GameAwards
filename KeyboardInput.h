@@ -1,5 +1,5 @@
 #pragma once
-#include<Windows.h>
+#include"WindowsAPI.h"
 
 //インクルード関係
 #define DIRECTINPUT_VERSION 0x0800 //DirectInputバージョン指定

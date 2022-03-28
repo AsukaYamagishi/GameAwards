@@ -18,7 +18,7 @@ GameScene::~GameScene()
 	//safe_deleteはここで行う
 	safe_delete(particleMan);
 	safe_delete(testObject);
-	safe_delete(testModel);
+	//safe_delete(testModel);
 }
 
 void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
@@ -69,12 +69,13 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("boneTest");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Player");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
-	testObject->SetModel(testModel);
-	testObject->SetScale({ 10,10,10 });
+	testObject->SetModel(testModel.get());
+	testObject->SetScale({ 0.03,0.03,0.03 });
+	testObject->SetPosition({ 0,5,30 });
 	testObject->PlayAnimation(true);
 
 	//パーティクルの生成
@@ -399,6 +400,7 @@ void GameScene::Update()
 	if (input->PressKeyTrigger(DIK_2))
 	{
 		boss->parthp[leftaram]--;
+		particleMan->CreateParticle();
 	}
 	if (input->PressKeyTrigger(DIK_3))
 	{
@@ -527,10 +529,8 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-
-
-	//testObject->Draw(cmdList);6
-
+	testObject->Draw(cmdList);
+	
 #pragma endregion
 
 #pragma region 前景スプライト描画

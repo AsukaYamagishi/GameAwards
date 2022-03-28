@@ -51,7 +51,7 @@ private: //メンバ変数
 	Boss *boss = nullptr;
 
 	//FBXモデル
-	FbxModel *testModel = nullptr;
+	std::unique_ptr<FbxModel> testModel = nullptr;
 	FbxDraw *testObject = nullptr;
 
 	//パーティクル
