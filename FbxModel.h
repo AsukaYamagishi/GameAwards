@@ -28,22 +28,6 @@ struct Node
 	Node* parent = nullptr;
 };
 
-//ボーン構造体
-struct Bone
-{
-	//名前
-	std::string name;
-	//初期姿勢の逆行列
-	DirectX::XMMATRIX invInitialPose;
-	//クラスター(FBX側のボーン情報)
-	FbxCluster* fbxCluster;
-	//コンストラクタ
-	Bone(const std::string& name)
-	{
-		this->name = name;
-	}
-};
-
 
 class FbxModel
 {
@@ -78,14 +62,28 @@ public: //サブクラス
 		float boneWeight[MAX_BONE_INDICES]; //ボーン 重み
 	};
 
+	//ボーン構造体
+	struct Bone
+	{
+		//名前
+		std::string name;
+		//初期姿勢の逆行列
+		DirectX::XMMATRIX invInitialPose;
+		//クラスター(FBX側のボーン情報)
+		FbxCluster* fbxCluster;
+		//コンストラクタ
+		Bone(const std::string& name)
+		{
+			this->name = name;
+		}
+	};
+
 
 public: //メンバ関数
 	//デストラクタ
 	~FbxModel();
-
 	//バッファ生成
 	void CreateBuffers(ID3D12Device* dev);
-
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
@@ -97,7 +95,10 @@ public: //ゲッター・セッター
 	std::vector<Bone>& GetBones() { return bones; }
 	//FBXシーン情報取得
 	FbxScene* GetFbxScene() { return fbxScene; }
-
+	//頂点情報の取得
+	std::vector<VertexPosNormalUvSkin>* GetVertices() { return &vertices; }
+	//インデックスの取得
+	std::vector<unsigned short>* GetIndces() { return &indices; }
 
 private: //メンバ変数
 	//モデル名
