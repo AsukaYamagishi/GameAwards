@@ -42,7 +42,4 @@ private:
 	float move = 0.5f;
 	int hp = 10;
 	bool attack = false;
-
-
-
 };
