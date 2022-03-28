@@ -74,7 +74,8 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	testObject = new FbxDraw();
 	testObject->Init();
 	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 10,10,10 });
+	testObject->SetScale({ 0.03,0.03,0.03 });
+	testObject->SetPosition({ 0,5,30 });
 	testObject->PlayAnimation(true);
 
 	//パーティクルの生成
