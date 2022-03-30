@@ -460,6 +460,7 @@ void GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
+
 	testObject->Update();
 	//ƒJƒƒ‰‚ÌÝ’è
 	camera->eye = player->player->GetPos() + meye;
@@ -467,6 +468,14 @@ void GameScene::Update()
 	camera->eye.z -= 15.0f;
 	camera->target = player->player->GetPos() + mtarget;
 	//camera->target.y = 10.0f;
+
+	//testObject->Update();
+	camera->eye = player->player->GetPos(); 
+	camera->eye.y -= 1.0f;
+	camera->eye.z -= 10.0f;
+	camera->target = player->player->GetPos();
+	///camera->target.y = 10.0f;
+
 	camera->SetCam(camera);
 	camera->Update();
 
@@ -528,7 +537,7 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	testObject->Draw(cmdList);
+	//testObject->Draw(cmdList);
 	
 #pragma endregion
 
