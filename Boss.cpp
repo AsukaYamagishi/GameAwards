@@ -12,9 +12,9 @@ Boss::Boss()
 	body = ModelDraw::Create();
 	body->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Body));
 	rightaram = ModelDraw::Create();
-	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
+	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
 	leftaram = ModelDraw::Create();
-	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
+	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
 	rightleg = ModelDraw::Create();
 	rightleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Leftleg));
 	leftleg = ModelDraw::Create();
@@ -45,8 +45,8 @@ void Boss::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audi
 	rightleg->SetParent(boss);
 	leftleg->SetParent(boss);	
 
-	rightaram->SetPos(Vector3(13,-18,5.5));
-	leftaram->SetPos(Vector3(0, 12, 33));
+	rightaram->SetPos(Vector3(0, 11, 65));
+	leftaram->SetPos(Vector3(13, -18, -26));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
 }
