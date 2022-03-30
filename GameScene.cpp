@@ -461,7 +461,6 @@ void GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-<<<<<<< HEAD
 	testObject->Update();
 	//ƒJƒƒ‰‚ÌÝ’è
 	camera->eye = player->player->GetPos() + meye;
@@ -469,14 +468,14 @@ void GameScene::Update()
 	camera->eye.z -= 15.0f;
 	camera->target = player->player->GetPos() + mtarget;
 	//camera->target.y = 10.0f;
-=======
+
 	//testObject->Update();
 	camera->eye = player->player->GetPos(); 
 	camera->eye.y -= 1.0f;
 	camera->eye.z -= 10.0f;
 	camera->target = player->player->GetPos();
 	///camera->target.y = 10.0f;
->>>>>>> engine_ya
+
 	camera->SetCam(camera);
 	camera->Update();
 
