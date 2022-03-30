@@ -13,6 +13,8 @@
 #include "OBJObject.h"
 #include"Boss.h"
 #include "ParticleManager.h"
+#include"Primitive.h"
+#include "mCollision.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -48,8 +50,10 @@ private: //メンバ変数
 	//ボス
 	Boss *boss;
 
+
+
 	//FBXモデル
-	FbxModel *testModel = nullptr;
+	std::unique_ptr<FbxModel> testModel = nullptr;
 	FbxDraw *testObject = nullptr;
 
 	//パーティクル

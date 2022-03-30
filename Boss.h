@@ -7,6 +7,17 @@
 #include "ModelManager.h"
 
 #include <DirectXMath.h>
+
+enum Parts
+{
+	head,
+	body,
+	rightaram,
+	leftaram,
+	rightleg,
+	leftleg
+};
+
 class Boss {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
@@ -17,7 +28,7 @@ class Boss {
 public:
 	Boss();
 	~Boss();
-	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
+	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio, ModelDraw* player);
 
 	/// <summary>
 	/// ñàÉtÉåÅ[ÉÄèàóù
@@ -29,6 +40,13 @@ public:
 	/// </summary>
 	void Draw();
 
+	void HitDamage(int part, int damege = 0);
+
+	void Fall(int part);
+
+	void Move();
+	bool AttackRangeJudge(float attackRange);
+
 
 public:
 	ModelDraw *boss = nullptr;
@@ -39,13 +57,14 @@ public:
 	ModelDraw *rightaram = nullptr;
 	ModelDraw *leftleg = nullptr;
 	ModelDraw *rightleg = nullptr;
+	int hp = 18;
+	int parthp[6] = { 3,3,3,3,3,3 };
 
 private:
 	DirectXCommon *dxCommon = nullptr;
 	KeyboardInput *input = nullptr;
 	Audio *audio = nullptr;
+	ModelDraw *player = nullptr;
 
-	float move = 5.0f;
-	int hp = 10;
-
+	float move = 128.0f;
 };

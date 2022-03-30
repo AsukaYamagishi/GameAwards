@@ -57,6 +57,13 @@ struct Vector3 : public XMFLOAT3 {
 	float Length() const {
 		return (static_cast<Vector3>(XMVector3Length(XMVECTOR(*this)))).x;
 	}
+
+	//ƒxƒNƒgƒ‹‚Ì’·‚³‚ð‹‚ß‚é
+	float length() const
+	{
+		return (float)sqrtf(x * x + y * y + z * z);
+	}
+
 	//’·‚³“ñæ
 	float LengthSq() const {
 		return pow(this->Length(),2);

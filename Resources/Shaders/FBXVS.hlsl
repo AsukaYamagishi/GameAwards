@@ -1,12 +1,5 @@
 #include "FBX.hlsli"
 
-//スキニング後の頂点・法線が入る
-struct SkinOutput
-{
-	float4 pos;
-	float3 normal;
-};
-
 //スキニング計算
 SkinOutput ComputeSkin(VSInput input)
 {

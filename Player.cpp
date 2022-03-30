@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Camera.h"
 #include <time.h>
 #include <cassert>
@@ -19,7 +19,7 @@ Player::~Player()
 
 void Player::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
 {
-	// nullptrƒ`ƒFƒbƒN
+	// nullptrï¿½`ï¿½Fï¿½bï¿½N
 	assert(dxCommon);
 	assert(input);
 	assert(audio);
@@ -36,19 +36,28 @@ void Player::Update()
 {
 	player->Update();
 
-#pragma region	ƒvƒŒƒCƒ„[ˆÚ“®
-	if (input->PressKey(DIK_UP) || input->PressKey(DIK_W)) {
+#pragma region	ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ú“ï¿½
+	if (input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));
 	}
-	if (input->PressKey(DIK_DOWN) || input->PressKey(DIK_S)) {
+	if ( input->PressKey(DIK_S)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, -move));
 	}
-	if (input->PressKey(DIK_LEFT) || input->PressKey(DIK_A)) {
+	if ( input->PressKey(DIK_A)) {
 		player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));
 	}
-	if (input->PressKey(DIK_RIGHT) || input->PressKey(DIK_D)) {
+	if (input->PressKey(DIK_D)) {
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
+
+	//ãƒ‡ãƒãƒƒã‚°ç§»å‹•
+	if (input->PressKey(DIK_E)) {
+		player->SetPos(player->GetPos() + Vector3(0.0f, move, 0.0f));
+	}
+	if (input->PressKey(DIK_Q)) {
+		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
+	}
+
 	/*if (input->PressKey(DIK_Z)) {
 		player->SetRotation(player->GetRotation() + Vector3(0.0f, 2.0f, 0.0f));
 	}
@@ -58,12 +67,13 @@ void Player::Update()
 #pragma endregion
 
 
-#pragma region UŒ‚
-	if (input->PressKey(DIK_SPACE)) 
+#pragma region ï¿½Uï¿½ï¿½
+	if (input->PressKey(DIK_SPACE) && attacktime == 0)
 	{
 		attack = true;
+		attacktime += 1;
 	}
-	if (attack)
+	if (attacktime > 0)
 	{
 		Vector3 rota = player->GetRotation();
 		attacktime++;
@@ -71,7 +81,7 @@ void Player::Update()
 		{
 			player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
 		}
-		else if(rota.y>0)
+		else if (rota.y > 0)
 		{
 			player->SetRotation(player->GetRotation() + Vector3(0.0f, -5.0f, 0.0f));
 		}
@@ -89,7 +99,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÌŽæ“¾
+	// ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Xï¿½gï¿½ÌŽæ“¾
 	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);

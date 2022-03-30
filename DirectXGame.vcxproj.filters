@@ -67,6 +67,21 @@
     <Filter Include="ソース ファイル\Particle">
       <UniqueIdentifier>{7a0f758a-929c-4f14-b85d-9f97acca1254}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL ファイル\Basic">
+      <UniqueIdentifier>{51faadf3-239a-4252-8d68-22a27cf2ea08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL ファイル\FBX">
+      <UniqueIdentifier>{af4c9c2b-d769-43b5-b0ce-e9e2a551bdb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL ファイル\OBJ">
+      <UniqueIdentifier>{390674f3-556d-4f68-a70f-b50ec50c6492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL ファイル\Sprite">
+      <UniqueIdentifier>{9eca0400-bd5d-432e-b563-7f1d76f90cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL ファイル\Particle">
+      <UniqueIdentifier>{e5727940-5828-44ac-bd18-210110f5f433}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -147,6 +162,15 @@
     <ClInclude Include="ParticleManager.h">
       <Filter>ソース ファイル\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="mCollision.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerInput.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
@@ -224,57 +248,66 @@
     <ClCompile Include="ParticleManager.cpp">
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="mCollision.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
-      <Filter>HLSL ファイル</Filter>
-    </None>
-    <None Include="Resources\Shaders\Sprite.hlsli">
-      <Filter>HLSL ファイル</Filter>
-    </None>
-    <None Include="Resources\Shaders\Obj.hlsli">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Basic</Filter>
     </None>
     <None Include="Resources\Shaders\FBX.hlsli">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\FBX</Filter>
+    </None>
+    <None Include="Resources\Shaders\Obj.hlsli">
+      <Filter>HLSL ファイル\OBJ</Filter>
     </None>
     <None Include="Resources\Shaders\Particle.hlsli">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Particle</Filter>
+    </None>
+    <None Include="Resources\Shaders\Sprite.hlsli">
+      <Filter>HLSL ファイル\Sprite</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\BasicPS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Basic</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\BasicVS.hlsl">
-      <Filter>HLSL ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SpritePS.hlsl">
-      <Filter>HLSL ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SpriteVS.hlsl">
-      <Filter>HLSL ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\ObjPS.hlsl">
-      <Filter>HLSL ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\ObjVS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Basic</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FBXPS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\FBX</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\FBX</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ObjPS.hlsl">
+      <Filter>HLSL ファイル\OBJ</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ObjVS.hlsl">
+      <Filter>HLSL ファイル\OBJ</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
-      <Filter>HLSL ファイル</Filter>
+      <Filter>HLSL ファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SpritePS.hlsl">
+      <Filter>HLSL ファイル\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SpriteVS.hlsl">
+      <Filter>HLSL ファイル\Sprite</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
