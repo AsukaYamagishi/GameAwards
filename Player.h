@@ -29,7 +29,6 @@ public:
 	/// </summary>
 	void Draw();
 
-
 public:
 	ModelDraw *player = nullptr;
 	int attacktime = 0;

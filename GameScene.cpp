@@ -95,7 +95,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	player->Initialize(dxCommon, input, audio);
 
 	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio);
+	boss->Initialize(dxCommon, input, audio, player->player);
 	boss->boss->SetPos(Vector3(0, 5, 0));
 	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
 
@@ -455,7 +455,6 @@ void GameScene::Update()
 		mtarget.x -= 1;
 	}
 #pragma endregion
-
 
 	player->Update();
 	stage->Update();
