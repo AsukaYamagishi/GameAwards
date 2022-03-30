@@ -226,7 +226,7 @@ void FbxInput::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
             controlPointsData[controlPointIndex].push_back(indexCount);
 
             
-            FbxModel::VertexPosNormalUvSkin& vertex = vertices[controlPointIndex];
+            FbxModel::VertexPosNormalUvSkin& vertex = vertices[indexCount];
             //座標のコピー
             vertex.pos.x = (float)pCoord[controlPointIndex][0];
             vertex.pos.y = (float)pCoord[controlPointIndex][1];
