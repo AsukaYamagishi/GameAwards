@@ -54,10 +54,10 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 
 void Boss::Update()
 {
-	const float attackRange = 20.0f;
-	if (AttackRangeJudge(attackRange)) {
-		Move();
-	}
+	//const float attackRange = 20.0f;
+	//if (AttackRangeJudge(attackRange)) {
+	//	Move();
+	//}
 	boss->Update();
 	head->Update();
 	body->Update();
