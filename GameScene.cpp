@@ -94,22 +94,22 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	player = new Player();
 	player->Initialize(dxCommon, input, audio);
 
-	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio);
-	boss->boss->SetPos(Vector3(0,5,0));
-	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
+	//boss = new Boss();
+	//boss->Initialize(dxCommon, input, audio);
+	//boss->boss->SetPos(Vector3(0,5,0));
+	//boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
 
 	stage = new OBJObject();
 	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
 	skydome = new OBJObject();
 	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
 
-	weapon = new OBJObject();
+	/*weapon = new OBJObject();
 	weapon->Initialize(dxCommon, input, audio, ModelManager::Weapon);
 	weapon->model->SetScale({1, 1, 1});
 	weapon->model->SetRotation({ 0, 45, 0 });
 	weapon->model->SetPos({ -3.0f, -2 , 1.7f });
-	weapon->model->SetParent(player->player);
+	weapon->model->SetParent(player->player);*/
 	
 
 	gameEndFlag = false;
@@ -121,30 +121,30 @@ void GameScene::Update()
 	camera->eye.y = 50;
 	camera->eye.z = -100*/;
 
-	if (input->PressKeyTrigger(DIK_SPACE)) {
+	/*if (input->PressKeyTrigger(DIK_SPACE)) {
 		particleMan->CreateParticle();
 	}
 	particleMan->Update();
 
 	camera->Update();
 
-	stage->model->SetScale({ 30,30,30 });
+	stage->model->SetScale({ 30,30,30 });*/
 
 
 	player->Update();
 	stage->Update();
 	skydome->Update();
-	weapon->Update();
+	//weapon->Update();
 	testObject->Update();
 	camera->eye = player->player->GetPos(); 
 	camera->eye.y -= 1.0f;
 	camera->eye.z -= 10.0f;
 	camera->target = player->player->GetPos();
-	//camera->target.y = 10.0f;
+	///camera->target.y = 10.0f;
 	camera->SetCam(camera);
 	camera->Update();
 
-	boss->Update();
+	//boss->Update();
 
 #pragma region デバッグテキスト設定
 #pragma endregion
@@ -186,7 +186,7 @@ void GameScene::Draw()
 
 #pragma region 3Dモデル描画
 	
-	player->Draw();
+	/*player->Draw();
 	weapon->Draw();
 
 	boss->Draw();
@@ -195,7 +195,7 @@ void GameScene::Draw()
 	skydome->Draw();
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
-	ParticleManager::PostDraw();
+	ParticleManager::PostDraw();*/
 	testObject->Draw(cmdList);
 	
 #pragma endregion

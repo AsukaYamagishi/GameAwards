@@ -29,3 +29,10 @@ struct VSOutput
 	float3 normal :NORMAL; //法線
 	float2 uv :TEXCOORD; //uv値
 };
+
+//スキニング後の頂点・法線が入る
+struct SkinOutput
+{
+	float4 pos;
+	float3 normal;
+};
