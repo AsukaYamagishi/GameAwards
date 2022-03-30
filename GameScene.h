@@ -59,6 +59,9 @@ private: //メンバ変数
 	//敵
 	//vector<Enemy*> enemys;
 
+	float angle = 3.14f / 2.0f;
+
+	float radius = XMConvertToRadians(2.0f);
 
 public:
 	//ゲームシーン終了用

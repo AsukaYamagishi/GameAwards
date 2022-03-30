@@ -123,9 +123,18 @@ void GameScene::Update()
 	if (input->PressKeyTrigger(DIK_SPACE)) {
 		particleMan->CreateParticle();
 	}
+
+	if (input->PressKey(DIK_Z)) {
+		angle += radius;
+	}
+	else if (input->PressKey(DIK_C)) {
+		angle -= radius;
+	}
+
+	;
+
 	particleMan->Update();
 
-	camera->Update();
 
 	stage->model->SetScale({ 30,30,30 });
 
@@ -136,8 +145,8 @@ void GameScene::Update()
 	weapon->Update();
 	testObject->Update();
 	camera->eye = player->player->GetPos(); 
-	camera->eye.y -= 1.0f;
-	camera->eye.z -= 10.0f;
+	camera->eye.x = 50 * cosf(angle) + player->player->GetPos().x;
+	camera->eye.z = 50 * -sinf(angle) + player->player->GetPos().z;
 	camera->target = player->player->GetPos();
 	//camera->target.y = 10.0f;
 	camera->SetCam(camera);

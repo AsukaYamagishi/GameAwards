@@ -38,6 +38,7 @@ public:
 	//視点座標取得
 	XMFLOAT3 GetEye() { return eye; }
 
+
 	//void TargetSpin(float length);
 
 	Vector3 eye;			//視点座標
@@ -46,6 +47,8 @@ public:
 	Vector3 front;			//正面ベクトル
 
 	Vector3 angle;			//角度
+
+
 protected:
 	//今のカメラ
 	static Camera* NowMatView;

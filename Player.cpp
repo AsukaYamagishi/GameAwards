@@ -49,12 +49,12 @@ void Player::Update()
 	if (input->PressKey(DIK_RIGHT) || input->PressKey(DIK_D)) {
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
-	if (input->PressKey(DIK_Z)) {
+	/*if (input->PressKey(DIK_Z)) {
 		player->SetRotation(player->GetRotation() + Vector3(0.0f, 2.0f, 0.0f));
 	}
 	if (input->PressKey(DIK_C)) {
 		player->SetRotation(player->GetRotation() + Vector3(0.0f, -2.0f, 0.0f));
-	}
+	}*/
 #pragma endregion
 
 
