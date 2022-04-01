@@ -46,6 +46,7 @@ void Camera::UpdateProjectionMatrix()
 	);
 }
 
+
 void Camera::Initialize(const XMFLOAT3 eye)
 {
 	NowMatView = new Camera(Vector3{ eye });

@@ -28,7 +28,7 @@ class Boss {
 public:
 	Boss();
 	~Boss();
-	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
+	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio, ModelDraw* player);
 
 	/// <summary>
 	/// ñàÉtÉåÅ[ÉÄèàóù
@@ -43,6 +43,10 @@ public:
 	void HitDamage(int part, int damege = 0);
 
 	void Fall(int part);
+
+	void Move();
+	bool AttackRangeJudge(float attackRange);
+
 
 public:
 	ModelDraw *boss = nullptr;
@@ -60,8 +64,7 @@ private:
 	DirectXCommon *dxCommon = nullptr;
 	KeyboardInput *input = nullptr;
 	Audio *audio = nullptr;
+	ModelDraw *player = nullptr;
 
-	float move = 5.0f;
-	
-
+	float move = 128.0f;
 };

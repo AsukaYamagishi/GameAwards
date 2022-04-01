@@ -95,7 +95,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	player->Initialize(dxCommon, input, audio);
 
 	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio);
+	boss->Initialize(dxCommon, input, audio, player->player);
 	boss->boss->SetPos(Vector3(0, 5, 0));
 	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
 
@@ -144,6 +144,16 @@ void GameScene::Update()
 		//	particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
 		//}
 	}
+
+	if (input->PressKey(DIK_Z)) {
+		angle += radius;
+	}
+	else if (input->PressKey(DIK_C)) {
+		angle -= radius;
+	}
+
+	;
+
 	particleMan->Update();
 
 
@@ -300,62 +310,48 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region カメラの移動
-	if (input->PressKey(DIK_UP))
-	{
-		meye.z += 1;
-		mtarget.z += 1;
-	}
+	//if (input->PressKey(DIK_UP))
+	//{
+	//	meye.z += 1;
+	//	mtarget.z += 1;
+	//}
 
-	if (input->PressKey(DIK_DOWN))
-	{
-		meye.z -= 1;
-		mtarget.z -= 1;
-	}
-	if (input->PressKey(DIK_RIGHT))
-	{
-		meye.x += 1;
-		mtarget.x += 1;
-	}
-	if (input->PressKey(DIK_LEFT))
-	{
-		meye.x -= 1;
-		mtarget.x -= 1;
-	}
+	//if (input->PressKey(DIK_DOWN))
+	//{
+	//	meye.z -= 1;
+	//	mtarget.z -= 1;
+	//}
+	//if (input->PressKey(DIK_RIGHT))
+	//{
+	//	meye.x += 1;
+	//	mtarget.x += 1;
+	//}
+	//if (input->PressKey(DIK_LEFT))
+	//{
+	//	meye.x -= 1;
+	//	mtarget.x -= 1;
+	//}
 #pragma endregion
-
-#pragma region シェイク処理
-	if (input->PressKeyTrigger(DIK_B)) { shakeflag = true; }
-	if (shakeflag)
-	{		
-		shakecamera.x = (rand() % 3 - 2);
-		//shakecamera.y = (rand() % 3 - 2);		
-		shaketime++;
-		if (shaketime > 10)
-		{
-			shakeflag = false;
-			shaketime = 0;
-			shakecamera.x =0;
-			shakecamera.y =0;
-		}
-	}
-#pragma endregion
-
-
 
 	player->Update();
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
+
 	testObject->Update();
 	//カメラの設定
-	camera->eye = player->player->GetPos() + meye;
-	camera->eye.y -= 1.0f;
-	camera->eye.z -= 15.0f;
-	camera->target = player->player->GetPos() + mtarget;
-	
-	//シェイク処理
-	camera->eye = camera->eye + shakecamera;
-	camera->target = camera->target + shakecamera;
+	//camera->eye = player->player->GetPos() + meye;
+	//camera->eye.y -= 1.0f;
+	//camera->eye.z -= 15.0f;
+	//camera->target = player->player->GetPos() + mtarget;
+	//camera->target.y = 10.0f;
+
+	//testObject->Update();
+	camera->eye = player->player->GetPos(); 
+	camera->eye.x = 50 * cosf(angle) + player->player->GetPos().x;
+	camera->eye.z = 50 * -sinf(angle) + player->player->GetPos().z;
+	camera->target = player->player->GetPos();
+	///camera->target.y = 10.0f;
 
 	camera->SetCam(camera);
 	camera->Update();
@@ -418,8 +414,8 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	testObject->Draw(cmdList);
-
+	//testObject->Draw(cmdList);
+	
 #pragma endregion
 
 #pragma region 前景スプライト描画

@@ -12,9 +12,9 @@ Boss::Boss()
 	body = ModelDraw::Create();
 	body->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Body));
 	rightaram = ModelDraw::Create();
-	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
+	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
 	leftaram = ModelDraw::Create();
-	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
+	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
 	rightleg = ModelDraw::Create();
 	rightleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Leftleg));
 	leftleg = ModelDraw::Create();
@@ -27,7 +27,7 @@ Boss::~Boss()
 
 }
 
-void Boss::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
+void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio, ModelDraw* player)
 {
 	// nullptrチェック
 	assert(dxCommon);
@@ -37,25 +37,27 @@ void Boss::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audi
 	this->dxCommon = dxCommon;
 	this->input = input;
 	this->audio = audio;
+	this->player = player;
 
 	head->SetParent(boss);
 	body->SetParent(boss);
 	rightaram->SetParent(boss);
 	leftaram->SetParent(boss);
 	rightleg->SetParent(boss);
-	leftleg->SetParent(boss);	
+	leftleg->SetParent(boss);
 
-	rightaram->SetPos(Vector3(8, 7, -18));
-	leftaram->SetPos(Vector3(0, -2, 18));
+	rightaram->SetPos(Vector3(0, 11, 65));
+	leftaram->SetPos(Vector3(13, -18, -26));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
 }
 
 void Boss::Update()
 {
-	//boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
-	//boss->SetPos(Vector3(0.0f, 10.0f, 0.0f));
-
+	//const float attackRange = 20.0f;
+	//if (AttackRangeJudge(attackRange)) {
+	//	Move();
+	//}
 	boss->Update();
 	head->Update();
 	body->Update();
@@ -68,7 +70,7 @@ void Boss::Update()
 void Boss::Draw()
 {
 	// コマンドリストの取得
-	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);
 	head->Draw();
@@ -144,4 +146,37 @@ void Boss::Fall(int part)
 			leftleg->SetPos(leftleg->GetPos() + fallspeed);
 		}
 	}
+}
+
+void Boss::Move() {
+	float posX = boss->GetPos().x;
+	float posY = boss->GetPos().y;
+	float posZ = boss->GetPos().z;
+	float playerPosX = player->GetPos().x;
+	float playerPosZ = player->GetPos().z;
+
+	float distanceX = 0;
+	float distanceZ = 0;
+
+	distanceX = posX - playerPosX;
+	distanceZ = posZ - playerPosZ;
+
+	posX -= distanceX / move;
+	posZ -= distanceZ / move;
+
+	boss->SetPos(Vector3(posX, posY, posZ));
+}
+
+bool Boss::AttackRangeJudge(float attackRange) {
+	float distanceX, distanceZ;
+	float bossRange;
+	Vector3 playerPos = player->GetPos();
+	Vector3 bossPos = boss->GetPos();
+
+	distanceX = bossPos.x - playerPos.x;
+	distanceZ = bossPos.z - playerPos.z;
+
+	bossRange = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+
+	return bossRange >= attackRange;
 }
