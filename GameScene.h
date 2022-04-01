@@ -66,6 +66,9 @@ private: //メンバ変数
 	Vector3 meye = { 0,0,0 };
 	Vector3 mtarget = { 0,0,0 };
 
+	bool shakeflag = false;
+	int shaketime = 0;
+	Vector3 shakecamera = { 0,0,0 };	
 
 public:
 	//ゲームシーン終了用
