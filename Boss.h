@@ -45,6 +45,7 @@ public:
 	void Fall(int part);
 
 	void Move();
+	void Direction();
 	bool AttackRangeJudge(float attackRange);
 
 
