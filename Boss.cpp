@@ -46,8 +46,8 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	rightleg->SetParent(boss);
 	leftleg->SetParent(boss);
 
-	rightaram->SetPos(Vector3(0, 11, 65));
-	leftaram->SetPos(Vector3(13, -18, -26));
+	rightaram->SetPos(Vector3(0, 11, 32));
+	leftaram->SetPos(Vector3(13, -18, 7));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
 }

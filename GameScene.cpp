@@ -300,7 +300,7 @@ void GameScene::Update()
 			{
 				//パーツ取得時にプレイヤーの座標とかに合わせる
 				boss->rightaram->SetParent(player->player);
-				boss->rightaram->SetPos(Vector3(-10, -20, +20));
+				boss->rightaram->SetPos(Vector3(0, -50, +20));
 				boss->rightaram->SetRotation(Vector3(90, -15, 180));
 				boss->rightaram->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 				player->enemyWepon = true;
