@@ -69,13 +69,14 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Player");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Box");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
 	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 0.03,0.03,0.03 });
-	testObject->SetPosition({ 0,5,30 });
+	testObject->SetScale({ 10,10,10 });
+	testObject->SetRotation({ 0,0,0 });
+	testObject->SetPosition({ 0,0,0 });
 	testObject->PlayAnimation(true);
 
 	//パーティクルの生成
@@ -337,10 +338,7 @@ void GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-<<<<<<< HEAD
-=======
 
->>>>>>> 36c2cfd5835740c8b8a2f2c0d0dd8f29e1c7c515
 	testObject->Update();
 	//カメラの設定
 	//camera->eye = player->player->GetPos() + meye;
@@ -417,7 +415,7 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	//testObject->Draw(cmdList);
+	testObject->Draw(cmdList);
 	
 #pragma endregion
 
