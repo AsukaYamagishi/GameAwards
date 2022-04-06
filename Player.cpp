@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Camera.h"
 #include <time.h>
 #include <cassert>
@@ -19,7 +19,7 @@ Player::~Player()
 
 void Player::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
 {
-	// nullptrƒ`ƒFƒbƒN
+	// nullptrï¿½`ï¿½Fï¿½bï¿½N
 	assert(dxCommon);
 	assert(input);
 	assert(audio);
@@ -36,7 +36,7 @@ void Player::Update()
 {
 	player->Update();
 
-#pragma region	ƒvƒŒƒCƒ„[ˆÚ“®
+#pragma region	ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ú“ï¿½
 	if (input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));
 	}
@@ -50,7 +50,7 @@ void Player::Update()
 		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
 	}
 
-	//ƒfƒoƒbƒOˆÚ“®
+	//ãƒ‡ãƒãƒƒã‚°ç§»å‹•
 	if (input->PressKey(DIK_E)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, move, 0.0f));
 	}
@@ -58,10 +58,16 @@ void Player::Update()
 		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
 	}
 
+	/*if (input->PressKey(DIK_Z)) {
+		player->SetRotation(player->GetRotation() + Vector3(0.0f, 2.0f, 0.0f));
+	}
+	if (input->PressKey(DIK_C)) {
+		player->SetRotation(player->GetRotation() + Vector3(0.0f, -2.0f, 0.0f));
+	}*/
 #pragma endregion
 
 
-#pragma region UŒ‚
+#pragma region ï¿½Uï¿½ï¿½
 	if (input->PressKey(DIK_SPACE) && attacktime == 0)
 	{
 		attack = true;
@@ -93,7 +99,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÌŽæ“¾
+	// ï¿½Rï¿½}ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Xï¿½gï¿½ÌŽæ“¾
 	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);

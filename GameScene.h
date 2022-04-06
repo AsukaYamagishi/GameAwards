@@ -14,7 +14,7 @@
 #include"Boss.h"
 #include "ParticleManager.h"
 #include"Primitive.h"
-#include"mCollision.h"
+#include "mCollision.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -41,14 +41,16 @@ private: //メンバ変数
 	Audio::SoundData soundData[3];
 
 	//プレイヤー
-	Player *player = nullptr;	
+	Player *player;	
 	//武器
-	OBJObject *weapon = nullptr;
+	OBJObject *weapon;
 	//ステージ
-	OBJObject *stage = nullptr;
-	OBJObject *skydome = nullptr;
+	OBJObject *stage;
+	OBJObject *skydome;
 	//ボス
-	Boss *boss = nullptr;
+	Boss *boss;
+
+
 
 	//FBXモデル
 	std::unique_ptr<FbxModel> testModel = nullptr;
@@ -60,12 +62,10 @@ private: //メンバ変数
 
 	//敵
 	//vector<Enemy*> enemys;
-	bool hitFlag[6] = { false };
 
+	float angle = 3.14f / 2.0f;
 
-	Vector3 meye = { 0,0,0 };
-	Vector3 mtarget = { 0,0,0 };
-
+	float radius = XMConvertToRadians(2.0f);
 
 public:
 	//ゲームシーン終了用

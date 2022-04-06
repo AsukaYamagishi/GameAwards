@@ -95,7 +95,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	player->Initialize(dxCommon, input, audio);
 
 	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio);
+	boss->Initialize(dxCommon, input, audio, player->player);
 	boss->boss->SetPos(Vector3(0, 5, 0));
 	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
 
@@ -144,6 +144,16 @@ void GameScene::Update()
 		//	particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
 		//}
 	}
+
+	if (input->PressKey(DIK_Z)) {
+		angle += radius;
+	}
+	else if (input->PressKey(DIK_C)) {
+		angle -= radius;
+	}
+
+	;
+
 	particleMan->Update();
 
 
@@ -173,185 +183,53 @@ void GameScene::Update()
 		damage = 3;
 	}
 
-
-	//debugText.PrintDebugText("rightAram", 0, 0);
-	//debugText.PrintDebugText("rightAram", 0, 15);
-	//debugText.PrintDebugText("rightAram", 0, 10);
 	if (player->attack)
 	{
 		if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
 		{
-			debugText.PrintDebugText("head", 0, 0);			
+			debugText.PrintDebugText("head", 0, 0);
 			boss->HitDamage(head, damage);
 			player->attack = false;
-
-			for (int i = 0; i < 50; i++) {
-				//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-				const float rnd_pos = 10.0f;
-				XMFLOAT3 pos{};
-				pos.x = 0;
-				pos.y = 0;
-				pos.z = 0;
-				//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-				const float rnd_vel = 0.1f;
-				XMFLOAT3 vel{};
-				vel.x = (float)(rand() % 300 - 100) / 100.0f;
-				vel.y = (float)(rand() % 300 - 100) / 100.0f;
-				vel.z = (float)(rand() % 300 - 100) / 100.0f;
-				//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-				XMFLOAT3 acc{};
-				const float rnd_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-				//追加
-				particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-			}
+			particleMan->CreateParticle();
 		}
 		if (mCollision::testCapsuleCapsule(bodyCapsule, attackCapsule))
 		{
-			debugText.PrintDebugText("body", 0, 15);			
+			debugText.PrintDebugText("body", 0, 15);
 			boss->HitDamage(body, damage);
 			player->attack = false;
-
-			for (int i = 0; i < 50; i++) {
-				//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-				const float rnd_pos = 10.0f;
-				XMFLOAT3 pos{};
-				pos.x = 0;
-				pos.y = 0;
-				pos.z = 0;
-				//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-				const float rnd_vel = 0.1f;
-				XMFLOAT3 vel{};
-				vel.x = (float)(rand() % 300 - 100) / 100.0f;
-				vel.y = (float)(rand() % 300 - 100) / 100.0f;
-				vel.z = (float)(rand() % 300 - 100) / 100.0f;
-				//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-				XMFLOAT3 acc{};
-				const float rnd_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-				//追加
-				particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-			}
+			particleMan->CreateParticle();
 		}
 		if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
 		{
-			debugText.PrintDebugText("rightAram", 0, 30);			
+			debugText.PrintDebugText("rightAram", 0, 30);
 			boss->HitDamage(rightaram, damage);
 			player->attack = false;
-
-			for (int i = 0; i < 50; i++) {
-				//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-				const float rnd_pos = 10.0f;
-				XMFLOAT3 pos{};
-				pos.x = 0;
-				pos.y = 0;
-				pos.z = 0;
-				//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-				const float rnd_vel = 0.1f;
-				XMFLOAT3 vel{};
-				vel.x = (float)(rand() % 300 - 100) / 100.0f;
-				vel.y = (float)(rand() % 300 - 100) / 100.0f;
-				vel.z = (float)(rand() % 300 - 100) / 100.0f;
-				//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-				XMFLOAT3 acc{};
-				const float rnd_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-				//追加
-				particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-			}
+			particleMan->CreateParticle();
 		}
-
-
 		if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
 		{
-			debugText.PrintDebugText("leftAram", 0, 45);			
+			debugText.PrintDebugText("leftAram", 0, 45);
 			boss->HitDamage(leftaram, damage);
 			player->attack = false;
-
-			for (int i = 0; i < 50; i++) {
-				//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-				const float rnd_pos = 10.0f;
-				XMFLOAT3 pos{};
-				pos.x = 0;
-				pos.y = 0;
-				pos.z = 0;
-				//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-				const float rnd_vel = 0.1f;
-				XMFLOAT3 vel{};
-				vel.x = (float)(rand() % 300 - 100) / 100.0f;
-				vel.y = (float)(rand() % 300 - 100) / 100.0f;
-				vel.z = (float)(rand() % 300 - 100) / 100.0f;
-				//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-				XMFLOAT3 acc{};
-				const float rnd_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-				//追加
-				particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-			}
+			particleMan->CreateParticle();
 		}
-
-
 		if (mCollision::testCapsuleCapsule(rightLegCapsule, attackCapsule) && boss->parthp[4] > 0)
 		{
-			debugText.PrintDebugText("rightLeg", 0, 60);			
+			debugText.PrintDebugText("rightLeg", 0, 60);
 			boss->HitDamage(rightleg, damage);
 			player->attack = false;
-
-			for (int i = 0; i < 50; i++) {
-				//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-				const float rnd_pos = 10.0f;
-				XMFLOAT3 pos{};
-				pos.x = 0;
-				pos.y = 0;
-				pos.z = 0;
-				//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-				const float rnd_vel = 0.1f;
-				XMFLOAT3 vel{};
-				vel.x = (float)(rand() % 300 - 100) / 100.0f;
-				vel.y = (float)(rand() % 300 - 100) / 100.0f;
-				vel.z = (float)(rand() % 300 - 100) / 100.0f;
-				//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-				XMFLOAT3 acc{};
-				const float rnd_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-				//追加
-				particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-			}
+			particleMan->CreateParticle();
 		}
 		if (mCollision::testCapsuleCapsule(leftLegCapsule, attackCapsule) && boss->parthp[5] > 0)
 		{
 			debugText.PrintDebugText("leftLeg", 0, 75);
 			boss->HitDamage(leftleg, damage);
 			player->attack = false;
-
-			for (int i = 0; i < 50; i++) {
-				//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-				const float rnd_pos = 10.0f;
-				XMFLOAT3 pos{};
-				pos.x = 0;
-				pos.y = 0;
-				pos.z = 0;
-				//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-				const float rnd_vel = 0.1f;
-				XMFLOAT3 vel{};
-				vel.x = (float)(rand() % 300 - 100) / 100.0f;
-				vel.y = (float)(rand() % 300 - 100) / 100.0f;
-				vel.z = (float)(rand() % 300 - 100) / 100.0f;
-				//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-				XMFLOAT3 acc{};
-				const float rnd_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-				//追加
-				particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-			}
+			particleMan->CreateParticle();
 		}
 	}
+#pragma endregion
+
 
 	//ボスのHPが 0 になったらパーツのHPも全部 0 にして全部落下させる
 	if (boss->hp <= 0)
@@ -390,7 +268,6 @@ void GameScene::Update()
 	{
 		boss->Fall(leftleg);
 	}
-#pragma endregion
 
 	//デバッグ用にパーツに直接ダメージ
 	if (input->PressKeyTrigger(DIK_1))
@@ -423,7 +300,7 @@ void GameScene::Update()
 			{
 				//パーツ取得時にプレイヤーの座標とかに合わせる
 				boss->rightaram->SetParent(player->player);
-				boss->rightaram->SetPos(Vector3(-10, -20, +20));
+				boss->rightaram->SetPos(Vector3(0, -50, +20));
 				boss->rightaram->SetRotation(Vector3(90, -15, 180));
 				boss->rightaram->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 				player->enemyWepon = true;
@@ -433,46 +310,49 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region カメラの移動
-	if (input->PressKey(DIK_UP))
-	{
-		meye.z += 1;
-		mtarget.z += 1;
-	}
+	//if (input->PressKey(DIK_UP))
+	//{
+	//	meye.z += 1;
+	//	mtarget.z += 1;
+	//}
 
-	if (input->PressKey(DIK_DOWN))
-	{
-		meye.z -= 1;
-		mtarget.z -= 1;
-	}
-	if (input->PressKey(DIK_RIGHT))
-	{
-		meye.x += 1;
-		mtarget.x += 1;
-	}
-	if (input->PressKey(DIK_LEFT))
-	{
-		meye.x -= 1;
-		mtarget.x -= 1;
-	}
+	//if (input->PressKey(DIK_DOWN))
+	//{
+	//	meye.z -= 1;
+	//	mtarget.z -= 1;
+	//}
+	//if (input->PressKey(DIK_RIGHT))
+	//{
+	//	meye.x += 1;
+	//	mtarget.x += 1;
+	//}
+	//if (input->PressKey(DIK_LEFT))
+	//{
+	//	meye.x -= 1;
+	//	mtarget.x -= 1;
+	//}
 #pragma endregion
-
 
 	player->Update();
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 36c2cfd5835740c8b8a2f2c0d0dd8f29e1c7c515
 	testObject->Update();
 	//カメラの設定
-	camera->eye = player->player->GetPos() + meye;
-	camera->eye.y -= 1.0f;
-	camera->eye.z -= 15.0f;
-	camera->target = player->player->GetPos() + mtarget;
+	//camera->eye = player->player->GetPos() + meye;
+	//camera->eye.y -= 1.0f;
+	//camera->eye.z -= 15.0f;
+	//camera->target = player->player->GetPos() + mtarget;
 	//camera->target.y = 10.0f;
 
 	//testObject->Update();
 	camera->eye = player->player->GetPos(); 
-	camera->eye.y -= 1.0f;
-	camera->eye.z -= 10.0f;
+	camera->eye.x = 50 * cosf(angle) + player->player->GetPos().x;
+	camera->eye.z = 50 * -sinf(angle) + player->player->GetPos().z;
 	camera->target = player->player->GetPos();
 	///camera->target.y = 10.0f;
 

@@ -37,6 +37,7 @@ public:
 	XMMATRIX GetMatProj() { return matProjection; }
 	
 
+
 	//void TargetSpin(float length);
 
 	Vector3 eye;			//視点座標
@@ -45,6 +46,8 @@ public:
 	Vector3 front;			//正面ベクトル
 
 	Vector3 angle;			//角度
+
+
 protected:
 	//今のカメラ
 	static Camera* NowMatView;

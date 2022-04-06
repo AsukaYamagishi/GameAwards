@@ -617,7 +617,7 @@ void Object3D::CreateModel()
 		{
 			indexMap[i] = indices[i];   //インデックスをコピー
 		}
-		indexBuff->Unmap(0, nullptr); //マップを解除
+		indexBuff->Unmap(0, nullptr);	//マップを解除
 	}
 
 	//頂点バッファビューの作成

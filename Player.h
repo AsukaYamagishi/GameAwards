@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SafeDelete.h"
 #include "DirectXCommon.h"
 #include "KeyboardInput.h"
@@ -9,7 +9,7 @@
 #include <DirectXMath.h>
 class Player {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ï¿½ï¿½È—ï¿½
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -20,15 +20,14 @@ public:
 	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// ï¿½`ï¿½ï¿½
 	/// </summary>
 	void Draw();
-
 
 public:
 	ModelDraw *player = nullptr;
