@@ -337,10 +337,8 @@ void GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-<<<<<<< HEAD
-=======
 
->>>>>>> 36c2cfd5835740c8b8a2f2c0d0dd8f29e1c7c515
+
 	testObject->Update();
 	//ƒJƒƒ‰‚ÌÝ’è
 	//camera->eye = player->player->GetPos() + meye;
