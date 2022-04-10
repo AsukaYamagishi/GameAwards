@@ -54,11 +54,11 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 
 void Boss::Update()
 {
-	/*const float attackRange = 20.0f;
+	const float attackRange = 20.0f;
 	if (AttackRangeJudge(attackRange)) {
 		Move();
 	}
-	Direction();*/
+	Direction();
 
 	boss->Update();
 	head->Update();
@@ -160,8 +160,6 @@ void Boss::Move() {
 	float distanceX = 0;
 	float distanceZ = 0;
 
-	float angle = 0.0f;
-
 	distanceX = posX - playerPosX;
 	distanceZ = posZ - playerPosZ;
 
@@ -181,15 +179,15 @@ void Boss::Direction() {
 	float distanceX = 0;
 	float distanceZ = 0;
 
-	float angle = 0.0f;
-	float direction = 110.0f;
+	//float angle = 0.0f;
+	float direction = 90.0f;
 
 	distanceX = posX - playerPosX;
 	distanceZ = posZ - playerPosZ;
 
-	angle = (atan2(distanceZ, distanceX) * 100.0f) + direction;
+	angle = (atan2(distanceX, distanceZ) * 100.0f) / 3.14f * 2.0f + direction;
 
-	boss->SetRotation(Vector3(0.0f, -angle, 0.0f));
+	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
 
 bool Boss::AttackRangeJudge(float attackRange) {
