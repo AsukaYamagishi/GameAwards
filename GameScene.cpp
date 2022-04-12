@@ -369,8 +369,12 @@ void GameScene::Update()
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
 	std::ostringstream oss;
+	std::ostringstream ass;
 	oss << boss->hp;
 	debugText.PrintDebugText(oss.str(), 500, 0);
+	ass << boss->angle;
+	debugText.PrintDebugText(ass.str(), 700, 0);
+
 #pragma endregion
 
 }
