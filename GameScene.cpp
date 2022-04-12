@@ -152,7 +152,8 @@ void GameScene::Update()
 		angle -= radius;
 	}
 
-	;
+
+	
 
 	particleMan->Update();
 
@@ -480,9 +481,15 @@ void GameScene::Update()
 	//camera->target.y = 10.0f;
 
 	//testObject->Update();
-	camera->eye = player->player->GetPos(); 
-	camera->eye.x = 50 * cosf(angle) + player->player->GetPos().x;
-	camera->eye.z = 50 * -sinf(angle) + player->player->GetPos().z;
+	XMFLOAT3 rote = player->player->GetRotation();
+	XMFLOAT3 pos = player->player->GetPos();
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
+	movement = XMVector3TransformNormal(movement, matRot);
+
+	movement *= XMVECTOR{ -1, -1, -1 };
+	camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
+	camera->eye.y -= 5;
 	camera->target = player->player->GetPos();
 	///camera->target.y = 10.0f;
 
