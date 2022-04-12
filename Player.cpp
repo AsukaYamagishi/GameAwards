@@ -37,17 +37,19 @@ void Player::Update()
 	player->Update();
 
 #pragma region	�v���C���[�ړ�
-	if (input->PressKey(DIK_W)) {
+	/*if (input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));
 	}
 	if ( input->PressKey(DIK_S)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, -move));
-	}
+	}*/
 	if ( input->PressKey(DIK_A)) {
-		player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));
+		/*player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));*/
+		player->SetRotation(player->GetRotation() + Vector3(0.0f, -move, 0.0f));
 	}
 	if (input->PressKey(DIK_D)) {
-		player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));
+		/*player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));*/
+		player->SetRotation(player->GetRotation() + Vector3(0.0f, move, 0.0f));
 	}
 
 	//デバッグ移動
@@ -58,6 +60,28 @@ void Player::Update()
 		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
 	}
 
+	XMFLOAT3 rote = player->GetRotation();
+	XMFLOAT3 pos = player->GetPos();
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
+	movement = XMVector3TransformNormal(movement, matRot);
+
+	
+
+	
+	if (input->PressKey(DIK_W)) {
+		pos.x += movement.m128_f32[0];
+		pos.y += movement.m128_f32[1];
+		pos.z += movement.m128_f32[2];
+	}
+	else if (input->PressKey(DIK_S)) {
+		pos.x -= movement.m128_f32[0];
+		pos.y -= movement.m128_f32[1];
+		pos.z -= movement.m128_f32[2];
+	}
+	player->SetPos(pos);
+	player->SetRotation(rote);
+	player->Update();
 	/*if (input->PressKey(DIK_Z)) {
 		player->SetRotation(player->GetRotation() + Vector3(0.0f, 2.0f, 0.0f));
 	}
@@ -93,7 +117,6 @@ void Player::Update()
 		}
 	}
 #pragma endregion
-
 
 }
 
