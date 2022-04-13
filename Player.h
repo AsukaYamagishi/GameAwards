@@ -43,6 +43,7 @@ private:
 	float move = 1.5f;
 	int hp = 10;
 
-
+public:
+	Vector3 attacktorota = { 0.0f,0.0f,0.0f };
 
 };
