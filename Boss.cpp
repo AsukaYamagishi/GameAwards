@@ -170,11 +170,8 @@ void Boss::Move() {
 }
 
 void Boss::Direction() {
-	float posX = boss->GetPos().x;
-	float posY = boss->GetPos().y;
-	float posZ = boss->GetPos().z;
-	float playerPosX = player->GetPos().x;
-	float playerPosZ = player->GetPos().z;
+	XMFLOAT3 pos = boss->GetPos();
+	XMFLOAT3 playerPos = player->GetPos();
 
 	float distanceX = 0;
 	float distanceZ = 0;
@@ -182,8 +179,8 @@ void Boss::Direction() {
 	//float angle = 0.0f;
 	float direction = 90.0f;
 
-	distanceX = posX - playerPosX;
-	distanceZ = posZ - playerPosZ;
+	distanceX = pos.x - playerPos.x;
+	distanceZ = pos.z - playerPos.z;
 
 	angle = (atan2(distanceX, distanceZ) * 100.0f) / 3.14f * 2.0f + direction;
 
