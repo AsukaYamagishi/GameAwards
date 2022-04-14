@@ -214,7 +214,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void CreateParticle();
+	void HitParticle();
 
 	/// <summary>
 	/// パーティクルの追加

@@ -648,7 +648,7 @@ void ParticleManager::Draw()
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void ParticleManager::CreateParticle()
+void ParticleManager::HitParticle()
 {
 	for (int i = 0; i < 50; i++) {
 		//X,Y,Z‘S‚Ä[-0.5f, +0.5f]‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z

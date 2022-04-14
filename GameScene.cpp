@@ -190,42 +190,42 @@ void GameScene::Update()
 			debugText.PrintDebugText("head", 0, 0);
 			boss->HitDamage(head, damage);
 			player->attack = false;
-			particleMan->CreateParticle();
+			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(bodyCapsule, attackCapsule))
 		{
 			debugText.PrintDebugText("body", 0, 15);
 			boss->HitDamage(body, damage);
 			player->attack = false;
-			particleMan->CreateParticle();
+			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
 		{
 			debugText.PrintDebugText("rightAram", 0, 30);
 			boss->HitDamage(rightaram, damage);
 			player->attack = false;
-			particleMan->CreateParticle();
+			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
 		{
 			debugText.PrintDebugText("leftAram", 0, 45);
 			boss->HitDamage(leftaram, damage);
 			player->attack = false;
-			particleMan->CreateParticle();
+			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(rightLegCapsule, attackCapsule) && boss->parthp[4] > 0)
 		{
 			debugText.PrintDebugText("rightLeg", 0, 60);
 			boss->HitDamage(rightleg, damage);
 			player->attack = false;
-			particleMan->CreateParticle();
+			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(leftLegCapsule, attackCapsule) && boss->parthp[5] > 0)
 		{
 			debugText.PrintDebugText("leftLeg", 0, 75);
 			boss->HitDamage(leftleg, damage);
 			player->attack = false;
-			particleMan->CreateParticle();
+			particleMan->HitParticle();
 		}
 	}
 #pragma endregion
@@ -277,7 +277,7 @@ void GameScene::Update()
 	if (input->PressKeyTrigger(DIK_2))
 	{
 		boss->parthp[leftaram]--;
-		particleMan->CreateParticle();
+		particleMan->HitParticle();
 	}
 	if (input->PressKeyTrigger(DIK_3))
 	{

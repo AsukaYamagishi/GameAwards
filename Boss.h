@@ -61,6 +61,7 @@ public:
 	int hp = 18;
 	int parthp[6] = { 3,3,3,3,3,3 };
 	float angle = 0.0f;
+	bool stopFlag = false;
 
 private:
 	DirectXCommon *dxCommon = nullptr;

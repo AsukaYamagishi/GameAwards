@@ -55,10 +55,20 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 void Boss::Update()
 {
 	const float attackRange = 20.0f;
-	if (AttackRangeJudge(attackRange)) {
+	if (input->PressKeyTrigger(DIK_0)) {
+		if (stopFlag == false) {
+			stopFlag = true;
+		}
+		else {
+			stopFlag = false;
+		}
+ 	}
+	if (AttackRangeJudge(attackRange) && hp > 0 && stopFlag == false) {
 		Move();
 	}
-	Direction();
+	if (hp > 0 && stopFlag == false) {
+		Direction();
+	}
 
 	boss->Update();
 	head->Update();
