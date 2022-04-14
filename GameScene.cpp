@@ -152,7 +152,8 @@ void GameScene::Update()
 		angle -= radius;
 	}
 
-	;
+
+	
 
 	particleMan->Update();
 
