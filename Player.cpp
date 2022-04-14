@@ -36,14 +36,14 @@ void Player::Update()
 {
 	player->Update();
 
-#pragma region	�v���C���[�ړ�
+#pragma region	移動処理
 	/*if (input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));
 	}
 	if ( input->PressKey(DIK_S)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, -move));
 	}*/
-	if ( input->PressKey(DIK_A)) {
+	if (input->PressKey(DIK_A)) {
 		/*player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));*/
 		player->SetRotation(player->GetRotation() + Vector3(0.0f, -move, 0.0f));
 	}
@@ -60,15 +60,13 @@ void Player::Update()
 		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
 	}
 
+
 	XMFLOAT3 rote = player->GetRotation();
 	XMFLOAT3 pos = player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
 	movement = XMVector3TransformNormal(movement, matRot);
 
-	
-
-	
 	if (input->PressKey(DIK_W)) {
 		pos.x += movement.m128_f32[0];
 		pos.y += movement.m128_f32[1];
@@ -79,6 +77,8 @@ void Player::Update()
 		pos.y -= movement.m128_f32[1];
 		pos.z -= movement.m128_f32[2];
 	}
+#pragma endregion
+
 	player->SetPos(pos);
 	player->SetRotation(rote);
 	player->Update();
@@ -88,30 +88,35 @@ void Player::Update()
 	if (input->PressKey(DIK_C)) {
 		player->SetRotation(player->GetRotation() + Vector3(0.0f, -2.0f, 0.0f));
 	}*/
-#pragma endregion
 
 
-#pragma region �U��
+
+#pragma region 攻撃処理
 	if (input->PressKey(DIK_SPACE) && attacktime == 0)
 	{
+
 		attack = true;
 		attacktime += 1;
+		attacktorota = { 0.0f,0.0f,0.0f };
 	}
 	if (attacktime > 0)
 	{
 		Vector3 rota = player->GetRotation();
-		attacktime++;
 		if (attacktime < 30)
 		{
+			attacktime++;
 			player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
+			attacktorota += Vector3(0.0f, 5.0f, 0.0f);
 		}
-		else if (rota.y > 0)
+		else if (attacktime >= 30 && attacktime < 59)
 		{
+			attacktime++;
 			player->SetRotation(player->GetRotation() + Vector3(0.0f, -5.0f, 0.0f));
+			attacktorota += Vector3(0.0f, -5.0f, 0.0f);
 		}
 		else
 		{
-			player->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			//player->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 			attack = false;
 			attacktime = 0;
 		}

@@ -120,39 +120,12 @@ void GameScene::Update()
 {
 
 
-	//パーティクルの生成
-	if (input->PressKeyTrigger(DIK_SPACE)) {
-		//for (int i = 0; i < 50; i++) {
-		//	//X,Y,Z全て[-0.5f, +0.5f]でランダムに分布
-		//	const float rnd_pos = 10.0f;
-		//	XMFLOAT3 pos{};
-		//	pos.x = 0;
-		//	pos.y = 0;
-		//	pos.z = 10;
-		//	//X,Y,Z全て[-0.05f, +0.05f]でランダムに分布
-		//	const float rnd_vel = 0.1f;
-		//	XMFLOAT3 vel{};
-		//	vel.x = (float)(rand() % 300 - 100) / 100.0f;
-		//	vel.y = (float)(rand() % 300 - 100) / 100.0f;
-		//	vel.z = (float)(rand() % 300 - 100) / 100.0f;
-		//	//重力に見立ててYのみ[-0.001f, 0]でランダムに分布
-		//	XMFLOAT3 acc{};
-		//	const float rnd_acc = 0.001f;
-		//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		//	//追加
-		//	particleMan->Add(60, pos, vel, acc, 1.0f, 0.0f);
-		//}
-	}
-
 	if (input->PressKey(DIK_Z)) {
 		angle += radius;
 	}
 	else if (input->PressKey(DIK_C)) {
 		angle -= radius;
 	}
-
-	;
 
 	particleMan->Update();
 
@@ -348,15 +321,20 @@ void GameScene::Update()
 	//camera->target.y = 10.0f;
 
 	//testObject->Update();
-	XMFLOAT3 rote = player->player->GetRotation();
+	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
 	movement = XMVector3TransformNormal(movement, matRot);
 
 	movement *= XMVECTOR{ -1, -1, -1 };
+	if (player->attack == false)
+	{
+		matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
+	}
+
 	camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
-	camera->eye.y -= 5;
+	camera->eye.y = 20;
 	camera->target = player->player->GetPos();
 	///camera->target.y = 10.0f;
 
@@ -427,6 +405,7 @@ void GameScene::Draw()
 	ParticleManager::PostDraw();
 	//testObject->Draw(cmdList);
 	
+
 #pragma endregion
 
 #pragma region 前景スプライト描画
