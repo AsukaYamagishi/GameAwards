@@ -118,9 +118,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 void GameScene::Update()
 {
-	player->player->SetRotation(player->player->GetRotation() - player->attacktorota);
-	player->player->Update();
-	weapon->model->Update();
+
 
 	if (input->PressKey(DIK_Z)) {
 		angle += radius;
@@ -128,8 +126,6 @@ void GameScene::Update()
 	else if (input->PressKey(DIK_C)) {
 		angle -= radius;
 	}
-
-	;
 
 	particleMan->Update();
 
@@ -325,7 +321,7 @@ void GameScene::Update()
 	//camera->target.y = 10.0f;
 
 	//testObject->Update();
-	XMFLOAT3 rote = player->player->GetRotation();
+	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
@@ -346,9 +342,6 @@ void GameScene::Update()
 	camera->Update();
 
 	boss->Update();
-	player->player->SetRotation(player->player->GetRotation() + player->attacktorota);
-	player->player->Update();
-	weapon->model->Update();
 
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換

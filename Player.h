@@ -29,6 +29,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	Vector3 GetNoAttackRotation() { return player->GetRotation() - attacktorota;}
+
 public:
 	ModelDraw *player = nullptr;
 	int attacktime = 0;
