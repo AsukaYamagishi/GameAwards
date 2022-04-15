@@ -1,0 +1,9 @@
+diff a/GameScene.cpp b/GameScene.cpp	(rejected hunks)
+@@ -412,6 +412,7 @@
+ 	ParticleManager::PostDraw();
+ 	//testObject->Draw(cmdList);
+ 	
++
+ #pragma endregion
+ 
+ #pragma region �O�i�X�v���C�g�`��

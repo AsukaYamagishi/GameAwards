@@ -54,10 +54,22 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 
 void Boss::Update()
 {
-	//const float attackRange = 20.0f;
-	//if (AttackRangeJudge(attackRange)) {
-	//	Move();
-	//}
+	const float attackRange = 20.0f;
+	if (input->PressKeyTrigger(DIK_0)) {
+		if (stopFlag == false) {
+			stopFlag = true;
+		}
+		else {
+			stopFlag = false;
+		}
+ 	}
+	if (AttackRangeJudge(attackRange) && hp > 0 && stopFlag == false) {
+		Move();
+	}
+	if (hp > 0 && stopFlag == false) {
+		Direction();
+	}
+
 	boss->Update();
 	head->Update();
 	body->Update();
@@ -165,6 +177,24 @@ void Boss::Move() {
 	posZ -= distanceZ / move;
 
 	boss->SetPos(Vector3(posX, posY, posZ));
+}
+
+void Boss::Direction() {
+	XMFLOAT3 pos = boss->GetPos();
+	XMFLOAT3 playerPos = player->GetPos();
+
+	float distanceX = 0;
+	float distanceZ = 0;
+
+	//float angle = 0.0f;
+	float direction = 90.0f;
+
+	distanceX = pos.x - playerPos.x;
+	distanceZ = pos.z - playerPos.z;
+
+	angle = (atan2(distanceX, distanceZ) * 100.0f) / 3.14f * 2.0f + direction;
+
+	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
 
 bool Boss::AttackRangeJudge(float attackRange) {
