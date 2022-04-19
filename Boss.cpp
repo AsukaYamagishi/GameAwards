@@ -19,6 +19,8 @@ Boss::Boss()
 	rightleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Leftleg));
 	leftleg = ModelDraw::Create();
 	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
+	bullet = ModelDraw::Create();
+	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
 }
 
 Boss::~Boss()
@@ -50,11 +52,15 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	leftaram->SetPos(Vector3(13, -18, 7));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
+	bullet->SetPos(Vector3(0, 0, 0));
 }
 
 void Boss::Update()
 {
-	const float attackRange = 20.0f;
+	//説明用変数
+	const float moveRange = 20.0f;
+	const float attackRange = 60.0f;
+	//デバッグ用に0キーを押すとボスの動きが止まる
 	if (input->PressKeyTrigger(DIK_0)) {
 		if (stopFlag == false) {
 			stopFlag = true;
@@ -63,11 +69,19 @@ void Boss::Update()
 			stopFlag = false;
 		}
  	}
-	if (AttackRangeJudge(attackRange) && hp > 0 && stopFlag == false) {
+	//クールタイムを減算し続ける
+	coolTime -= 1.0f;
+	//プレイヤーの一定距離まで移動する
+	if (RangeJudge(moveRange) && hp > 0 && stopFlag == false) {
 		Move();
 	}
+	//プレイヤーの方を見続ける
 	if (hp > 0 && stopFlag == false) {
 		Direction();
+	}
+	//攻撃
+	if (coolTime <= 0 && RangeJudge(attackRange)) {
+		Attack();
 	}
 
 	boss->Update();
@@ -77,6 +91,7 @@ void Boss::Update()
 	leftaram->Update();
 	rightleg->Update();
 	leftleg->Update();
+	bullet->Update();
 }
 
 void Boss::Draw()
@@ -91,6 +106,7 @@ void Boss::Draw()
 	leftaram->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
+	bullet->Draw();
 	ModelDraw::PostDraw();
 }
 
@@ -197,7 +213,7 @@ void Boss::Direction() {
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
 
-bool Boss::AttackRangeJudge(float attackRange) {
+bool Boss::RangeJudge(float actionRange) {
 	float distanceX, distanceZ;
 	float bossRange;
 	Vector3 playerPos = player->GetPos();
@@ -208,5 +224,19 @@ bool Boss::AttackRangeJudge(float attackRange) {
 
 	bossRange = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
 
-	return bossRange >= attackRange;
+	return bossRange >= actionRange;
+}
+
+void Boss::Attack() {
+	//説明用変数
+	const float shotSpeed = 10.0f;
+	const float timeOver = 0.0f;
+	//振動
+	if (chargeTime >= timeOver) {
+		chargeTime -= 1.0f;
+
+	}
+	
+
+	coolTime = 100.0f;
 }

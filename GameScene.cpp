@@ -217,6 +217,7 @@ void GameScene::Update()
 	if (boss->parthp[head] <= 0)
 	{
 		boss->Fall(head);
+		boss->head->SetParent(nullptr);
 	}
 	if (boss->parthp[body] <= 0)
 	{
@@ -228,18 +229,22 @@ void GameScene::Update()
 	if (boss->parthp[rightaram] <= 0)
 	{
 		boss->Fall(rightaram);
+		boss->rightaram->SetParent(nullptr);
 	}
 	if (boss->parthp[leftaram] <= 0)
 	{
 		boss->Fall(leftaram);
+		boss->leftaram->SetParent(nullptr);
 	}
 	if (boss->parthp[rightleg] <= 0)
 	{
 		boss->Fall(rightleg);
+		boss->rightleg->SetParent(nullptr);
 	}
 	if (boss->parthp[leftleg] <= 0)
 	{
 		boss->Fall(leftleg);
+		boss->leftleg->SetParent(nullptr);
 	}
 
 	//デバッグ用にパーツに直接ダメージ

@@ -24,6 +24,7 @@ void ModelManager::Initialize()
 	LoadModel(Leftleg, "Leftleg");
 
 	LoadModel(Plane, "plane");
+	LoadModel(Bullet, "Bullet");
 	//LoadModel(TestDunut, "donut");
 }
 
