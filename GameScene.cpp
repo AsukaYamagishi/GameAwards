@@ -175,14 +175,14 @@ void GameScene::Update()
 		if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
 		{
 			debugText.PrintDebugText("rightAram", 0, 30);
-			boss->HitDamage(rightaram, damage);
+			boss->HitDamage(rightarm, damage);
 			player->attack = false;
 			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
 		{
 			debugText.PrintDebugText("leftAram", 0, 45);
-			boss->HitDamage(leftaram, damage);
+			boss->HitDamage(leftarm, damage);
 			player->attack = false;
 			particleMan->HitParticle();
 		}
@@ -226,15 +226,15 @@ void GameScene::Update()
 			boss->Fall(body);
 		}
 	}
-	if (boss->parthp[rightaram] <= 0)
+	if (boss->parthp[rightarm] <= 0)
 	{
-		boss->Fall(rightaram);
-		boss->rightaram->SetParent(nullptr);
+		boss->Fall(rightarm);
+		boss->rightarm->SetParent(nullptr);
 	}
-	if (boss->parthp[leftaram] <= 0)
+	if (boss->parthp[leftarm] <= 0)
 	{
-		boss->Fall(leftaram);
-		boss->leftaram->SetParent(nullptr);
+		boss->Fall(leftarm);
+		boss->leftarm->SetParent(nullptr);
 	}
 	if (boss->parthp[rightleg] <= 0)
 	{
@@ -250,11 +250,11 @@ void GameScene::Update()
 	//デバッグ用にパーツに直接ダメージ
 	if (input->PressKeyTrigger(DIK_1))
 	{
-		boss->parthp[rightaram]--;
+		boss->parthp[rightarm]--;
 	}
 	if (input->PressKeyTrigger(DIK_2))
 	{
-		boss->parthp[leftaram]--;
+		boss->parthp[leftarm]--;
 		particleMan->HitParticle();
 	}
 	if (input->PressKeyTrigger(DIK_3))
@@ -272,15 +272,15 @@ void GameScene::Update()
 	if (mCollision::testCapsuleCapsule(RightAramCapsule2, playerCapsule))
 	{
 		debugText.PrintDebugText("syutoku", 0, 90);
-		if (boss->parthp[rightaram] <= 0)
+		if (boss->parthp[rightarm] <= 0)
 		{
 			if (input->PressKey(DIK_R))
 			{
 				//パーツ取得時にプレイヤーの座標とかに合わせる
-				boss->rightaram->SetParent(player->player);
-				boss->rightaram->SetPos(Vector3(0, -50, +20));
-				boss->rightaram->SetRotation(Vector3(90, -15, 180));
-				boss->rightaram->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+				boss->rightarm->SetParent(player->player);
+				boss->rightarm->SetPos(Vector3(0, -50, +20));
+				boss->rightarm->SetRotation(Vector3(90, -15, 180));
+				boss->rightarm->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 				player->enemyWepon = true;
 			}
 		}
