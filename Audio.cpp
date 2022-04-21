@@ -86,7 +86,7 @@ Audio::SoundData Audio::SoundLoadWave(const char * filename)
 }
 
 //âπäyçƒê∂
-void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData, IsLoop isLoop, float volume)
+void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop isLoop, float volume)
 {
 	HRESULT result;
 

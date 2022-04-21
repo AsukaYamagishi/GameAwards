@@ -38,8 +38,8 @@ private: //メンバ変数
 	//ゲームシーン用
 	Sprite *sprite = nullptr;
 	//音楽
-	Audio::SoundData soundData[3];
-	Audio::SoundData soundSE[5];
+	Audio::SoundData soundData[2];
+	Audio::SoundData soundSE[7];
 
 	//プレイヤー
 	Player *player;	
@@ -68,6 +68,7 @@ private: //メンバ変数
 
 	float radius = XMConvertToRadians(2.0f);
 	int soundNo = 0;
+	int seNo = 0;
 
 public:
 	//ゲームシーン終了用
