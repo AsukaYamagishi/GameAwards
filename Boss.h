@@ -12,8 +12,8 @@ enum Parts
 {
 	head,
 	body,
-	rightaram,
-	leftaram,
+	rightarm,
+	leftarm,
 	rightleg,
 	leftleg
 };
@@ -63,8 +63,8 @@ public:
 
 	ModelDraw *head = nullptr;
 	ModelDraw *body = nullptr;
-	ModelDraw *leftaram = nullptr;
-	ModelDraw *rightaram = nullptr;
+	ModelDraw *leftarm = nullptr;
+	ModelDraw *rightarm = nullptr;
 	ModelDraw *leftleg = nullptr;
 	ModelDraw *rightleg = nullptr;
 	int hp = 18;
