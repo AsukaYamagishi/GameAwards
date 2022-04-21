@@ -81,7 +81,11 @@ private:
 	//プレイヤーへの移動速度の割合
 	float move = 128.0f;
 	//攻撃用変数
+	Vector3 oldBossPos = { 0, 0, 0 };
+	Vector3 oldPlayerPos = { 0, 0, 0 };
 	float coolTime = 100.0f;
 	float chargeTime = 20.0f;
 	bool attackFlag = false;
+	float shakePosX = 0.0f;
+	float shakePosZ = 0.0f;
 };

@@ -53,6 +53,7 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
 	bullet->SetPos(Vector3(0, 0, 0));
+	bullet->SetScale(Vector3(20, 20, 20));
 }
 
 void Boss::Update()
@@ -72,7 +73,7 @@ void Boss::Update()
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
-	if (RangeJudge(moveRange) && hp > 0 && stopFlag == false) {
+	if (RangeJudge(moveRange) && hp > 0 && stopFlag == false && attackFlag == false) {
 		Move();
 	}
 	//プレイヤーの方を見続ける
@@ -80,7 +81,7 @@ void Boss::Update()
 		Direction();
 	}
 	//攻撃
-	if (coolTime <= 0 && RangeJudge(attackRange)) {
+	if (coolTime <= 0 && RangeJudge(attackRange) && stopFlag == false) {
 		Attack();
 	}
 
@@ -106,6 +107,9 @@ void Boss::Draw()
 	leftaram->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
+	if (attackFlag == true) {
+		
+	}
 	bullet->Draw();
 	ModelDraw::PostDraw();
 }
@@ -231,12 +235,28 @@ void Boss::Attack() {
 	//説明用変数
 	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
+
+	//攻撃用ローカル変数
+	if (attackFlag == false) {
+		oldBossPos = boss->GetPos();
+		oldPlayerPos = player->GetPos();
+	}
+	attackFlag = true;
+	//ボスからプレイヤーへのベクトルを求める
+	Vector3 bossToPlayer = oldPlayerPos - oldBossPos;
+	bullet->SetPos(bossToPlayer);
+
 	//振動
 	if (chargeTime >= timeOver) {
 		chargeTime -= 1.0f;
-
+		shakePosX = oldBossPos.x + rand() % 4 - 2;
+		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
 	}
-	
-
-	coolTime = 100.0f;
+	if (chargeTime <= timeOver) {
+		chargeTime = 20.0f;
+		coolTime = 100.0f;
+		boss->SetPos(oldBossPos);
+		attackFlag = false;
+	}
 }

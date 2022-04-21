@@ -86,8 +86,11 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 音楽リソース初期設定
 
+	soundNo = 0;
 	soundData[0] = audio->SoundLoadWave("Resources/musicloop.wav");
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0], Audio::loop);
+	soundData[1] = audio->SoundLoadWave("Resources/Alarm01.wav");
+	soundData[2] = audio->SoundLoadWave("Resources/JimS - Little Excitement.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop);
 
 #pragma endregion
 
@@ -284,6 +287,17 @@ void GameScene::Update()
 				player->enemyWepon = true;
 			}
 		}
+	}
+
+	if (input->PressKeyTrigger(DIK_P)) {
+		audio->SoundStop(audio->xAudio2.Get(), soundData[0]);
+		if (soundNo < 2) {
+			soundNo++;
+		}
+		else {
+			soundNo = 0;
+		}
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.5f);
 	}
 #pragma endregion
 

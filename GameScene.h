@@ -39,6 +39,7 @@ private: //メンバ変数
 	Sprite *sprite = nullptr;
 	//音楽
 	Audio::SoundData soundData[3];
+	Audio::SoundData soundSE[5];
 
 	//プレイヤー
 	Player *player;	
@@ -66,6 +67,7 @@ private: //メンバ変数
 	float angle = 3.14f / 2.0f;
 
 	float radius = XMConvertToRadians(2.0f);
+	int soundNo = 0;
 
 public:
 	//ゲームシーン終了用
