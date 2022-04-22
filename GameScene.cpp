@@ -101,12 +101,12 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	soundNo = 0;
 	soundData[0] = audio->SoundLoadWave("Resources/sound/プレイBGM.wav");
 	soundData[1] = audio->SoundLoadWave("Resources/sound/タイトル.wav");
-	soundSE[0] = audio->SoundLoadWave("Resources/sound/Hit.wav");
-	soundSE[1] = audio->SoundLoadWave("Resources/sound/チャージ.wav");
-	soundSE[2] = audio->SoundLoadWave("Resources/sound/解体.wav");
-	soundSE[3] = audio->SoundLoadWave("Resources/sound/解体武器振る.wav");
-	soundSE[4] = audio->SoundLoadWave("Resources/sound/攻撃.wav");
-	soundSE[5] = audio->SoundLoadWave("Resources/sound/初期武器振る音.wav");
+	soundSE[Hit] = audio->SoundLoadWave("Resources/sound/Hit.wav");
+	soundSE[Charge] = audio->SoundLoadWave("Resources/sound/チャージ.wav");
+	soundSE[Dismantling] = audio->SoundLoadWave("Resources/sound/解体.wav");
+	soundSE[EnemyWeapon] = audio->SoundLoadWave("Resources/sound/解体武器振る.wav");
+	soundSE[Attack] = audio->SoundLoadWave("Resources/sound/攻撃.wav");
+	soundSE[FirstWeapon] = audio->SoundLoadWave("Resources/sound/初期武器振る音.wav");
 	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop);
 
 #pragma endregion
@@ -220,6 +220,7 @@ void GameScene::Update()
 			player->attack = false;
 			particleMan->HitParticle();
 		}
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
 	}
 #pragma endregion
 
@@ -291,9 +292,9 @@ void GameScene::Update()
 	float hpSize = (boss1HP_SizeX / boss->hp) * boss->hp;
 	boss1HP_Red->SetSize({ hpSize, boss1HP_SizeY});
 
-	char str[256];
-	sprintf_s(str, "hpSize : %f", hpSize);
-	debugText.PrintDebugText(str, 0, 0, 1);
+	//char str[256];
+	//sprintf_s(str, "hpSize : %f", hpSize);
+	//debugText.PrintDebugText(str, 0, 0, 1);
 
 	/*-------------プレイヤー-------------*/
 	playerHP->SetSize({ playerHPX, playerHPY });

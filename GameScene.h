@@ -48,6 +48,16 @@ private: //メンバ変数
 	Audio::SoundData soundData[3];
 	Audio::SoundData soundSE[10];
 
+	enum playSE
+	{
+		Hit,
+		Charge,
+		Dismantling,
+		FirstWeapon,
+		EnemyWeapon,
+		Attack
+	};
+
 	//プレイヤー
 	Player *player;	
 	//武器
