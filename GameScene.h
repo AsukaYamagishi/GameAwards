@@ -45,8 +45,8 @@ private: //メンバ変数
 	int playerMaxHp = 10;
 	Sprite* playerHP = nullptr;
 	//音楽
-	Audio::SoundData soundData[3];
-	Audio::SoundData soundSE[10];
+	Audio::SoundData soundData[2];
+	Audio::SoundData soundSE[7];
 
 	enum playSE
 	{
@@ -85,6 +85,7 @@ private: //メンバ変数
 
 	float radius = XMConvertToRadians(2.0f);
 	int soundNo = 0;
+	int seNo = 0;
 
 public:
 	//ゲームシーン終了用

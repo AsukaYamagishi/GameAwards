@@ -99,6 +99,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 #pragma region 音楽リソース初期設定
 
 	soundNo = 0;
+<<<<<<< HEAD
 	soundData[0] = audio->SoundLoadWave("Resources/sound/プレイBGM.wav");
 	soundData[1] = audio->SoundLoadWave("Resources/sound/タイトル.wav");
 	soundSE[Hit] = audio->SoundLoadWave("Resources/sound/Hit.wav");
@@ -107,6 +108,18 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	soundSE[EnemyWeapon] = audio->SoundLoadWave("Resources/sound/解体武器振る.wav");
 	soundSE[Attack] = audio->SoundLoadWave("Resources/sound/攻撃.wav");
 	soundSE[FirstWeapon] = audio->SoundLoadWave("Resources/sound/初期武器振る音.wav");
+=======
+
+	soundData[0] = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/Sound/BGM/Boss_01.wav");
+	soundSE[0] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Boss01.wav");
+	soundSE[1] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Boss02.wav");
+	soundSE[2] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Player.wav");
+	soundSE[3] = audio->SoundLoadWave("Resources/Sound/SE/Charge.wav");
+	soundSE[4] = audio->SoundLoadWave("Resources/Sound/SE/Disassembly.wav");
+	soundSE[5] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
+	soundSE[6] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Normal.wav");
+>>>>>>> 2547dc962598ebfe3cb4e9a4eeccb47ce42af062
 	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop);
 
 #pragma endregion
@@ -324,13 +337,23 @@ void GameScene::Update()
 
 	if (input->PressKeyTrigger(DIK_P)) {
 		audio->SoundStop(audio->xAudio2.Get(), soundData[0]);
-		if (soundNo < 2) {
+		if (soundNo < 1) {
 			soundNo++;
 		}
 		else {
 			soundNo = 0;
 		}
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.5f);
+	}
+
+	if (input->PressKeyTrigger(DIK_L)) {
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
+		if (seNo < 6) {
+			seNo++;
+		}
+		else {
+			seNo = 0;
+		}
 	}
 #pragma endregion
 
