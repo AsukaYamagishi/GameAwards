@@ -109,7 +109,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	soundSE[4] = audio->SoundLoadWave("Resources/Sound/SE/Disassembly.wav");
 	soundSE[5] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 	soundSE[6] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Normal.wav");
-	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop);
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 
 #pragma endregion
 
@@ -331,7 +331,7 @@ void GameScene::Update()
 		else {
 			soundNo = 0;
 		}
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.5f);
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 	}
 
 	if (input->PressKeyTrigger(DIK_L)) {

@@ -60,7 +60,7 @@ void Boss::Update()
 {
 	//説明用変数
 	const float moveRange = 20.0f;
-	const float attackRange = 60.0f;
+	const float beamRange = 60.0f;
 	//デバッグ用に0キーを押すとボスの動きが止まる
 	if (input->PressKeyTrigger(DIK_0)) {
 		if (stopFlag == false) {
@@ -69,7 +69,7 @@ void Boss::Update()
 		else {
 			stopFlag = false;
 		}
- 	}
+	}
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
@@ -81,8 +81,8 @@ void Boss::Update()
 		Direction();
 	}
 	//攻撃
-	if (coolTime <= 0 && RangeJudge(attackRange) && stopFlag == false) {
-		Attack();
+	if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false) {
+		BeamAttack();
 	}
 
 	boss->Update();
@@ -108,9 +108,8 @@ void Boss::Draw()
 	rightleg->Draw();
 	leftleg->Draw();
 	if (attackFlag == true) {
-		
+		bullet->Draw();
 	}
-	bullet->Draw();
 	ModelDraw::PostDraw();
 }
 
@@ -200,19 +199,15 @@ void Boss::Move() {
 }
 
 void Boss::Direction() {
-	XMFLOAT3 pos = boss->GetPos();
-	XMFLOAT3 playerPos = player->GetPos();
+	Vector3 pos = boss->GetPos();
+	Vector3 playerPos = player->GetPos();
 
-	float distanceX = 0;
-	float distanceZ = 0;
+	Vector3 distance = pos - playerPos;
 
 	//float angle = 0.0f;
 	float direction = 90.0f;
 
-	distanceX = pos.x - playerPos.x;
-	distanceZ = pos.z - playerPos.z;
-
-	angle = (atan2(distanceX, distanceZ) * 100.0f) / 3.14f * 2.0f + direction;
+	angle = (atan2(distance.x, distance.z) * 100.0f) / 3.14f * 2.0f + direction;
 
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
@@ -231,32 +226,51 @@ bool Boss::RangeJudge(float actionRange) {
 	return bossRange >= actionRange;
 }
 
-void Boss::Attack() {
+void Boss::BeamAttack() {
 	//説明用変数
 	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
 
-	//攻撃用ローカル変数
+	//攻撃用メンバ変数
 	if (attackFlag == false) {
 		oldBossPos = boss->GetPos();
 		oldPlayerPos = player->GetPos();
 	}
 	attackFlag = true;
-	//ボスからプレイヤーへのベクトルを求める
-	Vector3 bossToPlayer = oldPlayerPos - oldBossPos;
-	bullet->SetPos(bossToPlayer);
+
+	//攻撃用ローカル変数
+	Vector3 direction = oldBossPos - oldPlayerPos;
+	direction.Normalize();
+
+	//ボスの正面から少し前を求める
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y - 90.0f)));
+	movement = XMVector3TransformNormal(movement, matRot);
+
+	movement *= XMVECTOR{ -1, -1, -1 };
+	matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y)));
+
+	XMVECTOR bossFront = oldBossPos + movement * XMVECTOR{ 50, 50, 50 };
 
 	//振動
 	if (chargeTime >= timeOver) {
 		chargeTime -= 1.0f;
+		bulletPos = bossFront;
+		bullet->SetPos(bulletPos);
 		shakePosX = oldBossPos.x + rand() % 4 - 2;
 		shakePosZ = oldBossPos.z + rand() % 4 - 2;
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
 	}
-	if (chargeTime <= timeOver) {
-		chargeTime = 20.0f;
+	if (chargeTime <= timeOver && attackTime >= timeOver) {
+		attackTime -= 1.0f;
+		bulletPos -= direction * 5.0f;
+		bullet->SetPos(bulletPos);
+	}
+	if (attackTime <= timeOver) {
+		chargeTime = 30.0f;
 		coolTime = 100.0f;
 		boss->SetPos(oldBossPos);
+		attackTime = 100.0f;
 		attackFlag = false;
 	}
 }

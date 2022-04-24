@@ -56,7 +56,7 @@ public:
 	bool RangeJudge(float attackRange);
 	
 	//ƒ{ƒX‚ÌUŒ‚ˆ—
-	void Attack();
+	void BeamAttack();
 
 public:
 	ModelDraw *boss = nullptr;
@@ -83,8 +83,10 @@ private:
 	//UŒ‚—p•Ï”
 	Vector3 oldBossPos = { 0, 0, 0 };
 	Vector3 oldPlayerPos = { 0, 0, 0 };
+	Vector3 bulletPos = { 0, 0, 0 };
 	float coolTime = 100.0f;
-	float chargeTime = 20.0f;
+	float chargeTime = 30.0f;
+	float attackTime = 100.0f;
 	bool attackFlag = false;
 	float shakePosX = 0.0f;
 	float shakePosZ = 0.0f;
