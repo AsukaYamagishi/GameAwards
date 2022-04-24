@@ -18,6 +18,12 @@ enum Parts
 	leftleg
 };
 
+enum Sound
+{
+	Charge = 0,
+	Shot
+};
+
 class Boss {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::‚ğÈ—ª
@@ -90,4 +96,6 @@ private:
 	bool attackFlag = false;
 	float shakePosX = 0.0f;
 	float shakePosZ = 0.0f;
+	//SE—p•Ï”
+	Audio::SoundData soundSE[2];
 };

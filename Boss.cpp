@@ -54,6 +54,9 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	leftleg->SetPos(Vector3(0, 0, 0));
 	bullet->SetPos(Vector3(0, 0, 0));
 	bullet->SetScale(Vector3(20, 20, 20));
+
+	soundSE[Charge] = audio->SoundLoadWave("Resources/Sound/SE/Charge.wav");
+	soundSE[Shot] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 }
 
 void Boss::Update()
@@ -228,8 +231,10 @@ bool Boss::RangeJudge(float actionRange) {
 
 void Boss::BeamAttack() {
 	//à–¾—p•Ï”
-	const float shotSpeed = 10.0f;
+	const float shotSpeed = 5.0f;
 	const float timeOver = 0.0f;
+	const float initCharge = 30.0f;
+	const float initAttack = 100.0f;
 
 	//UŒ‚—pƒƒ“ƒo•Ï”
 	if (attackFlag == false) {
@@ -254,6 +259,9 @@ void Boss::BeamAttack() {
 
 	//U“®
 	if (chargeTime >= timeOver) {
+		if (chargeTime == initCharge) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Charge], Audio::not, 0.2f);
+		}
 		chargeTime -= 1.0f;
 		bulletPos = bossFront;
 		bullet->SetPos(bulletPos);
@@ -262,13 +270,16 @@ void Boss::BeamAttack() {
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
 	}
 	if (chargeTime <= timeOver && attackTime >= timeOver) {
+		if (attackTime == initAttack) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+		}
 		attackTime -= 1.0f;
-		bulletPos -= direction * 5.0f;
+		bulletPos -= direction * shotSpeed;
 		bullet->SetPos(bulletPos);
 	}
 	if (attackTime <= timeOver) {
-		chargeTime = 30.0f;
-		coolTime = 100.0f;
+		chargeTime = initCharge;
+		coolTime = initAttack;
 		boss->SetPos(oldBossPos);
 		attackTime = 100.0f;
 		attackFlag = false;
