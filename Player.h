@@ -36,6 +36,7 @@ public:
 	int attacktime = 0;
 	bool attack = false;
 	bool enemyWepon = false;
+	int hp = 10;
 
 private:
 	DirectXCommon *dxCommon = nullptr;
@@ -43,7 +44,6 @@ private:
 	Audio *audio = nullptr;
 
 	float move = 1.5f;
-	int hp = 10;
 
 public:
 	Vector3 attacktorota = { 0.0f,0.0f,0.0f };

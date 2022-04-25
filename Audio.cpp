@@ -86,12 +86,12 @@ Audio::SoundData Audio::SoundLoadWave(const char * filename)
 }
 
 //音楽再生
-void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData, IsLoop isLoop)
+void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop isLoop, float volume)
 {
 	HRESULT result;
 
 	//波形フォーマットを元にSourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
+	pSourceVoice = nullptr;
 	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
 	assert(SUCCEEDED(result));
 
@@ -111,6 +111,7 @@ void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData, IsLoo
 			break;
 	}
 	
+	pSourceVoice->SetVolume(volume);
 
 	//波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
@@ -130,19 +131,14 @@ void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData, IsLoo
 //再生終了
 void Audio::SoundStop(IXAudio2* xAudio2, const SoundData& soundData)
 {
-	HRESULT result;
-
-	//波形フォーマットを元にSourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex, 0, 2.0f, &voiceCallback);
-	assert(SUCCEEDED(result));
-
 	//再生停止
-	result = pSourceVoice->ExitLoop();
+	pSourceVoice->ExitLoop();
+	pSourceVoice->Stop();
+	pSourceVoice->FlushSourceBuffers();
 }
 
 //データ解放
-void Audio::SoundUnLoad(SoundData * soundData)
+void Audio::SoundUnLoad(SoundData* soundData)
 {
 	//xAudio2のインスタンスを解放
 	xAudio2.Reset();

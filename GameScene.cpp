@@ -10,7 +10,7 @@ using namespace DirectX;
 
 GameScene::GameScene()
 {
-
+	
 }
 
 GameScene::~GameScene()
@@ -53,12 +53,24 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region Sprite初期設定
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
-	/*if (!Sprite::LoadTexture(3, L"Resources/setumei.png")) {
+	if (!Sprite::LoadTexture(2, L"Resources/sprite/redHP.png")) {
 		assert(0);
 		return;
-	}*/
-	//// 背景スプライト生成
-	//sprite = Sprite::CreateSprite(3, { 0.0f,0.0f });
+	}
+
+	if (!Sprite::LoadTexture(3, L"Resources/sprite/blackHP.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(4, L"Resources/sprite/playerHP.png")) {
+		assert(0);
+		return;
+	}
+	//// スプライト生成
+	boss1HP_Red = Sprite::CreateSprite(2, { 210.0f,10.0f });
+	boss1HP_Black = Sprite::CreateSprite(3, { 210.0f,10.0f });
+	playerHP = Sprite::CreateSprite(4, { 10, 582 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -86,8 +98,18 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 音楽リソース初期設定
 
-	soundData[0] = audio->SoundLoadWave("Resources/musicloop.wav");
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0], Audio::loop);
+	soundNo = 0;
+
+	soundData[0] = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/Sound/BGM/Boss_01.wav");
+	soundSE[0] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Boss01.wav");
+	soundSE[1] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Boss02.wav");
+	soundSE[2] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Player.wav");
+	soundSE[3] = audio->SoundLoadWave("Resources/Sound/SE/Charge.wav");
+	soundSE[4] = audio->SoundLoadWave("Resources/Sound/SE/Disassembly.wav");
+	soundSE[5] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
+	soundSE[6] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Normal.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 
 #pragma endregion
 
@@ -200,6 +222,7 @@ void GameScene::Update()
 			player->attack = false;
 			particleMan->HitParticle();
 		}
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
 	}
 #pragma endregion
 
@@ -266,6 +289,21 @@ void GameScene::Update()
 		boss->parthp[leftleg]--;
 	}
 
+#pragma region HPバーのサイズ
+	/*-------------ボス-------------*/
+	float hpSize = (boss1HP_SizeX / boss->hp) * boss->hp;
+	boss1HP_Red->SetSize({ hpSize, boss1HP_SizeY});
+
+	//char str[256];
+	//sprintf_s(str, "hpSize : %f", hpSize);
+	//debugText.PrintDebugText(str, 0, 0, 1);
+
+	/*-------------プレイヤー-------------*/
+	playerHP->SetSize({ playerHPX, playerHPY });
+	playerHP->SetTextureRect({ playerHPX * (playerMaxHp - player->hp),0 }, { 128, 128 });
+	
+#pragma endregion
+
 #pragma region 部位の取得
 	Capsule RightAramCapsule2(Vector3(-20, 10, 5), Vector3(-20, -30, 5), 10, (0, 255, 255));
 	Capsule playerCapsule(player->player->GetPos(), player->player->GetPos() + Vector3(0.0f, -30.0f, 0.0f), 2, (0, 255, 255));
@@ -283,6 +321,27 @@ void GameScene::Update()
 				boss->rightarm->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 				player->enemyWepon = true;
 			}
+		}
+	}
+
+	if (input->PressKeyTrigger(DIK_P)) {
+		audio->SoundStop(audio->xAudio2.Get(), soundData[soundNo]);
+		if (soundNo < 1) {
+			soundNo++;
+		}
+		else {
+			soundNo = 0;
+		}
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	}
+
+	if (input->PressKeyTrigger(DIK_L)) {
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
+		if (seNo < 6) {
+			seNo++;
+		}
+		else {
+			seNo = 0;
 		}
 	}
 #pragma endregion
@@ -323,6 +382,8 @@ void GameScene::Update()
 	camera->Update();
 
 	boss->Update();
+
+
 
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
@@ -393,7 +454,9 @@ void GameScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//前景スプライト描画
-	//sprite->Draw();
+	boss1HP_Black->Draw();
+	boss1HP_Red->Draw();
+	playerHP->Draw();
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 	// スプライト描画後処理

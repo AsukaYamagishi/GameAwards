@@ -36,9 +36,27 @@ private: //メンバ変数
 	Sprite *spriteBG;
 
 	//ゲームシーン用
-	Sprite *sprite = nullptr;
+	float boss1HP_SizeX = 800;
+	float boss1HP_SizeY = 32;
+	Sprite* boss1HP_Red = nullptr;
+	Sprite* boss1HP_Black = nullptr;
+	float playerHPX = 128;
+	float playerHPY = 128;
+	int playerMaxHp = 10;
+	Sprite* playerHP = nullptr;
 	//音楽
-	Audio::SoundData soundData[3];
+	Audio::SoundData soundData[2];
+	Audio::SoundData soundSE[7];
+
+	enum playSE
+	{
+		Hit,
+		Charge,
+		Dismantling,
+		FirstWeapon,
+		EnemyWeapon,
+		Attack
+	};
 
 	//プレイヤー
 	Player *player;	
@@ -66,6 +84,8 @@ private: //メンバ変数
 	float angle = 3.14f / 2.0f;
 
 	float radius = XMConvertToRadians(2.0f);
+	int soundNo = 0;
+	int seNo = 0;
 
 public:
 	//ゲームシーン終了用
