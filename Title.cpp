@@ -42,7 +42,7 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 
 
 	soundData = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
-	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop);
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);
 
 #pragma endregion
 }
