@@ -131,11 +131,10 @@ void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop 
 //再生終了
 void Audio::SoundStop(IXAudio2* xAudio2, const SoundData& soundData)
 {
-	HRESULT result;
-
 	//再生停止
-	result = pSourceVoice->Stop();
-	result = pSourceVoice->ExitLoop();
+	pSourceVoice->ExitLoop();
+	pSourceVoice->Stop();
+	pSourceVoice->FlushSourceBuffers();
 }
 
 //データ解放

@@ -324,7 +324,7 @@ void GameScene::Update()
 	}
 
 	if (input->PressKeyTrigger(DIK_P)) {
-		audio->SoundStop(audio->xAudio2.Get(), soundData[0]);
+		audio->SoundStop(audio->xAudio2.Get(), soundData[soundNo]);
 		if (soundNo < 1) {
 			soundNo++;
 		}

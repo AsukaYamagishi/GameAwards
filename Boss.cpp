@@ -61,9 +61,10 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 
 void Boss::Update()
 {
-	//説明用変数
+	//説明変数
 	const float moveRange = 20.0f;
 	const float beamRange = 60.0f;
+	const float pressRange = 0.0f;
 	//デバッグ用に0キーを押すとボスの動きが止まる
 	if (input->PressKeyTrigger(DIK_0)) {
 		if (stopFlag == false) {
@@ -84,8 +85,18 @@ void Boss::Update()
 		Direction();
 	}
 	//攻撃
-	if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false) {
+	if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
+		attackType = BEAM;
+	}
+	else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
+		attackType = PRESS;
+	}
+
+	if (attackType == BEAM) {
 		BeamAttack();
+	}
+	else if (attackType == PRESS) {
+		PressAttack();
 	}
 
 	boss->Update();
@@ -110,7 +121,7 @@ void Boss::Draw()
 	leftarm->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
-	if (attackFlag == true) {
+	if (attackType == BEAM) {
 		bullet->Draw();
 	}
 	ModelDraw::PostDraw();
@@ -230,16 +241,19 @@ bool Boss::RangeJudge(float actionRange) {
 }
 
 void Boss::BeamAttack() {
-	//説明用変数
-	const float shotSpeed = 5.0f;
+	//説明変数
+	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
 	const float initCharge = 30.0f;
 	const float initAttack = 100.0f;
+	const float initCoolTime = 100.0f;
 
 	//攻撃用メンバ変数
 	if (attackFlag == false) {
 		oldBossPos = boss->GetPos();
 		oldPlayerPos = player->GetPos();
+		chargeTime = initCharge;
+		attackTime = initAttack;
 	}
 	attackFlag = true;
 
@@ -281,7 +295,47 @@ void Boss::BeamAttack() {
 		chargeTime = initCharge;
 		coolTime = initAttack;
 		boss->SetPos(oldBossPos);
-		attackTime = 100.0f;
+		attackTime = initAttack;
+		attackType = NONE;
+		attackFlag = false;
+	}
+}
+
+void Boss::PressAttack() {
+	//説明変数
+	const float timeOver = 0.0f;
+	const float initCharge = 20.0f;
+	const float initAttack = 20.0f;
+	const float initCoolTime = 100.0f;
+
+	//攻撃用メンバ変数
+	if (attackFlag == false) {
+		oldBossPos = boss->GetPos();
+		oldPlayerPos = player->GetPos();
+		pressPos = boss->GetPos();
+		pressPower = 5.0f;
+		chargeTime = initCharge;
+	}
+	attackFlag = true;
+
+	//プレス攻撃
+	if (chargeTime >= timeOver) {
+		chargeTime -= 1.0f;
+		shakePosX = oldBossPos.x + rand() % 4 - 2;
+		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
+	}
+	if (chargeTime <= timeOver) {
+		pressPower -= 0.5f;
+		pressPos.y += pressPower;
+		boss->SetPos(pressPos);
+	}
+	if (boss->GetPos().y <= oldBossPos.y && pressPower <= 0) {
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+		chargeTime = initCharge;
+		coolTime = initCoolTime;
+		boss->SetPos(oldBossPos);
+		attackType = NONE;
 		attackFlag = false;
 	}
 }
