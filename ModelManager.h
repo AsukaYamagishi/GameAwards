@@ -22,7 +22,8 @@ public:
 		Left_arm,
 		Rightleg,
 		Leftleg,
-		Plane
+		Plane,
+		Bullet
 	};
 
 public:

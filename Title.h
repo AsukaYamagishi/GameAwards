@@ -24,6 +24,9 @@ private: //メンバ変数
 	//ゲームシーン用
 	Sprite* spriteBG = nullptr;
 
+	//音楽
+	Audio::SoundData soundData;
+
 #pragma endregion
 
 #pragma region 静的メンバ関数

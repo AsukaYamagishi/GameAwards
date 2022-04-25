@@ -26,12 +26,12 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 
 #pragma region Sprite初期設定
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
-	/*if (!Sprite::LoadTexture(2, L"Resources/title.png")) {
+	if (!Sprite::LoadTexture(2, L"Resources/sprite/title.png")) {
 		assert(0);
 		return;
-	}*/
-	//// 背景スプライト生成
-	//spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
+	}
+	// 背景スプライト生成
+	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 #pragma endregion
 
 
@@ -39,6 +39,11 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 #pragma endregion
 	
 #pragma region 音楽リソース初期設定
+
+
+	soundData = audio->SoundLoadWave("Resources/sound/タイトル.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop);
+
 #pragma endregion
 }
 
@@ -58,7 +63,7 @@ void Title::Draw()
 	Sprite::PreDraw(cmdList);
 
 	// 背景スプライト描画
-	spriteBG->Draw();
+	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -84,12 +89,15 @@ void Title::Draw()
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
-	//Object2D::PreDraw(cmdList);
+	Sprite::PreDraw(cmdList);
+
+	// 背景スプライト描画
+	spriteBG->Draw();
 
 	// デバッグテキストの描画
-	//debugText.DrawAll(cmdList);
+//debugText.DrawAll(cmdList);
 
 	// スプライト描画後処理
-	//Object2D::PostDraw();
+	Sprite::PostDraw();
 #pragma endregion
 }

@@ -11,14 +11,16 @@ Boss::Boss()
 	head->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Face));
 	body = ModelDraw::Create();
 	body->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Body));
-	rightaram = ModelDraw::Create();
-	rightaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
-	leftaram = ModelDraw::Create();
-	leftaram->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
+	rightarm = ModelDraw::Create();
+	rightarm->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Right_arm));
+	leftarm = ModelDraw::Create();
+	leftarm->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Left_arm));
 	rightleg = ModelDraw::Create();
 	rightleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Leftleg));
 	leftleg = ModelDraw::Create();
 	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
+	bullet = ModelDraw::Create();
+	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
 }
 
 Boss::~Boss()
@@ -41,20 +43,25 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 
 	head->SetParent(boss);
 	body->SetParent(boss);
-	rightaram->SetParent(boss);
-	leftaram->SetParent(boss);
+	rightarm->SetParent(boss);
+	leftarm->SetParent(boss);
 	rightleg->SetParent(boss);
 	leftleg->SetParent(boss);
 
-	rightaram->SetPos(Vector3(0, 11, 32));
-	leftaram->SetPos(Vector3(13, -18, 7));
+	rightarm->SetPos(Vector3(0, 11, 32));
+	leftarm->SetPos(Vector3(13, -18, 7));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
+	bullet->SetPos(Vector3(0, 0, 0));
+	bullet->SetScale(Vector3(20, 20, 20));
 }
 
 void Boss::Update()
 {
-	const float attackRange = 20.0f;
+	//説明用変数
+	const float moveRange = 20.0f;
+	const float attackRange = 60.0f;
+	//デバッグ用に0キーを押すとボスの動きが止まる
 	if (input->PressKeyTrigger(DIK_0)) {
 		if (stopFlag == false) {
 			stopFlag = true;
@@ -63,20 +70,29 @@ void Boss::Update()
 			stopFlag = false;
 		}
  	}
-	if (AttackRangeJudge(attackRange) && hp > 0 && stopFlag == false) {
+	//クールタイムを減算し続ける
+	coolTime -= 1.0f;
+	//プレイヤーの一定距離まで移動する
+	if (RangeJudge(moveRange) && hp > 0 && stopFlag == false && attackFlag == false) {
 		Move();
 	}
+	//プレイヤーの方を見続ける
 	if (hp > 0 && stopFlag == false) {
 		Direction();
+	}
+	//攻撃
+	if (coolTime <= 0 && RangeJudge(attackRange) && stopFlag == false) {
+		Attack();
 	}
 
 	boss->Update();
 	head->Update();
 	body->Update();
-	rightaram->Update();
-	leftaram->Update();
+	rightarm->Update();
+	leftarm->Update();
 	rightleg->Update();
 	leftleg->Update();
+	bullet->Update();
 }
 
 void Boss::Draw()
@@ -87,10 +103,14 @@ void Boss::Draw()
 	ModelDraw::PreDraw(cmdList);
 	head->Draw();
 	body->Draw();
-	rightaram->Draw();
-	leftaram->Draw();
+	rightarm->Draw();
+	leftarm->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
+	if (attackFlag == true) {
+		
+	}
+	bullet->Draw();
 	ModelDraw::PostDraw();
 }
 
@@ -123,21 +143,21 @@ void Boss::Fall(int part)
 		}
 	}
 	//みぎうで
-	if (part == Parts::rightaram)
+	if (part == Parts::rightarm)
 	{
-		pos = rightaram->GetPos();
+		pos = rightarm->GetPos();
 		if (pos.y > -20)
 		{
-			rightaram->SetPos(rightaram->GetPos() + fallspeed);
+			rightarm->SetPos(rightarm->GetPos() + fallspeed);
 		}
 	}
 	//ひだりうで
-	if (part == Parts::leftaram)
+	if (part == Parts::leftarm)
 	{
-		pos = leftaram->GetPos();
+		pos = leftarm->GetPos();
 		if (pos.y > -20)
 		{
-			leftaram->SetPos(leftaram->GetPos() + fallspeed);
+			leftarm->SetPos(leftarm->GetPos() + fallspeed);
 		}
 	}
 	//みぎあし
@@ -197,7 +217,7 @@ void Boss::Direction() {
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
 
-bool Boss::AttackRangeJudge(float attackRange) {
+bool Boss::RangeJudge(float actionRange) {
 	float distanceX, distanceZ;
 	float bossRange;
 	Vector3 playerPos = player->GetPos();
@@ -208,5 +228,35 @@ bool Boss::AttackRangeJudge(float attackRange) {
 
 	bossRange = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
 
-	return bossRange >= attackRange;
+	return bossRange >= actionRange;
+}
+
+void Boss::Attack() {
+	//説明用変数
+	const float shotSpeed = 10.0f;
+	const float timeOver = 0.0f;
+
+	//攻撃用ローカル変数
+	if (attackFlag == false) {
+		oldBossPos = boss->GetPos();
+		oldPlayerPos = player->GetPos();
+	}
+	attackFlag = true;
+	//ボスからプレイヤーへのベクトルを求める
+	Vector3 bossToPlayer = oldPlayerPos - oldBossPos;
+	bullet->SetPos(bossToPlayer);
+
+	//振動
+	if (chargeTime >= timeOver) {
+		chargeTime -= 1.0f;
+		shakePosX = oldBossPos.x + rand() % 4 - 2;
+		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
+	}
+	if (chargeTime <= timeOver) {
+		chargeTime = 20.0f;
+		coolTime = 100.0f;
+		boss->SetPos(oldBossPos);
+		attackFlag = false;
+	}
 }

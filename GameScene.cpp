@@ -10,7 +10,7 @@ using namespace DirectX;
 
 GameScene::GameScene()
 {
-
+	
 }
 
 GameScene::~GameScene()
@@ -53,12 +53,24 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region Sprite初期設定
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
-	/*if (!Sprite::LoadTexture(3, L"Resources/setumei.png")) {
+	if (!Sprite::LoadTexture(2, L"Resources/sprite/redHP.png")) {
 		assert(0);
 		return;
-	}*/
-	//// 背景スプライト生成
-	//sprite = Sprite::CreateSprite(3, { 0.0f,0.0f });
+	}
+
+	if (!Sprite::LoadTexture(3, L"Resources/sprite/blackHP.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(4, L"Resources/sprite/playerHP.png")) {
+		assert(0);
+		return;
+	}
+	//// スプライト生成
+	boss1HP_Red = Sprite::CreateSprite(2, { 210.0f,10.0f });
+	boss1HP_Black = Sprite::CreateSprite(3, { 210.0f,10.0f });
+	playerHP = Sprite::CreateSprite(4, { 10, 582 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -87,8 +99,16 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 音楽リソース初期設定
 
-	soundData[0] = audio->SoundLoadWave("Resources/musicloop.wav");
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0], Audio::loop);
+	soundNo = 0;
+	soundData[0] = audio->SoundLoadWave("Resources/sound/プレイBGM.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/sound/タイトル.wav");
+	soundSE[Hit] = audio->SoundLoadWave("Resources/sound/Hit.wav");
+	soundSE[Charge] = audio->SoundLoadWave("Resources/sound/チャージ.wav");
+	soundSE[Dismantling] = audio->SoundLoadWave("Resources/sound/解体.wav");
+	soundSE[EnemyWeapon] = audio->SoundLoadWave("Resources/sound/解体武器振る.wav");
+	soundSE[Attack] = audio->SoundLoadWave("Resources/sound/攻撃.wav");
+	soundSE[FirstWeapon] = audio->SoundLoadWave("Resources/sound/初期武器振る音.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop);
 
 #pragma endregion
 
@@ -176,14 +196,14 @@ void GameScene::Update()
 		if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
 		{
 			debugText.PrintDebugText("rightAram", 0, 30);
-			boss->HitDamage(rightaram, damage);
+			boss->HitDamage(rightarm, damage);
 			player->attack = false;
 			particleMan->HitParticle();
 		}
 		if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
 		{
 			debugText.PrintDebugText("leftAram", 0, 45);
-			boss->HitDamage(leftaram, damage);
+			boss->HitDamage(leftarm, damage);
 			player->attack = false;
 			particleMan->HitParticle();
 		}
@@ -201,6 +221,7 @@ void GameScene::Update()
 			player->attack = false;
 			particleMan->HitParticle();
 		}
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
 	}
 #pragma endregion
 
@@ -218,6 +239,7 @@ void GameScene::Update()
 	if (boss->parthp[head] <= 0)
 	{
 		boss->Fall(head);
+		boss->head->SetParent(nullptr);
 	}
 	if (boss->parthp[body] <= 0)
 	{
@@ -226,31 +248,35 @@ void GameScene::Update()
 			boss->Fall(body);
 		}
 	}
-	if (boss->parthp[rightaram] <= 0)
+	if (boss->parthp[rightarm] <= 0)
 	{
-		boss->Fall(rightaram);
+		boss->Fall(rightarm);
+		boss->rightarm->SetParent(nullptr);
 	}
-	if (boss->parthp[leftaram] <= 0)
+	if (boss->parthp[leftarm] <= 0)
 	{
-		boss->Fall(leftaram);
+		boss->Fall(leftarm);
+		boss->leftarm->SetParent(nullptr);
 	}
 	if (boss->parthp[rightleg] <= 0)
 	{
 		boss->Fall(rightleg);
+		boss->rightleg->SetParent(nullptr);
 	}
 	if (boss->parthp[leftleg] <= 0)
 	{
 		boss->Fall(leftleg);
+		boss->leftleg->SetParent(nullptr);
 	}
 
 	//デバッグ用にパーツに直接ダメージ
 	if (input->PressKeyTrigger(DIK_1))
 	{
-		boss->parthp[rightaram]--;
+		boss->parthp[rightarm]--;
 	}
 	if (input->PressKeyTrigger(DIK_2))
 	{
-		boss->parthp[leftaram]--;
+		boss->parthp[leftarm]--;
 		particleMan->HitParticle();
 	}
 	if (input->PressKeyTrigger(DIK_3))
@@ -262,23 +288,59 @@ void GameScene::Update()
 		boss->parthp[leftleg]--;
 	}
 
+#pragma region HPバーのサイズ
+	/*-------------ボス-------------*/
+	float hpSize = (boss1HP_SizeX / boss->hp) * boss->hp;
+	boss1HP_Red->SetSize({ hpSize, boss1HP_SizeY});
+
+	//char str[256];
+	//sprintf_s(str, "hpSize : %f", hpSize);
+	//debugText.PrintDebugText(str, 0, 0, 1);
+
+	/*-------------プレイヤー-------------*/
+	playerHP->SetSize({ playerHPX, playerHPY });
+	playerHP->SetTextureRect({ playerHPX * (playerMaxHp - player->hp),0 }, { 128, 128 });
+	
+#pragma endregion
+
 #pragma region 部位の取得
 	Capsule RightAramCapsule2(Vector3(-20, 10, 5), Vector3(-20, -30, 5), 10, (0, 255, 255));
 	Capsule playerCapsule(player->player->GetPos(), player->player->GetPos() + Vector3(0.0f, -30.0f, 0.0f), 2, (0, 255, 255));
 	if (mCollision::testCapsuleCapsule(RightAramCapsule2, playerCapsule))
 	{
 		debugText.PrintDebugText("syutoku", 0, 90);
-		if (boss->parthp[rightaram] <= 0)
+		if (boss->parthp[rightarm] <= 0)
 		{
 			if (input->PressKey(DIK_R))
 			{
 				//パーツ取得時にプレイヤーの座標とかに合わせる
-				boss->rightaram->SetParent(player->player);
-				boss->rightaram->SetPos(Vector3(0, -50, +20));
-				boss->rightaram->SetRotation(Vector3(90, -15, 180));
-				boss->rightaram->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+				boss->rightarm->SetParent(player->player);
+				boss->rightarm->SetPos(Vector3(0, -50, +20));
+				boss->rightarm->SetRotation(Vector3(90, -15, 180));
+				boss->rightarm->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 				player->enemyWepon = true;
 			}
+		}
+	}
+
+	if (input->PressKeyTrigger(DIK_P)) {
+		audio->SoundStop(audio->xAudio2.Get(), soundData[0]);
+		if (soundNo < 1) {
+			soundNo++;
+		}
+		else {
+			soundNo = 0;
+		}
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.5f);
+	}
+
+	if (input->PressKeyTrigger(DIK_L)) {
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
+		if (seNo < 6) {
+			seNo++;
+		}
+		else {
+			seNo = 0;
 		}
 	}
 #pragma endregion
@@ -346,6 +408,8 @@ void GameScene::Update()
 	camera->Update();
 
 	boss->Update();
+
+
 
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
@@ -416,7 +480,9 @@ void GameScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//前景スプライト描画
-	//sprite->Draw();
+	boss1HP_Black->Draw();
+	boss1HP_Red->Draw();
+	playerHP->Draw();
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 	// スプライト描画後処理
