@@ -54,13 +54,17 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	leftleg->SetPos(Vector3(0, 0, 0));
 	bullet->SetPos(Vector3(0, 0, 0));
 	bullet->SetScale(Vector3(20, 20, 20));
+
+	soundSE[Charge] = audio->SoundLoadWave("Resources/Sound/SE/Charge.wav");
+	soundSE[Shot] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 }
 
 void Boss::Update()
 {
-	//説明用変数
+	//説明変数
 	const float moveRange = 20.0f;
-	const float attackRange = 60.0f;
+	const float beamRange = 60.0f;
+	const float pressRange = 0.0f;
 	//デバッグ用に0キーを押すとボスの動きが止まる
 	if (input->PressKeyTrigger(DIK_0)) {
 		if (stopFlag == false) {
@@ -69,7 +73,7 @@ void Boss::Update()
 		else {
 			stopFlag = false;
 		}
- 	}
+	}
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
@@ -81,8 +85,18 @@ void Boss::Update()
 		Direction();
 	}
 	//攻撃
-	if (coolTime <= 0 && RangeJudge(attackRange) && stopFlag == false) {
-		Attack();
+	if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
+		attackType = BEAM;
+	}
+	else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
+		attackType = PRESS;
+	}
+
+	if (attackType == BEAM) {
+		BeamAttack();
+	}
+	else if (attackType == PRESS) {
+		PressAttack();
 	}
 
 	boss->Update();
@@ -107,10 +121,9 @@ void Boss::Draw()
 	leftarm->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
-	if (attackFlag == true) {
-		
+	if (attackType == BEAM) {
+		bullet->Draw();
 	}
-	bullet->Draw();
 	ModelDraw::PostDraw();
 }
 
@@ -200,19 +213,15 @@ void Boss::Move() {
 }
 
 void Boss::Direction() {
-	XMFLOAT3 pos = boss->GetPos();
-	XMFLOAT3 playerPos = player->GetPos();
+	Vector3 pos = boss->GetPos();
+	Vector3 playerPos = player->GetPos();
 
-	float distanceX = 0;
-	float distanceZ = 0;
+	Vector3 distance = pos - playerPos;
 
 	//float angle = 0.0f;
 	float direction = 90.0f;
 
-	distanceX = pos.x - playerPos.x;
-	distanceZ = pos.z - playerPos.z;
-
-	angle = (atan2(distanceX, distanceZ) * 100.0f) / 3.14f * 2.0f + direction;
+	angle = (atan2(distance.x, distance.z) * 100.0f) / 3.14f * 2.0f + direction;
 
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
@@ -231,22 +240,85 @@ bool Boss::RangeJudge(float actionRange) {
 	return bossRange >= actionRange;
 }
 
-void Boss::Attack() {
-	//説明用変数
+void Boss::BeamAttack() {
+	//説明変数
 	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
+	const float initCharge = 30.0f;
+	const float initAttack = 100.0f;
+	const float initCoolTime = 100.0f;
 
-	//攻撃用ローカル変数
+	//攻撃用メンバ変数
 	if (attackFlag == false) {
 		oldBossPos = boss->GetPos();
 		oldPlayerPos = player->GetPos();
+		chargeTime = initCharge;
+		attackTime = initAttack;
 	}
 	attackFlag = true;
-	//ボスからプレイヤーへのベクトルを求める
-	Vector3 bossToPlayer = oldPlayerPos - oldBossPos;
-	bullet->SetPos(bossToPlayer);
+
+	//攻撃用ローカル変数
+	Vector3 direction = oldBossPos - oldPlayerPos;
+	direction.Normalize();
+
+	//ボスの正面から少し前を求める
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y - 90.0f)));
+	movement = XMVector3TransformNormal(movement, matRot);
+
+	movement *= XMVECTOR{ -1, -1, -1 };
+	matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y)));
+
+	XMVECTOR bossFront = oldBossPos + movement * XMVECTOR{ 50, 50, 50 };
 
 	//振動
+	if (chargeTime >= timeOver) {
+		if (chargeTime == initCharge) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Charge], Audio::not, 0.2f);
+		}
+		chargeTime -= 1.0f;
+		bulletPos = bossFront;
+		bullet->SetPos(bulletPos);
+		shakePosX = oldBossPos.x + rand() % 4 - 2;
+		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
+	}
+	if (chargeTime <= timeOver && attackTime >= timeOver) {
+		if (attackTime == initAttack) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+		}
+		attackTime -= 1.0f;
+		bulletPos -= direction * shotSpeed;
+		bullet->SetPos(bulletPos);
+	}
+	if (attackTime <= timeOver) {
+		chargeTime = initCharge;
+		coolTime = initAttack;
+		boss->SetPos(oldBossPos);
+		attackTime = initAttack;
+		attackType = NONE;
+		attackFlag = false;
+	}
+}
+
+void Boss::PressAttack() {
+	//説明変数
+	const float timeOver = 0.0f;
+	const float initCharge = 20.0f;
+	const float initAttack = 20.0f;
+	const float initCoolTime = 100.0f;
+
+	//攻撃用メンバ変数
+	if (attackFlag == false) {
+		oldBossPos = boss->GetPos();
+		oldPlayerPos = player->GetPos();
+		pressPos = boss->GetPos();
+		pressPower = 5.0f;
+		chargeTime = initCharge;
+	}
+	attackFlag = true;
+
+	//プレス攻撃
 	if (chargeTime >= timeOver) {
 		chargeTime -= 1.0f;
 		shakePosX = oldBossPos.x + rand() % 4 - 2;
@@ -254,9 +326,16 @@ void Boss::Attack() {
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
 	}
 	if (chargeTime <= timeOver) {
-		chargeTime = 20.0f;
-		coolTime = 100.0f;
+		pressPower -= 0.5f;
+		pressPos.y += pressPower;
+		boss->SetPos(pressPos);
+	}
+	if (boss->GetPos().y <= oldBossPos.y && pressPower <= 0) {
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+		chargeTime = initCharge;
+		coolTime = initCoolTime;
 		boss->SetPos(oldBossPos);
+		attackType = NONE;
 		attackFlag = false;
 	}
 }
