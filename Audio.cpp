@@ -91,9 +91,16 @@ void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop 
 	HRESULT result;
 
 	//波形フォーマットを元にSourceVoiceの生成
-	pSourceVoice = nullptr;
-	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-	assert(SUCCEEDED(result));
+	if (isLoop == loop) {
+		pSourceVoiceBGM = nullptr;
+		result = xAudio2->CreateSourceVoice(&pSourceVoiceBGM, &soundData.wfex);
+		assert(SUCCEEDED(result));
+	}
+	else {
+		pSourceVoiceSE = nullptr;
+		result = xAudio2->CreateSourceVoice(&pSourceVoiceSE, &soundData.wfex);
+		assert(SUCCEEDED(result));
+	}
 
 	//再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
@@ -111,30 +118,62 @@ void Audio::SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop 
 			break;
 	}
 	
-	pSourceVoice->SetVolume(volume);
+	if (isLoop == loop) {
+		pSourceVoiceBGM->SetVolume(volume);
+	}
+	else {
+		pSourceVoiceSE->SetVolume(volume);
+	}
 
-	//波形データの再生
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	if (FAILED(result)) {
-		delete[] soundData.pBuffer;
-		assert(0);
-		return;
+	if (isLoop == loop) {
+		//波形データの再生
+		result = pSourceVoiceBGM->SubmitSourceBuffer(&buf);
+		if (FAILED(result)) {
+			delete[] soundData.pBuffer;
+			assert(0);
+			return;
+		}
+		result = pSourceVoiceBGM->Start();
+		if (FAILED(result)) {
+			delete[] soundData.pBuffer;
+			assert(0);
+			return;
+		}
 	}
-	result = pSourceVoice->Start();
-	if (FAILED(result)) {
-		delete[] soundData.pBuffer;
-		assert(0);
-		return;
+	else {
+		//波形データの再生
+		result = pSourceVoiceSE->SubmitSourceBuffer(&buf);
+		if (FAILED(result)) {
+			delete[] soundData.pBuffer;
+			assert(0);
+			return;
+		}
+		result = pSourceVoiceSE->Start();
+		if (FAILED(result)) {
+			delete[] soundData.pBuffer;
+			assert(0);
+			return;
+		}
 	}
+
+	
 }
 
 //再生終了
-void Audio::SoundStop(IXAudio2* xAudio2, const SoundData& soundData)
+void Audio::SoundStop(IXAudio2* xAudio2, IsLoop isLoop)
 {
 	//再生停止
-	pSourceVoice->ExitLoop();
-	pSourceVoice->Stop();
-	pSourceVoice->FlushSourceBuffers();
+	if (isLoop == loop)
+	{
+		pSourceVoiceBGM->ExitLoop();
+		pSourceVoiceBGM->Stop();
+		pSourceVoiceBGM->FlushSourceBuffers();
+	}
+	else {
+		pSourceVoiceSE->ExitLoop();
+		pSourceVoiceSE->Stop();
+		pSourceVoiceSE->FlushSourceBuffers();
+	}
 }
 
 //データ解放
