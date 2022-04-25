@@ -74,7 +74,8 @@ public: //メンバ変数
 private: //メンバ変数
 	IXAudio2MasteringVoice* masterVoice;
 	XAudio2VoiceCallback voiceCallback;
-	IXAudio2SourceVoice* pSourceVoice;
+	IXAudio2SourceVoice* pSourceVoiceBGM;
+	IXAudio2SourceVoice* pSourceVoiceSE;
 
 #pragma endregion
 
@@ -87,7 +88,7 @@ public: //メンバ関数
 	//音声再生(ループ対応)
 	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop isLoop = not, float volume = 1.0f);
 	//再生停止
-	void SoundStop(IXAudio2* xAudio2, const SoundData& soundData);
+	void SoundStop(IXAudio2* xAudio2, IsLoop isLoop);
 	//音声データ解放
 	void SoundUnLoad(SoundData* soundData);
 
