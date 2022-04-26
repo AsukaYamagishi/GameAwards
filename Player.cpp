@@ -17,7 +17,7 @@ Player::~Player()
 
 }
 
-void Player::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
+void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 {
 	// nullptr�`�F�b�N
 	assert(dxCommon);
@@ -58,6 +58,46 @@ void Player::Update(Camera camera)
 	if (input->PressKey(DIK_Q)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
 	}
+
+	//ジャンプ
+	Vector3 jumppos = player->GetPos();
+	if (jumppos.y <=graundheight)
+	{
+		jumpadd = initjumpNum;
+		jumppos.y = graundheight;
+		jumpflag = false;
+	}
+	if (input->PressKey(DIK_J)&& jumppos.y <= graundheight) {
+		jumpflag = true;
+	}
+	//ジャンプフラグがあったら加算させて上昇させる
+	if (jumpflag == true)
+	{
+		jumpadd += 0.05f;
+		if (jumpadd >= 0)
+		{
+			jumpadd -= 0.1f;
+			jumppos.y += jumpadd;
+		}
+		else
+		{
+			jumpflag = false;
+			jumpadd = initjumpNum;
+		}
+	}
+
+	//重力の処理
+	if (!jumpflag && jumppos.y > graundheight)
+	{
+		gravity -= 0.095;
+		jumppos.y += gravity;
+	}
+	if (jumppos.y <= graundheight)
+	{
+		gravity = 0.0f;
+		jumppos.y = graundheight;
+	}
+	player->SetPos(jumppos);
 
 	XMVECTOR forvardvec = {};
 
@@ -146,7 +186,7 @@ void Player::Update(Camera camera)
 void Player::Draw()
 {
 	// �R�}���h���X�g�̎擾
-	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);
 	player->Draw();
