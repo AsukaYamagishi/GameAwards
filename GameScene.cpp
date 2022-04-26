@@ -37,7 +37,8 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	//カメラのせっち
 	camera->Initialize({ 0,30,130 });
 	camera = Camera::GetCam();
-	camera->target = { 0 ,50 ,0 };
+	camera->eye = { 0, 0, -550 };
+	camera->target = { 0 ,0 ,0 };
 #pragma endregion
 
 #pragma region デバッグテキスト読み込み
@@ -69,14 +70,14 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("enemy");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
 	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 0.001,0.001,0.001 });
-	testObject->SetRotation({ 0,0,0 });
-	testObject->SetPosition({ 0,2,0 });
+	testObject->SetScale({ 1,1,1 });
+	//testObject->SetRotation({ 0,0,0 });
+	//testObject->SetPosition({ 0,2,0 });
 	testObject->PlayAnimation(true);
 
 	//パーティクルの生成
@@ -137,10 +138,10 @@ void GameScene::Update()
 	skydome->Update();
 	//weapon->Update();
 	testObject->Update();
-	camera->eye = player->player->GetPos(); 
-	camera->eye.y -= 1.0f;
-	camera->eye.z -= 10.0f;
-	camera->target = player->player->GetPos();
+	//camera->eye = player->player->GetPos(); 
+	//camera->eye.y -= 1.0f;
+	//camera->eye.z -= 10.0f;
+	//camera->target = player->player->GetPos();
 	///camera->target.y = 10.0f;
 	camera->SetCam(camera);
 	camera->Update();

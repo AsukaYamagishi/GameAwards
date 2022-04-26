@@ -39,7 +39,11 @@ using namespace Microsoft::WRL;
 
 
 //Windowsアプリでのエントリーポイント（main関数）
+#ifdef _DEBUG
+int main()
+#else
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+#endif
 {
 	
 

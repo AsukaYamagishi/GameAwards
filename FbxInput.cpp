@@ -278,6 +278,19 @@ void FbxInput::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
             
         }
     }
+
+    FILE* outputfile;         // 出力ストリーム
+
+    fopen_s(&outputfile, "vertices.txt", "w");  // ファイルを書き込み用にオープン(開く)
+    if (outputfile == NULL) {          // オープンに失敗した場合
+        printf("cannot open\n");         // エラーメッセージを出して
+        exit(1);                         // 異常終了
+    }
+    fprintf(outputfile, "%d\n", model->vertices.size());
+    for (auto& vert : model->vertices) {
+        fprintf(outputfile, "%f,%f,%f\n", vert.pos.x, vert.pos.y, vert.pos.z);
+    }
+    fclose(outputfile);          // ファイルをクローズ(閉じる)
 }
 
 void FbxInput::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
