@@ -1,4 +1,5 @@
 #include "Boss.h"
+#include"MeshCollider.h"
 
 using namespace DirectX;
 
@@ -21,6 +22,32 @@ Boss::Boss()
 	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
 	bullet = ModelDraw::Create();
 	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
+
+	//コライダーの追加
+	MeshCollider* headcollider = new MeshCollider;
+	MeshCollider* bodycollider = new MeshCollider;
+	MeshCollider* rightarmcollider = new MeshCollider;
+	MeshCollider* leftarmcollider = new MeshCollider;
+	MeshCollider* rightlegcollider = new MeshCollider;
+	MeshCollider* leftlegcollider = new MeshCollider;
+
+	head->SetCollider(headcollider);
+	headcollider->ConstrucTriangles(head->GetModelInput());
+
+	body->SetCollider(bodycollider);
+	bodycollider->ConstrucTriangles(body->GetModelInput());
+
+	rightarm->SetCollider(rightarmcollider);
+	rightarmcollider->ConstrucTriangles(rightarm->GetModelInput());
+
+	leftarm->SetCollider(leftarmcollider);
+	leftarmcollider->ConstrucTriangles(leftarm->GetModelInput());
+
+	rightleg->SetCollider(rightlegcollider);
+	rightlegcollider->ConstrucTriangles(rightleg->GetModelInput());
+
+	rightleg->SetCollider(rightlegcollider);
+	rightlegcollider->ConstrucTriangles(rightleg->GetModelInput());
 }
 
 Boss::~Boss()

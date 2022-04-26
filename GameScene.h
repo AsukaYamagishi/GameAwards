@@ -15,6 +15,7 @@
 #include "ParticleManager.h"
 #include"Primitive.h"
 #include "mCollision.h"
+class CollisionManager;
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -68,7 +69,8 @@ private: //メンバ変数
 	//ボス
 	Boss *boss;
 
-
+	//衝突マネージャ
+	CollisionManager* collisionManager = nullptr;
 
 	//FBXモデル
 	std::unique_ptr<FbxModel> testModel = nullptr;

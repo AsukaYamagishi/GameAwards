@@ -10,7 +10,7 @@
 ///</summary>
 struct Sphere {
 	//’†SÀ•W
-	DirectX::XMVECTOR centor = { 0,0,0 };
+	DirectX::XMVECTOR center = { 0,0,0 };
 	//”¼Œa
 	float radius = 1.0f;
 };

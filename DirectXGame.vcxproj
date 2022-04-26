@@ -151,9 +151,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionInfo.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="DebugText.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="mCollision.h" />
+    <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="ModelInput.h" />
     <ClInclude Include="ModelDraw.h" />
     <ClInclude Include="ModelManager.h" />
@@ -171,6 +175,7 @@
     <ClInclude Include="OBJObject.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="Primitive.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SafeDelete.h" />
@@ -185,6 +190,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="DebugText.cpp" />
@@ -196,6 +202,7 @@
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mCollision.cpp" />
+    <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="ModelInput.cpp" />
     <ClCompile Include="ModelDraw.cpp" />
     <ClCompile Include="ModelManager.cpp" />
@@ -203,6 +210,7 @@
     <ClCompile Include="OBJObject.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />

@@ -1,5 +1,7 @@
 #include "ModelDraw.h"
-#include "ModelInput.h"
+#include "BaseCollider.h"
+#include "CollisionManager.h"
+
 
 ModelDraw::ObjectCommon ModelDraw::objectCommon;
 //std::vector<ModelDraw::VertexPosNormalUv> ModelDraw::vertices;
@@ -278,9 +280,9 @@ void ModelDraw::Update()
 	//スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z)); //Z軸周りに回転
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x)); //X軸周りに回転
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y)); //Y軸周りに回転
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 	//ワールド行列の合成
 	matWorld = XMMatrixIdentity();
@@ -311,6 +313,11 @@ void ModelDraw::Update()
 		constMap1->alpha = objectModel->GetMaterial().alpha;
 		constBuffB1->Unmap(0, nullptr);
 	}
+
+	if (collider)
+	{
+		collider->Update();
+	}
 }
 
 void ModelDraw::Draw()
@@ -318,3 +325,22 @@ void ModelDraw::Draw()
 	objectModel->Draw(objectCommon.cmdList, constBuffB0, constBuffB1);
 }
 
+void ModelDraw::SetCollider(BaseCollider* collider)
+{
+	collider->SetObject(this);
+	this->collider = collider;
+	// コリジョンマネージャに登録
+	CollisionManager::GetInstance()->AddCollider(collider);
+	//コライダーを更新しておく
+	collider->Update();
+}
+
+/// <summary>
+/// 衝突時コールバック関数
+/// </summary>
+/// <param name="info">衝突情報</param>
+
+void ModelDraw::OnCollision(const CollisionInfo& info) 
+{
+	int atatta = 0;
+}

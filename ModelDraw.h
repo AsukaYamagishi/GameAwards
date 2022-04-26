@@ -17,6 +17,9 @@ using namespace DirectX;
 
 #include "ModelInput.h"
 #include "Camera.h"
+#include"CollisionInfo.h"
+
+class BaseCollider;
 
 using namespace std;
 
@@ -105,6 +108,28 @@ public:		//メンバ関数
 	Vector3 GetRotation() { return rotation; }
 	ModelDraw* GetParent() { return parent; }
 	
+/// <summary>
+/// コライダーのセット
+/// </summary>
+/// <param name="collider">コライダー</param>
+	void SetCollider(BaseCollider* collider);
+/// <summary>
+/// 衝突時コールバック関数
+/// </summary>
+/// <param name="info">衝突情報</param>
+	virtual void OnCollision(const CollisionInfo& info);
+
+/// <summary>
+/// ワールド行列の取得
+/// </summary>
+/// <returns>ワールド行列</returns>
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+
+	//モデルインプットを取得
+	inline const ModelInput& GetMeshes() { return *objectModel; }
+
+	//モデルインプットを取得
+	inline  ModelInput *GetModelInput() { return objectModel; }
 
 private:	//メンバ変数
 	XMFLOAT4 color = { 1,1,1,1 };	//色
@@ -119,5 +144,7 @@ private:	//メンバ変数
 	XMMATRIX matWorld;						//ワールド変換行列
 	UINT texNumber = 0;						//テクスチャ番号
 	ModelDraw *parent = nullptr;			//親オブジェクトへのポインタ
-
+	
+	// コライダー
+	BaseCollider* collider = nullptr;
 };
