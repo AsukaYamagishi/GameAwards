@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include <time.h>
 #include <cassert>
+#include "SphereCollider.h"
 
 using namespace DirectX;
 
@@ -30,11 +31,17 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 
 	player->SetScale(Vector3(1, 1, 1));
 	player->SetPos(Vector3(0, 5, 0));
+
+	//コライダーの追加
+	float radius = 0.6f;
+	float radius2 = 10.6f;
+	//半径分だけ足元から浮いた座標を球の中心にする
+	player->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));
 }
 
 void Player::Update(Camera camera)
 {
-
+	oldattack = attack;
 #pragma region	移動処理
 	/*if (input->PressKey(DIK_W)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, move));

@@ -35,6 +35,7 @@ public:
 	ModelDraw* player = nullptr;
 	int attacktime = 0;
 	bool attack = false;
+	bool oldattack = false;
 	bool enemyWepon = false;
 	int hp = 10;
 

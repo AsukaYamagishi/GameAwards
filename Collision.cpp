@@ -8,7 +8,7 @@ static XMVECTOR distance{}; //二点間の距離(Collision namespace内共通)
 bool Collision::IsSphereToPlane(const Sphere &sphere, const Plane &plane, XMVECTOR *inter)
 {
 	//座標系の原点から球の中心座標への距離
-	XMVECTOR distV = XMVector3Dot(sphere.centor,plane.normal);
+	XMVECTOR distV = XMVector3Dot(sphere.center,plane.normal);
 	//平面の原点距離を原産することで、平面と球の中心との距離が出る
 	float dist = distV.m128_f32[0] - plane.distance;
 	//距離の絶対値が半径よりも大きければ当たっていない
@@ -18,7 +18,7 @@ bool Collision::IsSphereToPlane(const Sphere &sphere, const Plane &plane, XMVECT
 	//疑似交点を計算
 	if (inter) {
 		//平面上の最近接点を疑似交点とする
-		*inter = -dist * plane.normal + sphere.centor;
+		*inter = -dist * plane.normal + sphere.center;
 	}
 	return true;
 }
@@ -100,9 +100,9 @@ void Collision::ClossPointToTriangle(const XMVECTOR &point, const Triangle &tria
 bool Collision::IsSqhereToTriangle(const Sphere &sphere, const Triangle &triangle, XMVECTOR *inter) {
 	XMVECTOR p;
 	//球の中心に対する最近接点である三角形上にある点pを見つける
-	ClossPointToTriangle(sphere.centor, triangle, &p);
+	ClossPointToTriangle(sphere.center, triangle, &p);
 	//点pと球の中心の差分ベクトル
-	XMVECTOR v = p - sphere.centor;
+	XMVECTOR v = p - sphere.center;
 	//距離の二乗を求める
 	//（同じベクトル同士の内積は三平方の定理のルート内部の式と一致する）
 	v = XMVector3Dot(v, v);
@@ -197,7 +197,7 @@ bool Collision::IsRayToTriangle(const Ray &ray, const Triangle &triangle, float 
 }
 
 bool Collision::IsRayToSqhere(const Ray &ray, const Sphere &sphere, float *distance, XMVECTOR *inter) {
-	XMVECTOR m = ray.start - sphere.centor;
+	XMVECTOR m = ray.start - sphere.center;
 	float b = XMVector3Dot(m, ray.dir).m128_f32[0];
 	float c = XMVector3Dot(m, m).m128_f32[0] - sphere.radius * sphere.radius;
 
@@ -228,7 +228,7 @@ bool Collision::IsRayToSqhere(const Ray &ray, const Sphere &sphere, float *dista
 	bool Collision::IsBallToBallCollision(const Sphere& a, const Sphere& b)
 	{
 		// 中心点間の距離
-		Vector3 distance = a.centor - b.centor;
+		Vector3 distance = a.center - b.center;
 
 		return distance.Length() < (a.radius + b.radius);
 	}

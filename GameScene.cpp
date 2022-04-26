@@ -4,6 +4,7 @@
 #include <time.h>
 #include "FbxInput.h"
 #include "FbxDraw.h"
+#include "CollisionManager.h"
 
 using namespace DirectX;
 
@@ -136,6 +137,8 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 
 	gameEndFlag = false;
+
+	collisionManager = CollisionManager::GetInstance();
 }
 
 void GameScene::Update()
@@ -222,7 +225,9 @@ void GameScene::Update()
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
+		if (!player->oldattack){	
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
+		}
 	}
 #pragma endregion
 
@@ -408,6 +413,8 @@ void GameScene::Update()
 	debugText.PrintDebugText(ass.str(), 700, 0);
 
 #pragma endregion
+	//全ての衝突をチェック
+	collisionManager->CheckAllCollision();
 
 }
 
