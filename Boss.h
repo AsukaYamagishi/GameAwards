@@ -18,6 +18,12 @@ enum Parts
 	leftleg
 };
 
+enum Sound
+{
+	Charge = 0,
+	Shot
+};
+
 class Boss {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
@@ -56,7 +62,7 @@ public:
 	bool RangeJudge(float attackRange);
 	
 	//ボスの攻撃処理
-	void Attack();
+	void BeamAttack();
 
 public:
 	ModelDraw *boss = nullptr;
@@ -83,9 +89,13 @@ private:
 	//攻撃用変数
 	Vector3 oldBossPos = { 0, 0, 0 };
 	Vector3 oldPlayerPos = { 0, 0, 0 };
+	Vector3 bulletPos = { 0, 0, 0 };
 	float coolTime = 100.0f;
-	float chargeTime = 20.0f;
+	float chargeTime = 30.0f;
+	float attackTime = 100.0f;
 	bool attackFlag = false;
 	float shakePosX = 0.0f;
 	float shakePosZ = 0.0f;
+	//SE用変数
+	Audio::SoundData soundSE[2];
 };
