@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// ���t���[������
 	/// </summary>
-	void Update();
+	void Update(Camera camera);
 
 	/// <summary>
 	/// �`��

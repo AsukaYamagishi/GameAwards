@@ -32,9 +32,8 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	player->SetPos(Vector3(0, 5, 0));
 }
 
-void Player::Update()
+void Player::Update(Camera camera)
 {
-	player->Update();
 
 #pragma region	移動処理
 	/*if (input->PressKey(DIK_W)) {
@@ -43,14 +42,14 @@ void Player::Update()
 	if ( input->PressKey(DIK_S)) {
 		player->SetPos(player->GetPos() + Vector3(0.0f, 0.0f, -move));
 	}*/
-	if (input->PressKey(DIK_A)) {
-		/*player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));*/
-		player->SetRotation(player->GetRotation() + Vector3(0.0f, -move, 0.0f));
-	}
-	if (input->PressKey(DIK_D)) {
-		/*player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));*/
-		player->SetRotation(player->GetRotation() + Vector3(0.0f, move, 0.0f));
-	}
+	//if (input->PressKey(DIK_A)) {
+	//	/*player->SetPos(player->GetPos() + Vector3(-move, 0.0f, 0.0f));*/
+	//	player->SetRotation(player->GetRotation() + Vector3(0.0f, -move, 0.0f));
+	//}
+	//if (input->PressKey(DIK_D)) {
+	//	/*player->SetPos(player->GetPos() + Vector3(+move, 0.0f, 0.0f));*/
+	//	player->SetRotation(player->GetRotation() + Vector3(0.0f, move, 0.0f));
+	//}
 
 	//デバッグ移動
 	if (input->PressKey(DIK_E)) {
@@ -100,36 +99,55 @@ void Player::Update()
 	}
 	player->SetPos(jumppos);
 
+	XMVECTOR forvardvec = {};
+
+	bool isinput = false;
+
+	if (input->PressKey(DIK_W)) {
+		forvardvec.m128_f32[2] += 1;
+		isinput = true;
+	}
+	else if (input->PressKey(DIK_S)) {
+		forvardvec.m128_f32[2] -= 1;
+		isinput = true;
+	}
+	if (input->PressKey(DIK_A)) {
+		forvardvec.m128_f32[0] -= 1;
+		isinput = true;
+	}
+	if (input->PressKey(DIK_D)) {
+		forvardvec.m128_f32[0] += 1;
+		isinput = true;
+	}
+
+
+	XMVECTOR playermatrot = { forvardvec };
+	//回転行列をかける
+	playermatrot = XMVector3Normalize(playermatrot);
+	playermatrot = XMVector3Transform(playermatrot, camera.matrot);
+	//正規化する
+	playermatrot = XMVector3Normalize(playermatrot);
+
 
 	XMFLOAT3 rote = player->GetRotation();
 	XMFLOAT3 pos = player->GetPos();
-	XMVECTOR movement = { 0, 0, 1.0f, 0 };
-	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
-	movement = XMVector3TransformNormal(movement, matRot);
+	forvardvec = XMVector3TransformNormal(forvardvec, camera.matrot);
 
-	if (input->PressKey(DIK_W)) {
-		pos.x += movement.m128_f32[0];
-		pos.y += movement.m128_f32[1];
-		pos.z += movement.m128_f32[2];
+	float speed = 1.0f;
+
+	Vector3 move = { forvardvec.m128_f32[0] * speed,forvardvec.m128_f32[1] * speed,forvardvec.m128_f32[2] * speed };
+
+	player->SetPos(player->GetPos() + move);
+	if (isinput) {
+		float buff = atan2f(playermatrot.m128_f32[0], playermatrot.m128_f32[2]);
+		player->SetRotation(XMFLOAT3(0, buff * 180.0f / 3.14f, 0));
 	}
-	else if (input->PressKey(DIK_S)) {
-		pos.x -= movement.m128_f32[0];
-		pos.y -= movement.m128_f32[1];
-		pos.z -= movement.m128_f32[2];
-	}
+	
+
+
 #pragma endregion
 
-	player->SetPos(pos);
-	player->SetRotation(rote);
 	player->Update();
-	/*if (input->PressKey(DIK_Z)) {
-		player->SetRotation(player->GetRotation() + Vector3(0.0f, 2.0f, 0.0f));
-	}
-	if (input->PressKey(DIK_C)) {
-		player->SetRotation(player->GetRotation() + Vector3(0.0f, -2.0f, 0.0f));
-	}*/
-
-
 
 #pragma region 攻撃処理
 	if (input->PressKey(DIK_SPACE) && attacktime == 0)
