@@ -17,7 +17,7 @@ class Player {
 public:
 	Player();
 	~Player();
-	void Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
+	void Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
 
 	/// <summary>
 	/// ���t���[������
@@ -29,21 +29,26 @@ public:
 	/// </summary>
 	void Draw();
 
-	Vector3 GetNoAttackRotation() { return player->GetRotation() - attacktorota;}
+	Vector3 GetNoAttackRotation() { return player->GetRotation() - attacktorota; }
 
 public:
-	ModelDraw *player = nullptr;
+	ModelDraw* player = nullptr;
 	int attacktime = 0;
 	bool attack = false;
 	bool enemyWepon = false;
 	int hp = 10;
 
 private:
-	DirectXCommon *dxCommon = nullptr;
-	KeyboardInput *input = nullptr;
-	Audio *audio = nullptr;
+	DirectXCommon* dxCommon = nullptr;
+	KeyboardInput* input = nullptr;
+	Audio* audio = nullptr;
 
 	float move = 1.5f;
+	bool jumpflag = false;
+	const float initjumpNum = 2.0f;
+	float jumpadd = initjumpNum;
+	float gravity = 0;
+	float graundheight = 5.0f;//地面の高さ
 
 public:
 	Vector3 attacktorota = { 0.0f,0.0f,0.0f };
