@@ -69,13 +69,14 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Player");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
 	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 0.03,0.03,0.03 });
-	testObject->SetPosition({ 0,5,30 });
+	testObject->SetScale({ 0.001,0.001,0.001 });
+	testObject->SetRotation({ 0,0,0 });
+	testObject->SetPosition({ 0,2,0 });
 	testObject->PlayAnimation(true);
 
 	//パーティクルの生成

@@ -58,6 +58,7 @@ public: //メンバ関数
 	//ゲッター・セッター
 	void SetScale(Vector3 nextScale) { scale = nextScale; }
 	void SetPosition(Vector3 nextPos) { position = nextPos; }
+	void SetRotation(Vector3 nextRota) { rotation = nextRota; }
 
 public: //静的メンバ関数
 	//セッター

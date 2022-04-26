@@ -112,8 +112,12 @@ void FbxDraw::Update()
 		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
 		//XMMATRIXに変換
 		FbxInput::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		//モデルの変更行列を取得
+		XMMATRIX meshGlobalTransform = model->GetModelTransform();
 		//合成してスキニング行列に
-		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+		constMapSkin->bones[i] = meshGlobalTransform * bones[i].invInitialPose * matCurrentPose * XMMatrixInverse(nullptr, meshGlobalTransform);
+
+		XMMATRIX a = meshGlobalTransform * XMMatrixInverse(nullptr, meshGlobalTransform);
 	}
 	constBuffSkin->Unmap(0, nullptr);
 	
