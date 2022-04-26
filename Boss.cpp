@@ -77,26 +77,28 @@ void Boss::Update()
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
-	if (RangeJudge(moveRange) && hp > 0 && stopFlag == false && attackFlag == false) {
-		Move();
-	}
-	//プレイヤーの方を見続ける
-	if (hp > 0 && stopFlag == false) {
-		Direction();
-	}
-	//攻撃
-	if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
-		attackType = BEAM;
-	}
-	else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
-		attackType = PRESS;
-	}
+	if (hp > 0) {
+		if (RangeJudge(moveRange) && stopFlag == false && attackFlag == false) {
+			Move();
+		}
+		//プレイヤーの方を見続ける
+		if (stopFlag == false) {
+			Direction();
+		}
+		//攻撃
+		if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
+			attackType = BEAM;
+		}
+		else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
+			attackType = PRESS;
+		}
 
-	if (attackType == BEAM) {
-		BeamAttack();
-	}
-	else if (attackType == PRESS) {
-		PressAttack();
+		if (attackType == BEAM) {
+			BeamAttack();
+		}
+		else if (attackType == PRESS) {
+			PressAttack();
+		}
 	}
 
 	boss->Update();
@@ -213,15 +215,14 @@ void Boss::Move() {
 }
 
 void Boss::Direction() {
+	const float direction = 90.0f;
 	Vector3 pos = boss->GetPos();
 	Vector3 playerPos = player->GetPos();
 
-	Vector3 distance = pos - playerPos;
+	Vector3 directionVector = pos - playerPos;
+	directionVector.Normalize();
 
-	//float angle = 0.0f;
-	float direction = 90.0f;
-
-	angle = (atan2(distance.x, distance.z) * 100.0f) / 3.14f * 2.0f + direction;
+	angle = (atan2f(directionVector.x, directionVector.z) * 100.0f) * 2.0f / 3.14f + direction;
 
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
