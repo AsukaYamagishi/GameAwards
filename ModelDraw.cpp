@@ -278,9 +278,9 @@ void ModelDraw::Update()
 	//スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z)); //Z軸周りに回転
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x)); //X軸周りに回転
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y)); //Y軸周りに回転
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 	//ワールド行列の合成
 	matWorld = XMMatrixIdentity();

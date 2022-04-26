@@ -142,11 +142,11 @@ void GameScene::Update()
 {
 
 
-	if (input->PressKey(DIK_Z)) {
-		angle += radius;
+	if (input->PressKey(DIK_RIGHT)) {
+		camera->matrot *= XMMatrixRotationY(0.1f);
 	}
-	else if (input->PressKey(DIK_C)) {
-		angle -= radius;
+	else if (input->PressKey(DIK_LEFT)) {
+		camera->matrot *= XMMatrixRotationY(-0.1f);
 	}
 
 	particleMan->Update();
@@ -325,7 +325,7 @@ void GameScene::Update()
 	}
 
 	if (input->PressKeyTrigger(DIK_P)) {
-		audio->SoundStop(audio->xAudio2.Get(), soundData[0]);
+		audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
 		if (soundNo < 1) {
 			soundNo++;
 		}
@@ -346,31 +346,7 @@ void GameScene::Update()
 	}
 #pragma endregion
 
-#pragma region ƒJƒƒ‰‚ÌˆÚ“®
-	//if (input->PressKey(DIK_UP))
-	//{
-	//	meye.z += 1;
-	//	mtarget.z += 1;
-	//}
-
-	//if (input->PressKey(DIK_DOWN))
-	//{
-	//	meye.z -= 1;
-	//	mtarget.z -= 1;
-	//}
-	//if (input->PressKey(DIK_RIGHT))
-	//{
-	//	meye.x += 1;
-	//	mtarget.x += 1;
-	//}
-	//if (input->PressKey(DIK_LEFT))
-	//{
-	//	meye.x -= 1;
-	//	mtarget.x -= 1;
-	//}
-#pragma endregion
-
-	player->Update();
+	player->Update(*camera);
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
@@ -388,8 +364,8 @@ void GameScene::Update()
 	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
-	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
-	movement = XMVector3TransformNormal(movement, matRot);
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rote.y));
+	movement = XMVector3TransformNormal(movement, camera->matrot);
 
 	movement *= XMVECTOR{ -1, -1, -1 };
 	if (player->attack == false)
