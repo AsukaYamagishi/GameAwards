@@ -41,8 +41,8 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 #pragma region 音楽リソース初期設定
 
 
-	soundData = audio->SoundLoadWave("Resources/sound/タイトル.wav");
-	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop);
+	soundData = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);
 
 #pragma endregion
 }

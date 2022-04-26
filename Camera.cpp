@@ -15,6 +15,7 @@ Camera::Camera(Vector3 eye, Vector3 target, Vector3 up)
 	UpdateProjectionMatrix();
 	//ビュープロジェクション合成
 	matViewProjection = matView * matProjection;
+	matrot = XMMatrixIdentity();
 }
 
 void Camera::Update()
