@@ -407,10 +407,17 @@ void GameScene::Update()
 	//int型からatr型へ変換
 	std::ostringstream oss;
 	std::ostringstream ass;
+	std::ostringstream iss;
+	std::ostringstream uss;
 	oss << boss->hp;
 	debugText.PrintDebugText(oss.str(), 500, 0);
 	ass << boss->angle;
 	debugText.PrintDebugText(ass.str(), 700, 0);
+	iss << boss->watch;
+	debugText.PrintDebugText(iss.str(), 900, 0);
+	uss << boss->watchB;
+	debugText.PrintDebugText(uss.str(), 900, 100);
+
 
 #pragma endregion
 	//全ての衝突をチェック
