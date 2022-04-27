@@ -216,13 +216,43 @@ void Boss::Move() {
 
 void Boss::Direction() {
 	const float direction = 90.0f;
+	const float rotPower = 0.5f;
 	Vector3 pos = boss->GetPos();
 	Vector3 playerPos = player->GetPos();
 
 	Vector3 directionVector = pos - playerPos;
 	directionVector.Normalize();
 
-	angle = (atan2f(directionVector.x, directionVector.z) * 100.0f) * 2.0f / 3.14f + direction;
+	//ƒ{ƒX‚Ì³–Ê‚©‚ç­‚µ‘O‚ð‹‚ß‚é
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y - 90.0f)));
+	movement = XMVector3TransformNormal(movement, matRot);
+	matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y)));
+
+	movement *= XMVECTOR{ -1, -1, -1 };
+
+	Vector3 bossFront = pos + movement * XMVECTOR{ 50, 50, 50 };
+	float playerTheta = atan2(pos.z - playerPos.z, pos.x - playerPos.x);
+	playerTheta = (playerTheta * 180.0f / 3.14f);
+
+	float bossTheta = atan2(pos.z - bossFront.z, pos.x - bossFront.x);
+	bossTheta = (bossTheta * 180.0f / 3.14);
+
+	//angle = -playerTheta + 180.0f;
+
+	if (angle > 180.0f) {
+		angle = -180.0f;
+	}
+	else if (angle < -180.0f) {
+		angle = 180.0f;
+	}
+
+	if (playerTheta < bossTheta) {
+		angle += rotPower;
+	}
+	else {
+		angle -= rotPower;
+	}
 
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
