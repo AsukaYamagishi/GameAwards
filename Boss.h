@@ -83,9 +83,12 @@ public:
 	ModelDraw *rightarm = nullptr;
 	ModelDraw *leftleg = nullptr;
 	ModelDraw *rightleg = nullptr;
-	int hp = 18;
+	const int maxhp = 18;
+	int hp = maxhp;
 	int parthp[6] = { 3,3,3,3,3,3 };
 	float angle = 0.0f;
+	float watch = 0.0f;
+	float watchB = 0.0f;
 	bool stopFlag = false;
 
 private:

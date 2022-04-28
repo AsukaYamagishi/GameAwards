@@ -59,6 +59,11 @@ public:		//メンバ関数
 
 	Material GetMaterial() { return material; }
 
+	//頂点配列を取得
+	inline const std::vector<VertexPosNormalUv>& GetVertices() { return vertices; }
+	//インデックス配列を取得
+	inline const std::vector<unsigned short>& GetIndices() { return indices; }
+
 private:		//静的メンバ変数
 	static ID3D12Device *dev;								//デバイス
 	/*static*/ CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;	//シェーダリソースビューハンドル(GPU)

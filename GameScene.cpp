@@ -4,13 +4,24 @@
 #include <time.h>
 #include "FbxInput.h"
 #include "FbxDraw.h"
+#include "CollisionManager.h"
+#include"CollisionTypes.h"
 
 using namespace DirectX;
-
+enum mesh
+{
+	Ghead = 5,
+	Gbody = 4,
+	Grightarm = 3,
+	Gleftarm = 2,
+	Grightleg = 1,
+	Gleftleg = 0,
+	headToPlayer = 7,
+};
 
 GameScene::GameScene()
 {
-	
+
 }
 
 GameScene::~GameScene()
@@ -18,10 +29,21 @@ GameScene::~GameScene()
 	//safe_deleteはここで行う
 	safe_delete(particleMan);
 	safe_delete(testObject);
+	safe_delete(player);
+	safe_delete(boss);
+	safe_delete(stage);
+	safe_delete(weapon);
+	safe_delete(camera);
+	safe_delete(collisionManager);
 	//safe_delete(testModel);
 }
 
-void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
+void GameScene::Finalize()
+{
+	collisionManager->Finalize();
+}
+
+void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 {
 #pragma region nullptrチェック/代入
 	assert(dxCommon);
@@ -67,10 +89,16 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 		assert(0);
 		return;
 	}
+
+	if (!Sprite::LoadTexture(5, L"Resources/sprite/control.png")) {
+		assert(0);
+		return;
+	}
 	//// スプライト生成
-	boss1HP_Red = Sprite::CreateSprite(2, { 210.0f,10.0f });
-	boss1HP_Black = Sprite::CreateSprite(3, { 210.0f,10.0f });
+	boss1HP_Red = Sprite::CreateSprite(2, { 310.0f,10.0f });
+	boss1HP_Black = Sprite::CreateSprite(3, { 310.0f,10.0f });
 	playerHP = Sprite::CreateSprite(4, { 10, 582 });
+	control = Sprite::CreateSprite(5, { 20, 10 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -110,7 +138,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	soundSE[4] = audio->SoundLoadWave("Resources/Sound/SE/Disassembly.wav");
 	soundSE[5] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 	soundSE[6] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Normal.wav");
-	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 
 #pragma endregion
 
@@ -128,15 +156,16 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	skydome = new OBJObject();
 	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
 
-	weapon = new OBJObject();
-	weapon->Initialize(dxCommon, input, audio, ModelManager::Weapon);
-	weapon->model->SetScale({ 1, 1, 1 });
-	weapon->model->SetRotation({ 0, 45, 0 });
-	weapon->model->SetPos({ -3.0f, -2 , 1.7f });
-	weapon->model->SetParent(player->player);
+	weapon = new Weapon();
+	weapon->Initialize(dxCommon, input, audio);
+	//プレイヤーに追従
+	weapon->weapon->SetParent(player->player);
 
 
 	gameEndFlag = false;
+
+	//コリジョンマネージャーの生成
+	collisionManager = CollisionManager::GetInstance();
 }
 
 void GameScene::Update()
@@ -178,10 +207,47 @@ void GameScene::Update()
 		attackCapsule.radius = 6;
 		damage = 3;
 	}
+#pragma endregion
+	if (hit[headToPlayer])
+	{
+		debugText.PrintDebugText("headToPlayer", 500, 0);
+	}
 
+#pragma region 攻撃処理
 	if (player->attack)
 	{
-		if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
+		if (hit[WwaponToHead] && boss->parthp[head] > 0) {
+			boss->HitDamage(head, damage);
+			player->attack = false;
+			particleMan->HitParticle();
+		}
+		if (hit[WwaponToBody]) {
+			boss->HitDamage(body, damage);
+			player->attack = false;
+			particleMan->HitParticle();
+		}
+		if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
+			boss->HitDamage(rightarm, damage);
+			player->attack = false;
+			particleMan->HitParticle();
+		}
+		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
+			boss->HitDamage(leftarm, damage);
+			player->attack = false;
+			particleMan->HitParticle();
+		}
+		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
+			boss->HitDamage(rightleg, damage);
+			player->attack = false;
+			particleMan->HitParticle();
+		}
+		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
+			boss->HitDamage(leftleg, damage);
+			player->attack = false;
+			particleMan->HitParticle();
+		}
+
+		/*if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
 		{
 			debugText.PrintDebugText("head", 0, 0);
 			boss->HitDamage(head, damage);
@@ -223,11 +289,74 @@ void GameScene::Update()
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
+		if (!player->oldattack){
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
+		}*/
+
+
+		//メッシュとの
+#pragma region メッシュとの
+			//頭
+		if (hit[Ghead] && boss->parthp[head] > 0)
+		{
+			debugText.PrintDebugText("head", 0, 0);
+			//boss->HitDamage(head, damage);
+			player->attack = false;
+			//particleMan->HitParticle();			
+		}
+		//体
+		if (hit[Gbody] && boss->parthp[body] > 0)
+		{
+			debugText.PrintDebugText("body", 0, 15);
+			//boss->HitDamage(body, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+		}
+		//右腕
+		if (hit[Grightarm] && boss->parthp[rightarm] > 0)
+		{
+			debugText.PrintDebugText("rightAram", 0, 30);
+			//boss->HitDamage(rightarm, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+		}
+		//左腕
+		if (hit[Gleftarm] && boss->parthp[leftarm] > 0)
+		{
+			debugText.PrintDebugText("leftAram", 0, 45);
+			//boss->HitDamage(leftarm, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+		}
+		//右足
+		if (hit[Grightleg] && boss->parthp[rightleg] > 0)
+		{
+			debugText.PrintDebugText("rightLeg", 0, 60);
+			//boss->HitDamage(rightleg, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+		}
+		//左足
+		if (hit[Gleftleg] && boss->parthp[leftleg] > 0)
+		{
+			debugText.PrintDebugText("leftLeg", 0, 75);
+			//boss->HitDamage(leftleg, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+		}
+#pragma endregion
+
+
+		if (!player->oldattack) {
+			//audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
+		}
+
 	}
 #pragma endregion
 
 
+
+#pragma region 落下処理
 	//ボスのHPが 0 になったらパーツのHPも全部 0 にして全部落下させる
 	if (boss->hp <= 0)
 	{
@@ -240,8 +369,11 @@ void GameScene::Update()
 	//パーツ落下処理
 	if (boss->parthp[head] <= 0)
 	{
+		if (boss->head->GetParent() == boss->boss) {
+			boss->head->SetParent(nullptr);
+			boss->head->SetPos(boss->boss->GetPos());
+		}
 		boss->Fall(head);
-		boss->head->SetParent(nullptr);
 	}
 	if (boss->parthp[body] <= 0)
 	{
@@ -253,22 +385,35 @@ void GameScene::Update()
 	if (boss->parthp[rightarm] <= 0)
 	{
 		boss->Fall(rightarm);
-		boss->rightarm->SetParent(nullptr);
+		if (boss->rightarm->GetParent() == boss->boss) {
+			boss->rightarm->SetParent(nullptr);
+		}
 	}
 	if (boss->parthp[leftarm] <= 0)
 	{
+		if (boss->leftarm->GetParent() == boss->boss) {
+			boss->leftarm->SetParent(nullptr);
+			boss->leftarm->SetPos(boss->boss->GetPos());
+		}
 		boss->Fall(leftarm);
-		boss->leftarm->SetParent(nullptr);
 	}
 	if (boss->parthp[rightleg] <= 0)
 	{
 		boss->Fall(rightleg);
-		boss->rightleg->SetParent(nullptr);
+		if (boss->rightleg->GetParent() == boss->boss) {
+			boss->rightleg->SetParent(nullptr);
+			boss->rightleg->SetPos(boss->boss->GetPos());
+		}
+
 	}
 	if (boss->parthp[leftleg] <= 0)
 	{
 		boss->Fall(leftleg);
-		boss->leftleg->SetParent(nullptr);
+		if (boss->leftleg->GetParent() == boss->boss) {
+			boss->leftleg->SetParent(nullptr);
+			boss->leftleg->SetPos(boss->boss->GetPos());
+		}
+
 	}
 
 	//デバッグ用にパーツに直接ダメージ
@@ -289,11 +434,14 @@ void GameScene::Update()
 	{
 		boss->parthp[leftleg]--;
 	}
+#pragma endregion
 
 #pragma region HPバーのサイズ
 	/*-------------ボス-------------*/
-	float hpSize = (boss1HP_SizeX / boss->hp) * boss->hp;
-	boss1HP_Red->SetSize({ hpSize, boss1HP_SizeY});
+	//float hpSize = (boss1HP_SizeX / boss->hp) * boss->hp;
+	float hpSize = (boss1HP_SizeX / boss->maxhp) * boss->hp;
+	if (boss->hp < 0) { boss->hp = 0; }
+	boss1HP_Red->SetSize({ hpSize, boss1HP_SizeY });
 
 	//char str[256];
 	//sprintf_s(str, "hpSize : %f", hpSize);
@@ -302,28 +450,114 @@ void GameScene::Update()
 	/*-------------プレイヤー-------------*/
 	playerHP->SetSize({ playerHPX, playerHPY });
 	playerHP->SetTextureRect({ playerHPX * (playerMaxHp - player->hp),0 }, { 128, 128 });
-	
+
 #pragma endregion
 
 #pragma region 部位の取得
-	Capsule RightAramCapsule2(Vector3(-20, 10, 5), Vector3(-20, -30, 5), 10, (0, 255, 255));
-	Capsule playerCapsule(player->player->GetPos(), player->player->GetPos() + Vector3(0.0f, -30.0f, 0.0f), 2, (0, 255, 255));
-	if (mCollision::testCapsuleCapsule(RightAramCapsule2, playerCapsule))
-	{
-		debugText.PrintDebugText("syutoku", 0, 90);
-		if (boss->parthp[rightarm] <= 0)
-		{
-			if (input->PressKey(DIK_R))
-			{
-				//パーツ取得時にプレイヤーの座標とかに合わせる
-				boss->rightarm->SetParent(player->player);
-				boss->rightarm->SetPos(Vector3(0, -50, +20));
-				boss->rightarm->SetRotation(Vector3(90, -15, 180));
-				boss->rightarm->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-				player->enemyWepon = true;
-			}
+	if (input->PressKey(DIK_R)) {
+
+		if (hit[WwaponToBody]) {
+			//ボディが壊れたらボス死亡
+		}
+		if (hit[WwaponToHead] && boss->parthp[head] <= 0 && boss->head->GetParent() == nullptr) {
+			boss->head->SetPos(Vector3(0, 0, 0));
+			boss->head->SetRotation(Vector3(0, 0, 0));
+			boss->head->SetPos(player->player->GetPos());
+			boss->head->SetParent(player->player);
+			player->enemyWepon = true;
+		}
+		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetParent() == nullptr) {
+			boss->rightarm->SetPos(Vector3(0, 0, 0));
+			boss->rightarm->SetRotation(Vector3(0, 0, 0));
+			boss->rightarm->SetParent(player->player);
+			player->enemyWepon = true;
+		}
+		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0 && boss->leftarm->GetParent() == nullptr) {
+			boss->leftarm->SetPos(Vector3(0, 0, 0));
+			boss->leftarm->SetRotation(Vector3(0, 0, 0));
+			boss->leftarm->SetParent(player->player);
+			player->enemyWepon = true;
+		}
+		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0 && boss->rightleg->GetParent() == nullptr) {
+			boss->rightleg->SetPos(Vector3(0, 0, 0));
+			boss->rightleg->SetRotation(Vector3(0, 0, 0));
+			boss->rightleg->SetParent(player->player);
+			player->enemyWepon = true;
+		}
+		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0 && boss->leftleg->GetParent() == nullptr) {
+			boss->leftleg->SetPos(Vector3(0, 0, 0));
+			boss->leftleg->SetRotation(Vector3(0, 0, 0));
+			boss->leftleg->SetParent(player->player);
+			player->enemyWepon = true;
 		}
 	}
+
+
+#pragma endregion
+#pragma region 部位を落とす
+	if (input->PressKey(DIK_G))
+	{
+		//boss->head->SetParent(nullptr);
+		//boss->body->SetParent(nullptr);
+		//boss->rightarm->SetParent(nullptr);
+		//boss->leftarm->SetParent(nullptr);
+		//boss->rightleg->SetParent(nullptr);
+		//boss->leftleg->SetParent(nullptr);
+
+		//ボスの胴体は最後まで残る
+		if (boss->parthp[body] <= 0)
+		{
+			if (boss->hp <= 0)
+			{
+				boss->Fall(body);
+			}
+		}
+		//パーツ落下処理
+		if (boss->parthp[head] <= 0)
+		{
+			if (boss->head->GetParent() == player->player) {
+				boss->head->SetParent(nullptr);
+				boss->head->SetPos(player->player->GetPos());
+			}
+			boss->Fall(head);
+		}
+		if (boss->parthp[rightarm] <= 0)
+		{
+			boss->Fall(rightarm);
+			if (boss->rightarm->GetParent() == player->player) {
+				boss->rightarm->SetParent(nullptr);
+				boss->rightarm->SetPos(player->player->GetPos());
+			}
+		}
+		if (boss->parthp[leftarm] <= 0)
+		{
+			if (boss->leftarm->GetParent() == player->player) {
+				boss->leftarm->SetParent(nullptr);
+				boss->leftarm->SetPos(player->player->GetPos());
+			}
+			boss->Fall(leftarm);
+		}
+		if (boss->parthp[rightleg] <= 0)
+		{
+			boss->Fall(rightleg);
+			if (boss->rightleg->GetParent() == player->player) {
+				boss->rightleg->SetParent(nullptr);
+				boss->rightleg->SetPos(player->player->GetPos());
+			}
+
+		}
+		if (boss->parthp[leftleg] <= 0)
+		{
+			boss->Fall(leftleg);
+			if (boss->leftleg->GetParent() == player->player) {
+				boss->leftleg->SetParent(nullptr);
+				boss->leftleg->SetPos(player->player->GetPos());
+			}
+
+		}
+	}
+#pragma endregion
+
 
 	if (input->PressKeyTrigger(DIK_P)) {
 		audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
@@ -345,16 +579,22 @@ void GameScene::Update()
 			seNo = 0;
 		}
 	}
-#pragma endregion
 
+	debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
+	debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
+	debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
+	debugText.PrintDebugText("R:PICK UP", 25, 105, 1.5f);
+	debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
 	player->Update(*camera);
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
+	testObject->Update();
 
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> 805c8e7608151bab2e8da3bb922ac582853a3b04
 	testObject->Update();
 	//カメラの設定
@@ -365,6 +605,8 @@ void GameScene::Update()
 	//camera->target.y = 10.0f;
 
 	//testObject->Update();
+=======
+>>>>>>> 97017632be7c1be9114344c9ea37e400d8076bcb
 	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
@@ -380,11 +622,17 @@ void GameScene::Update()
 	camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
 	camera->eye.y = 20;
 	camera->target = player->player->GetPos();
-	///camera->target.y = 10.0f;
+	//プレイヤーがジャンプした時視点だけ上に向くのを防止するための処理
+	camera->target.y = player->graundheight;
 
+
+	player->Update(*camera);
+	stage->Update();
+	skydome->Update();
+	weapon->Update();
+	testObject->Update();
 	camera->SetCam(camera);
 	camera->Update();
-
 	boss->Update();
 
 
@@ -393,19 +641,37 @@ void GameScene::Update()
 	//int型からatr型へ変換
 	std::ostringstream oss;
 	std::ostringstream ass;
+	std::ostringstream iss;
+	std::ostringstream uss;
 	oss << boss->hp;
 	debugText.PrintDebugText(oss.str(), 500, 0);
 	ass << boss->angle;
 	debugText.PrintDebugText(ass.str(), 700, 0);
+	iss << boss->watch;
+	debugText.PrintDebugText(iss.str(), 900, 0);
+	uss << boss->watchB;
+	debugText.PrintDebugText(uss.str(), 900, 100);
+
 
 #pragma endregion
+	//フラグを毎フレームリセットする
+	for (int i = 0; i < 9; i++)
+	{
+		hit[i] = 0;
+	}
+	//全ての衝突をチェック
+	collisionManager->CheckAllCollision(hit);
 
+	if (input->PressKeyTrigger(DIK_END))
+	{
+		gameEndFlag = true;
+	}
 }
 
 void GameScene::Draw()
 {
 	// コマンドリストの取得
-	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
@@ -437,10 +703,6 @@ void GameScene::Draw()
 
 #pragma region 3Dモデル描画
 
-
-
-
-
 	player->Draw();
 	weapon->Draw();
 	//boss->Draw();
@@ -449,8 +711,13 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
+<<<<<<< HEAD
 	testObject->Draw(cmdList);
 	
+=======
+	//testObject->Draw(cmdList);
+
+>>>>>>> 97017632be7c1be9114344c9ea37e400d8076bcb
 
 #pragma endregion
 
@@ -461,6 +728,7 @@ void GameScene::Draw()
 	boss1HP_Black->Draw();
 	boss1HP_Red->Draw();
 	playerHP->Draw();
+	control->Draw();
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 	// スプライト描画後処理

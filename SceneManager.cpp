@@ -35,8 +35,9 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 void SceneManager::Update()
 {
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
-	if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == titleScene)
-	{
+	if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == titleScene||input->PressKeyTrigger(DIK_M))
+	{		
+		game->Finalize();
 		game->Init(dxCommon, input, audio);
 		sceneNo = gameScene;
 	}
@@ -52,6 +53,7 @@ void SceneManager::Update()
 	}
 	else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
 	{
+		game->Finalize();
 		game->Init(dxCommon, input, audio);
 		sceneNo = gameScene;
 	}

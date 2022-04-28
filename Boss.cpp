@@ -1,4 +1,5 @@
 #include "Boss.h"
+#include"MeshCollider.h"
 
 using namespace DirectX;
 
@@ -21,6 +22,39 @@ Boss::Boss()
 	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
 	bullet = ModelDraw::Create();
 	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
+
+	//コライダーの追加
+	MeshCollider* headcollider = new MeshCollider;
+	MeshCollider* bodycollider = new MeshCollider;
+	MeshCollider* rightarmcollider = new MeshCollider;
+	MeshCollider* leftarmcollider = new MeshCollider;
+	MeshCollider* rightlegcollider = new MeshCollider;
+	MeshCollider* leftlegcollider = new MeshCollider;
+
+	head->SetCollider(headcollider);
+	headcollider->ConstrucTriangles(head->GetModelInput());
+
+	body->SetCollider(bodycollider);
+	bodycollider->ConstrucTriangles(body->GetModelInput());
+
+	rightarm->SetCollider(rightarmcollider);
+	rightarmcollider->ConstrucTriangles(rightarm->GetModelInput());
+
+	leftarm->SetCollider(leftarmcollider);
+	leftarmcollider->ConstrucTriangles(leftarm->GetModelInput());
+
+	rightleg->SetCollider(rightlegcollider);
+	rightlegcollider->ConstrucTriangles(rightleg->GetModelInput());
+
+	leftleg->SetCollider(leftlegcollider);
+	leftlegcollider->ConstrucTriangles(leftleg->GetModelInput());
+
+	headcollider->tag = CollisionTag::TagHead;
+	bodycollider->tag = CollisionTag::TagBody;
+	rightarmcollider->tag = CollisionTag::TagRightArm;
+	leftarmcollider->tag = CollisionTag::TagLeftArm;
+	rightlegcollider->tag = CollisionTag::TagRightLeg;
+	leftlegcollider->tag = CollisionTag::TagLeftLeg;
 }
 
 Boss::~Boss()
@@ -77,26 +111,28 @@ void Boss::Update()
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
-	if (RangeJudge(moveRange) && hp > 0 && stopFlag == false && attackFlag == false) {
-		Move();
-	}
-	//プレイヤーの方を見続ける
-	if (hp > 0 && stopFlag == false) {
-		Direction();
-	}
-	//攻撃
-	if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
-		attackType = BEAM;
-	}
-	else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
-		attackType = PRESS;
-	}
+	if (hp > 0) {
+		if (RangeJudge(moveRange) && stopFlag == false && attackFlag == false) {
+			Move();
+		}
+		//プレイヤーの方を見続ける
+		if (stopFlag == false) {
+			Direction();
+		}
+		//攻撃
+		if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
+			attackType = BEAM;
+		}
+		else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
+			attackType = PRESS;
+		}
 
-	if (attackType == BEAM) {
-		BeamAttack();
-	}
-	else if (attackType == PRESS) {
-		PressAttack();
+		if (attackType == BEAM) {
+			BeamAttack();
+		}
+		else if (attackType == PRESS) {
+			PressAttack();
+		}
 	}
 
 	boss->Update();
@@ -159,7 +195,7 @@ void Boss::Fall(int part)
 	if (part == Parts::rightarm)
 	{
 		pos = rightarm->GetPos();
-		if (pos.y > -20)
+		if (pos.y > -5)
 		{
 			rightarm->SetPos(rightarm->GetPos() + fallspeed);
 		}
@@ -213,15 +249,44 @@ void Boss::Move() {
 }
 
 void Boss::Direction() {
+	const float direction = 90.0f;
+	const float rotPower = 0.5f;
 	Vector3 pos = boss->GetPos();
 	Vector3 playerPos = player->GetPos();
 
-	Vector3 distance = pos - playerPos;
+	Vector3 directionVector = pos - playerPos;
+	directionVector.Normalize();
 
-	//float angle = 0.0f;
-	float direction = 90.0f;
+	//ボスの正面から少し前を求める
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y - 90.0f)));
+	movement = XMVector3TransformNormal(movement, matRot);
+	matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y)));
 
-	angle = (atan2(distance.x, distance.z) * 100.0f) / 3.14f * 2.0f + direction;
+	movement *= XMVECTOR{ -1, -1, -1 };
+
+	Vector3 bossFront = pos + movement * XMVECTOR{ 50, 50, 50 };
+	float playerTheta = atan2(pos.z - playerPos.z, pos.x - playerPos.x);
+	playerTheta = (playerTheta * 180.0f / 3.14f);
+
+	float bossTheta = atan2(pos.z - bossFront.z, pos.x - bossFront.x);
+	bossTheta = (bossTheta * 180.0f / 3.14);
+
+	//angle = -playerTheta + 180.0f;
+
+	if (angle > 180.0f) {
+		angle = -180.0f;
+	}
+	else if (angle < -180.0f) {
+		angle = 180.0f;
+	}
+
+	if (playerTheta < bossTheta) {
+		angle += rotPower;
+	}
+	else {
+		angle -= rotPower;
+	}
 
 	boss->SetRotation(Vector3(0.0f, angle, 0.0f));
 }
