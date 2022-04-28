@@ -25,12 +25,14 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 	this->audio = audio;
 
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
-	if (!Sprite::LoadTexture(2, L"Resources/end.png")) {
+	if (!Sprite::LoadTexture(2, L"Resources/sprite/clear.png")) {
 		assert(0);
 		return;
 	}
 	//// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
+
+	spriteBG->SetSize({ 1280, 720 });
 	
 }
 

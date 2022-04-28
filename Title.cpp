@@ -32,6 +32,8 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 	}
 	// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
+
+	spriteBG->SetSize({ 1280, 720 });
 #pragma endregion
 
 
@@ -51,6 +53,8 @@ void Title::Update()
 {
 	//キーボード入力更新
 	KeyboardInput::Update();
+
+
 }
 
 void Title::Draw()
