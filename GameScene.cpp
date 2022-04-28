@@ -455,26 +455,31 @@ void GameScene::Update()
 #pragma region 部位の取得
 	if (input->PressKey(DIK_R)) {
 
-		if (hit[WwaponToHead] && boss->parthp[head] <= 0) {
-			boss->head->SetParent(player->player);
-			player->enemyWepon = true;
-		}
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
 		}
+		if (hit[WwaponToHead] && boss->parthp[head] <= 0) {
+			boss->head->SetPos(player->player->GetPos());
+			boss->head->SetParent(player->player);
+			player->enemyWepon = true;
+		}		
 		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0) {			
-			boss->rightarm->SetParent(player->player);			
+			boss->rightarm->SetPos(Vector3(0,0,0));
+			boss->rightarm->SetParent(player->player);
 			player->enemyWepon = true;
 		}
 		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0) {
+			boss->leftarm->SetPos(Vector3(0, 0, 0));
 			boss->leftarm->SetParent(player->player);
 			player->enemyWepon = true;
 		}
 		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0) {
+			boss->rightleg->SetPos(Vector3(0, 0, 0));
 			boss->rightleg->SetParent(player->player);
 			player->enemyWepon = true;
 		}
 		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0) {
+			boss->leftleg->SetPos(Vector3(0, 0, 0));
 			boss->leftleg->SetParent(player->player);
 			player->enemyWepon = true;
 		}
