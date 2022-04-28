@@ -632,13 +632,13 @@ void GameScene::Update()
 		player->KnockBack();
 	}
 
-	debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
-	debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
-	debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
-	debugText.PrintDebugText("R:PICK UP", 25, 105, 1.5f);
-	debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
-	debugText.PrintDebugText(":DROP", 25, 135, 1.5f);
-	debugText.PrintDebugText("M:RESET", 25, 135, 1.5f);
+	//debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
+	//debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
+	//debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
+	//debugText.PrintDebugText("R:PICK UP", 25, 105, 1.5f);
+	//debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
+	//debugText.PrintDebugText(":DROP", 25, 135, 1.5f);
+	//debugText.PrintDebugText("M:RESET", 25, 135, 1.5f);
 	player->Update(*camera);
 	stage->Update();
 	skydome->Update();
