@@ -75,7 +75,7 @@ void Player::Update(Camera camera)
 		//jumppos.y = graundheight;
 		jumpflag = false;
 	}
-	if (input->PressKey(DIK_J)&& jumppos.y <= graundheight) {
+	if (input->PressKey(DIK_LSHIFT)&& jumppos.y <= graundheight) {
 		jumpflag = true;
 	}
 	//ジャンプフラグがあったら加算させて上昇させる

@@ -47,5 +47,7 @@ public: //ƒƒ“ƒoŠÖ”
 	//•`‰æ
 	void Draw();
 #pragma endregion
+private:
+	bool result=false;
 };
 

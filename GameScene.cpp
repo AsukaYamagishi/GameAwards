@@ -168,7 +168,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	collisionManager = CollisionManager::GetInstance();
 }
 
-void GameScene::Update()
+bool GameScene::Update()
 {
 
 
@@ -710,10 +710,19 @@ void GameScene::Update()
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollision(hit);
 
+	//return false;
 	//ボスが死んだらエンドシーンに移行
 	if (input->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
 	{
 		gameEndFlag = true;
+		if (boss->hp <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 
@@ -772,7 +781,7 @@ void GameScene::Draw()
 	playerHP->Draw();
 	control->Draw();
 	// デバッグテキストの描画
-	debugText.DrawAll(cmdList);
+	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
