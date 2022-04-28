@@ -262,7 +262,7 @@ void Player::KnockBack() {
 	player->SetPos(playerPos);
 	knockBackFlag = false;
 }
-}
+
 
 
 void Player::BeamAttack() {
