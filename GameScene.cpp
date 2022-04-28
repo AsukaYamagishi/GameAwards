@@ -591,12 +591,7 @@ void GameScene::Update()
 	weapon->Update();
 	testObject->Update();
 
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
->>>>>>> 805c8e7608151bab2e8da3bb922ac582853a3b04
-	testObject->Update();
+	//testObject->Update();
 	//ƒJƒƒ‰‚ÌÝ’è
 	//camera->eye = player->player->GetPos() + meye;
 	//camera->eye.y -= 1.0f;
@@ -605,8 +600,7 @@ void GameScene::Update()
 	//camera->target.y = 10.0f;
 
 	//testObject->Update();
-=======
->>>>>>> 97017632be7c1be9114344c9ea37e400d8076bcb
+
 	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
@@ -705,19 +699,12 @@ void GameScene::Draw()
 
 	player->Draw();
 	weapon->Draw();
-	//boss->Draw();
+	boss->Draw();
 	stage->Draw();
 	skydome->Draw();
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-<<<<<<< HEAD
-	testObject->Draw(cmdList);
-	
-=======
-	//testObject->Draw(cmdList);
-
->>>>>>> 97017632be7c1be9114344c9ea37e400d8076bcb
 
 #pragma endregion
 
