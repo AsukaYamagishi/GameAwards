@@ -39,13 +39,9 @@ using namespace Microsoft::WRL;
 
 
 //Windowsアプリでのエントリーポイント（main関数）
-#ifdef _DEBUG
-int main()
-#else
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-#endif
 {
-	
+
 
 	//ウィンドウ
 	WindowsAPI* win = nullptr;
@@ -67,7 +63,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 	////DirectX初期化処理　ここから
-		
+
 	//DirectX汎用部分
 	DirectXCommon* dxCommon = nullptr;
 	dxCommon = new DirectXCommon();
@@ -80,12 +76,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//カメラ
 	Camera* camera = nullptr;
-	
+
 
 	ModelInput::StaticInitialize(dxCommon->GetDevice());
 	ModelManager::GetIns()->Initialize();
 
-	
+
 	////DirectInput(入力)初期化処理
 	KeyboardInput* input = KeyboardInput::GetInstance();
 	input->Init(win->hwnd);
@@ -124,16 +120,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	FbxInput::GetInstance()->Init(dxCommon->GetDevice());
 
 #pragma endregion
-	
+
 
 #pragma region ゲームシーン初期化
-	
+
 	SceneManager* sceneManager = nullptr;
 	sceneManager = new SceneManager();
 	sceneManager->Init(dxCommon, input, audio);
 
 #pragma endregion
-	
+
 	////描画初期化処理　ここまで
 
 	while (true) //ゲームループ
@@ -158,17 +154,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	#pragma region 更新処理
 		input->Update();
 		sceneManager->Update();
-#pragma endregion
-		
+	#pragma endregion
+
 	#pragma region 描画コマンド
 		//描画前処理
 		dxCommon->PreDraw();
 
 		sceneManager->Draw();
-		
+
 		//描画終了
 		dxCommon->PostDraw();
-#pragma endregion
+	#pragma endregion
 
 		////////////////DirectX毎フレーム処理 ここまで
 	}

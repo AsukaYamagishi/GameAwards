@@ -116,8 +116,6 @@ void FbxDraw::Update()
 		XMMATRIX meshGlobalTransform = model->GetModelTransform();
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = meshGlobalTransform * bones[i].invInitialPose * matCurrentPose * XMMatrixInverse(nullptr, meshGlobalTransform);
-
-		XMMATRIX a = meshGlobalTransform * XMMatrixInverse(nullptr, meshGlobalTransform);
 	}
 	constBuffSkin->Unmap(0, nullptr);
 	

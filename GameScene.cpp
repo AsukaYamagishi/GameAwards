@@ -18,7 +18,6 @@ GameScene::~GameScene()
 	//safe_deleteはここで行う
 	safe_delete(particleMan);
 	safe_delete(testObject);
-	//safe_delete(testModel);
 }
 
 void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio)
@@ -37,7 +36,6 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 	//カメラのせっち
 	camera->Initialize({ 0,30,130 });
 	camera = Camera::GetCam();
-	camera->eye = { 0, 0, -550 };
 	camera->target = { 0 ,0 ,0 };
 #pragma endregion
 
@@ -70,14 +68,14 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("enemy");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
 	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 1,1,1 });
-	//testObject->SetRotation({ 0,0,0 });
-	//testObject->SetPosition({ 0,2,0 });
+	testObject->SetScale({ 0.01,0.01,0.01 });
+	testObject->SetRotation({ 0,90,0 });
+	testObject->SetPosition({ 0,0,0 });
 	testObject->PlayAnimation(true);
 
 	//パーティクルの生成
@@ -88,7 +86,7 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 
 #pragma region 音楽リソース初期設定
 
-	soundData[0] = audio->SoundLoadWave("Resources/musicloop.wav");
+	//soundData[0] = audio->SoundLoadWave("Resources/musicloop.wav");
 	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0], Audio::loop);
 
 #pragma endregion

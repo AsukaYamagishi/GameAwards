@@ -58,9 +58,6 @@
     <Filter Include="ソース ファイル\Model\FBX">
       <UniqueIdentifier>{4e0d4d5a-65bd-49e5-a17d-7880d22aa01e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Camera\DebugText">
-      <UniqueIdentifier>{dc5dc9ea-a4f3-4b2e-9527-6c24c503499c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Boss">
       <UniqueIdentifier>{ce0f2d16-91ad-452b-b67b-d9687145b3b7}</UniqueIdentifier>
     </Filter>
@@ -82,6 +79,9 @@
     <Filter Include="HLSL ファイル\Particle">
       <UniqueIdentifier>{e5727940-5828-44ac-bd18-210110f5f433}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\DebugText">
+      <UniqueIdentifier>{dc5dc9ea-a4f3-4b2e-9527-6c24c503499c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -97,7 +97,7 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
     <ClInclude Include="DebugText.h">
-      <Filter>ソース ファイル\Camera\DebugText</Filter>
+      <Filter>ソース ファイル\DebugText</Filter>
     </ClInclude>
     <ClInclude Include="SafeDelete.h">
       <Filter>ソース ファイル\Base</Filter>
@@ -180,7 +180,7 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
     <ClCompile Include="DebugText.cpp">
-      <Filter>ソース ファイル\Camera\DebugText</Filter>
+      <Filter>ソース ファイル\DebugText</Filter>
     </ClCompile>
     <ClCompile Include="DirectXCommon.cpp">
       <Filter>ソース ファイル\Base</Filter>
