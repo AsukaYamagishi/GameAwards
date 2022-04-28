@@ -109,14 +109,15 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 #pragma region 3DモデルCreate・初期設定
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Player");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
 	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 0.03,0.03,0.03 });
-	testObject->SetPosition({ 0,5,30 });
-	testObject->PlayAnimation(true);
+	testObject->SetScale({ 0.01,0.0001,0.001 });
+	testObject->SetRotation({ 0,0,0 });
+	testObject->SetPosition({ 0,5,3 });
+	//testObject->PlayAnimation(true);
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -594,6 +595,10 @@ void GameScene::Update()
 		}
 	}
 
+	if (input->PressKeyTrigger(DIK_K)) {
+		player->KnockBack();
+	}
+
 	debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
 	debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
 	debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
@@ -605,6 +610,15 @@ void GameScene::Update()
 	weapon->Update();
 	testObject->Update();
 
+	//testObject->Update();
+	//カメラの設定
+	//camera->eye = player->player->GetPos() + meye;
+	//camera->eye.y -= 1.0f;
+	//camera->eye.z -= 15.0f;
+	//camera->target = player->player->GetPos() + mtarget;
+	//camera->target.y = 10.0f;
+
+	//testObject->Update();
 
 	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
@@ -646,7 +660,7 @@ void GameScene::Update()
 	debugText.PrintDebugText(oss.str(), 500, 0);
 	ass << boss->angle;
 	debugText.PrintDebugText(ass.str(), 700, 0);
-	iss << boss->watch;
+	iss << player->knockBackFlag;
 	debugText.PrintDebugText(iss.str(), 900, 0);
 	uss << boss->watchB;
 	debugText.PrintDebugText(uss.str(), 900, 100);
@@ -711,8 +725,6 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	//testObject->Draw(cmdList);
-
 
 #pragma endregion
 
