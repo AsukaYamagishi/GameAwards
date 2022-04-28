@@ -579,6 +579,10 @@ void GameScene::Update()
 		}
 	}
 
+	if (input->PressKeyTrigger(DIK_K)) {
+		player->KnockBack();
+	}
+
 	debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
 	debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
 	debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
@@ -631,7 +635,7 @@ void GameScene::Update()
 	debugText.PrintDebugText(oss.str(), 500, 0);
 	ass << boss->angle;
 	debugText.PrintDebugText(ass.str(), 700, 0);
-	iss << boss->watch;
+	iss << player->knockBackFlag;
 	debugText.PrintDebugText(iss.str(), 900, 0);
 	uss << boss->watchB;
 	debugText.PrintDebugText(uss.str(), 900, 100);

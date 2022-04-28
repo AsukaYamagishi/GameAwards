@@ -111,21 +111,23 @@ void Player::Update(Camera camera)
 
 	bool isinput = false;
 
-	if (input->PressKey(DIK_W)) {
-		forvardvec.m128_f32[2] += 1;
-		isinput = true;
-	}
-	else if (input->PressKey(DIK_S)) {
-		forvardvec.m128_f32[2] -= 1;
-		isinput = true;
-	}
-	if (input->PressKey(DIK_A)) {
-		forvardvec.m128_f32[0] -= 1;
-		isinput = true;
-	}
-	if (input->PressKey(DIK_D)) {
-		forvardvec.m128_f32[0] += 1;
-		isinput = true;
+	if (knockBackFlag == false) {
+		if (input->PressKey(DIK_W)) {
+			forvardvec.m128_f32[2] += 1;
+			isinput = true;
+		}
+		else if (input->PressKey(DIK_S)) {
+			forvardvec.m128_f32[2] -= 1;
+			isinput = true;
+		}
+		if (input->PressKey(DIK_A)) {
+			forvardvec.m128_f32[0] -= 1;
+			isinput = true;
+		}
+		if (input->PressKey(DIK_D)) {
+			forvardvec.m128_f32[0] += 1;
+			isinput = true;
+		}
 	}
 
 
@@ -157,7 +159,7 @@ void Player::Update(Camera camera)
 
 
 #pragma region 攻撃処理
-	if (input->PressKey(DIK_SPACE) && attacktime == 0)
+	if (input->PressKey(DIK_SPACE) && attacktime == 0 && knockBackFlag == false)
 	{
 
 		attack = true;
@@ -199,6 +201,9 @@ void Player::Update(Camera camera)
 		}
 	}
 #pragma endregion
+	if (damageCoolTime > 0) {
+		damageCoolTime--;
+	}
 
 	player->Update();
 }
@@ -211,4 +216,47 @@ void Player::Draw()
 	ModelDraw::PreDraw(cmdList);
 	player->Draw();
 	ModelDraw::PostDraw();
+}
+
+void Player::HitDamege() {
+	if (damageCoolTime <= 0) {
+		hp -= 1;
+		damageCoolTime = 100.0f;
+	}
+}
+
+void Player::KnockBack() {
+	const float xSpeed = 2.0f;
+	const float ySpeed = 2.0f;
+	float jumpPower;
+
+	if (knockBackFlag == false) {
+		oldPlayerPos = player->GetPos();
+		knockBackFlag = true;
+		jumpPower = 5.0f;
+	}
+
+	//プレイヤーの正面から少し前を求める
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
+	movement = XMVector3TransformNormal(movement, matRot);
+
+	movement *= XMVECTOR{ -1, -1, -1 };
+	matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
+
+	XMVECTOR playerFront = oldPlayerPos + movement * XMVECTOR{ 50, 50, 50 };
+	
+	//プレイヤーの少し前からプレイヤーへのベクトルを求める
+	Vector3 knockBackVector = oldPlayerPos - playerFront;
+	Vector3 playerPos = player->GetPos();
+	//プレイヤーを後ろに下げる
+	playerPos -= knockBackVector * xSpeed;
+
+	//Y軸の処理
+	jumpPower -= 0.5f;
+
+	playerPos.y += jumpPower;
+
+	player->SetPos(playerPos);
+	knockBackFlag = false;
 }
