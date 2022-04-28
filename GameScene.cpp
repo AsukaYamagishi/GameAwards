@@ -217,10 +217,20 @@ void GameScene::Update()
 	}
 
 #pragma region プレイヤーのダメージ処理
-	if (hit[BulletToPlayer]){
-		//player->HitDamage();
-		debugText.PrintDebugText("aaaaaaaaaaaaaaaaitaiiiiiiiiiiiiiiiii", 0, 0);
+	if (boss->GetAttackType() == AttackType::BEAM)
+		if (hit[BulletToPlayer]) {
+			player->HitDamege();
+			debugText.PrintDebugText("aaaaaaaaaaaaaaaaitaiiiiiiiiiiiiiiiii", 0, 0);
+		}
+
+	if (boss->GetAttackType() == AttackType::PRESS && boss->timer > 20)
+	{
+		if (hit[BossAttackToPlayer])
+		{
+			player->HitDamege();
+		}
 	}
+
 #pragma endregion
 
 
@@ -701,7 +711,7 @@ void GameScene::Update()
 	collisionManager->CheckAllCollision(hit);
 
 	//ボスが死んだらエンドシーンに移行
-	if (input->PressKeyTrigger(DIK_END) || boss->hp <= 0)
+	if (input->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
 	{
 		gameEndFlag = true;
 	}

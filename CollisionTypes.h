@@ -36,4 +36,5 @@ enum AnyHit
 	WwaponToLeftLeg,
 
 	BulletToPlayer,
+	BossAttackToPlayer,
 };
