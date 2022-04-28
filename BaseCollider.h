@@ -36,6 +36,7 @@ public:
 		object3d->OnCollision(info);
 	}
 
+	int tag = 0;	//コリジョンマネージャーで、形状タイプとの比較以外の比較用のやつ
 protected:
 	ModelDraw* object3d = nullptr;
 	// 形状タイプ

@@ -131,6 +131,9 @@ public:		//メンバ関数
 	//モデルインプットを取得
 	inline  ModelInput *GetModelInput() { return objectModel; }
 
+
+	// コライダー
+	BaseCollider* collider = nullptr;
 private:	//メンバ変数
 	XMFLOAT4 color = { 1,1,1,1 };	//色
 	Vector3 scale = { 1,1,1 };		//スケール	
@@ -144,7 +147,4 @@ private:	//メンバ変数
 	XMMATRIX matWorld;						//ワールド変換行列
 	UINT texNumber = 0;						//テクスチャ番号
 	ModelDraw *parent = nullptr;			//親オブジェクトへのポインタ
-	
-	// コライダー
-	BaseCollider* collider = nullptr;
 };

@@ -46,8 +46,15 @@ Boss::Boss()
 	rightleg->SetCollider(rightlegcollider);
 	rightlegcollider->ConstrucTriangles(rightleg->GetModelInput());
 
-	rightleg->SetCollider(rightlegcollider);
-	rightlegcollider->ConstrucTriangles(rightleg->GetModelInput());
+	leftleg->SetCollider(leftlegcollider);
+	leftlegcollider->ConstrucTriangles(leftleg->GetModelInput());
+
+	headcollider->tag = CollisionTag::TagHead;
+	bodycollider->tag = CollisionTag::TagBody;
+	rightarmcollider->tag = CollisionTag::TagRightArm;
+	leftarmcollider->tag = CollisionTag::TagLeftArm;
+	rightlegcollider->tag = CollisionTag::TagRightLeg;
+	leftlegcollider->tag = CollisionTag::TagLeftLeg;
 }
 
 Boss::~Boss()
@@ -188,7 +195,7 @@ void Boss::Fall(int part)
 	if (part == Parts::rightarm)
 	{
 		pos = rightarm->GetPos();
-		if (pos.y > -20)
+		if (pos.y > -5)
 		{
 			rightarm->SetPos(rightarm->GetPos() + fallspeed);
 		}

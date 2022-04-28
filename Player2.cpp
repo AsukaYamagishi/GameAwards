@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+﻿#include "Player2.h"
 #include "Camera.h"
 #include <time.h>
 #include <cassert>
@@ -6,19 +6,31 @@
 
 using namespace DirectX;
 
-Player::Player()
+Player2::Player2()
 {
-	player = ModelDraw::Create();
-	player->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Player));
+	/*player = ModelDraw::Create();
+	player->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Player));*/
 }
 
-Player::~Player()
+Player2::~Player2()
 {
 
 
 }
 
-void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+Player2* Player2::Create(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+{
+	Player2* instance = new Player2();
+	
+	instance->Initialize(dxCommon, input, audio);
+	instance->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Player));
+	
+	return instance;
+}
+
+
+
+void Player2::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 {
 	// nullptr�`�F�b�N
 	assert(dxCommon);
@@ -29,18 +41,17 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	this->input = input;
 	this->audio = audio;
 
-	player->SetScale(Vector3(1, 1, 1));
-	player->SetPos(Vector3(0, 5, 0));
+	SetScale(Vector3(1, 1, 1));
+	SetPos(Vector3(0, 5, 0));
 
 	//コライダーの追加
-	float radius = 0.0f;
-	float radius2 = 5.0f;
-	//球の当たり判定
-	player->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));
-	player->collider->tag = CollisionTag::TagPlayer;
+	float radius = 0.6f;
+	float radius2 = 10.6f;
+	//半径分だけ足元から浮いた座標を球の中心にする
+	SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));
 }
 
-void Player::Update(Camera camera)
+void Player2::Update(Camera camera)
 {
 	oldattack = attack;
 #pragma region	移動処理
@@ -61,21 +72,21 @@ void Player::Update(Camera camera)
 
 	//デバッグ移動
 	if (input->PressKey(DIK_E)) {
-		player->SetPos(player->GetPos() + Vector3(0.0f, move, 0.0f));
+		SetPos(GetPos() + Vector3(0.0f, move, 0.0f));
 	}
 	if (input->PressKey(DIK_Q)) {
-		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
+		SetPos(GetPos() + Vector3(0.0f, -move, 0.0f));
 	}
 
 	//ジャンプ
-	Vector3 jumppos = player->GetPos();
-	if (jumppos.y <=graundheight)
+	Vector3 jumppos = GetPos();
+	if (jumppos.y <= graundheight)
 	{
 		jumpadd = initjumpNum;
-		//jumppos.y = graundheight;
+		jumppos.y = graundheight;
 		jumpflag = false;
 	}
-	if (input->PressKey(DIK_J)&& jumppos.y <= graundheight) {
+	if (input->PressKey(DIK_J) && jumppos.y <= graundheight) {
 		jumpflag = true;
 	}
 	//ジャンプフラグがあったら加算させて上昇させる
@@ -105,7 +116,7 @@ void Player::Update(Camera camera)
 		gravity = 0.0f;
 		jumppos.y = graundheight;
 	}
-	player->SetPos(jumppos);
+	SetPos(jumppos);
 
 	XMVECTOR forvardvec = {};
 
@@ -137,24 +148,25 @@ void Player::Update(Camera camera)
 	playermatrot = XMVector3Normalize(playermatrot);
 
 
-	XMFLOAT3 rote = player->GetRotation();
-	XMFLOAT3 pos = player->GetPos();
+	XMFLOAT3 rote = GetRotation();
+	XMFLOAT3 pos = GetPos();
 	forvardvec = XMVector3TransformNormal(forvardvec, camera.matrot);
 
 	float speed = 1.0f;
 
 	Vector3 move = { forvardvec.m128_f32[0] * speed,forvardvec.m128_f32[1] * speed,forvardvec.m128_f32[2] * speed };
 
-	player->SetPos(player->GetPos() + move);
+	SetPos(GetPos() + move);
 	if (isinput) {
 		float buff = atan2f(playermatrot.m128_f32[0], playermatrot.m128_f32[2]);
-		player->SetRotation(XMFLOAT3(0, buff * 180.0f / 3.14f, 0));
+		SetRotation(XMFLOAT3(0, buff * 180.0f / 3.14f, 0));
 	}
-	
+
 
 
 #pragma endregion
 
+	//ModelDraw::Update();
 
 #pragma region 攻撃処理
 	if (input->PressKey(DIK_SPACE) && attacktime == 0)
@@ -166,30 +178,18 @@ void Player::Update(Camera camera)
 	}
 	if (attacktime > 0)
 	{
+		Vector3 rota = GetRotation();
 		if (attacktime < 30)
 		{
 			attacktime++;
+			SetRotation(GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
 			attacktorota += Vector3(0.0f, 5.0f, 0.0f);
-			if (input->PressKey(DIK_W) || input->PressKey(DIK_S) ||
-				input->PressKey(DIK_A) || input->PressKey(DIK_D)) {
-				player->SetRotation(player->GetRotation() + attacktorota);
-			}
-			else {
-				player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
-			}
-			
 		}
 		else if (attacktime >= 30 && attacktime < 59)
 		{
 			attacktime++;
+			SetRotation(GetRotation() + Vector3(0.0f, -5.0f, 0.0f));
 			attacktorota += Vector3(0.0f, -5.0f, 0.0f);
-			if (input->PressKey(DIK_W) || input->PressKey(DIK_S) ||
-				input->PressKey(DIK_A) || input->PressKey(DIK_D)) {
-				player->SetRotation(player->GetRotation() + attacktorota);
-			}
-			else {
-				player->SetRotation(player->GetRotation() + Vector3(0.0f, -5.0f, 0.0f));
-			}
 		}
 		else
 		{
@@ -200,15 +200,15 @@ void Player::Update(Camera camera)
 	}
 #pragma endregion
 
-	player->Update();
 }
 
-void Player::Draw()
+void Player2::Draw()
 {
 	// �R�}���h���X�g�̎擾
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);
-	player->Draw();
+	Draw();
 	ModelDraw::PostDraw();
+
 }

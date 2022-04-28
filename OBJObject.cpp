@@ -10,6 +10,7 @@ OBJObject::OBJObject()
 
 OBJObject::~OBJObject()
 {
+	delete model;
 }
 ;
 void OBJObject::Initialize(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio, ModelManager::ModelName modelNum)

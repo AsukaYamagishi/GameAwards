@@ -14,7 +14,7 @@ private: // エイリアス
 	// DirectX::を省略
 	using XMVECTOR = DirectX::XMVECTOR;
 public:
-	SphereCollider(XMVECTOR offset = {0,0,0,0}, float radius = 1.0f) :
+	SphereCollider(XMVECTOR offset = {0,0,0,0}, float radius = 0.0f) :
 		offset(offset),
 		radius(radius)
 	{

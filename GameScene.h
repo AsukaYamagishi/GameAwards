@@ -16,7 +16,8 @@
 #include"Primitive.h"
 #include "mCollision.h"
 class CollisionManager;
-
+#include"Player2.h"
+#include"Weapon.h"
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
@@ -49,10 +50,14 @@ private: //メンバ変数
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
 
+	bool hit[9] = { false };
+
 	//プレイヤー
 	Player *player;	
+	Player2* player2 = nullptr;
 	//武器
-	OBJObject *weapon;
+	//OBJObject *weapon;
+	Weapon* weapon = nullptr;
 	//ステージ
 	OBJObject *stage;
 	OBJObject *skydome;
@@ -103,6 +108,10 @@ public: //メンバ関数
 	GameScene();
 	//デストラクタ
 	~GameScene();
+
+	//
+	void Finalize();
+
 	//初期化
 	void Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
 	//毎フレーム更新処理

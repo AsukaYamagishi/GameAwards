@@ -29,12 +29,14 @@ public://メンバ関数
 	///<summary>
 	///全ての衝突をチェック
 	///</summary>
-	void CheckAllCollision();
+	void CheckAllCollision(bool hit[]);
+	~CollisionManager();
+
+	void Finalize();
 
 private:
 	CollisionManager() = default;
 	CollisionManager(const CollisionManager&) = delete;
-	~CollisionManager() = default;
 	CollisionManager& operator=(const CollisionManager&) = delete;
 	//コライダーのリスト
 	std::forward_list<BaseCollider*>colliders;

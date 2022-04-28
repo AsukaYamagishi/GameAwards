@@ -54,6 +54,7 @@ bool MeshCollider::CheckCollisionSphere(const Sphere& sphere, DirectX::XMVECTOR*
 	//オブジェクtのローカル座標系での球を得る
 	Sphere localSphere;
 	localSphere.center = XMVector3Transform(sphere.center, invMatWorld);
+	localSphere.radius = sphere.radius;
 	localSphere.radius *= XMVector3Length(invMatWorld.r[0]).m128_f32[0];
 
 	//ローカル座標系での交差をチェック

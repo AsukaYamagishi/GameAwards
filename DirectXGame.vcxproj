@@ -174,6 +174,7 @@
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="OBJObject.h" />
     <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="Player2.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Sprite.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Title.h" />
     <ClInclude Include="EndGame.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="WindowsAPI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +211,7 @@
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="OBJObject.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -216,6 +219,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="EndGame.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WindowsAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
