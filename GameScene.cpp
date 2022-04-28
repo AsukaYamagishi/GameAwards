@@ -401,7 +401,7 @@ void GameScene::Update()
 		boss->Fall(rightleg);
 		if (boss->rightleg->GetParent() == boss->boss) {
 			boss->rightleg->SetParent(nullptr);
-			boss->leftarm->SetPos(boss->boss->GetPos());
+			boss->rightleg->SetPos(boss->boss->GetPos());
 		}
 
 	}
@@ -410,7 +410,7 @@ void GameScene::Update()
 		boss->Fall(leftleg);
 		if (boss->leftleg->GetParent() == boss->boss) {
 			boss->leftleg->SetParent(nullptr);
-			boss->leftarm->SetPos(boss->boss->GetPos());
+			boss->leftleg->SetPos(boss->boss->GetPos());
 		}
 
 	}
@@ -458,34 +458,40 @@ void GameScene::Update()
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
 		}
-		if (hit[WwaponToHead] && boss->parthp[head] <= 0) {
+		if (hit[WwaponToHead] && boss->parthp[head] <= 0 && boss->head->GetParent() == nullptr) {
+			boss->head->SetPos(Vector3(0, 0, 0));
+			boss->head->SetRotation(Vector3(0, 0, 0));
 			boss->head->SetPos(player->player->GetPos());
 			boss->head->SetParent(player->player);
 			player->enemyWepon = true;
-		}		
-		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0) {			
-			boss->rightarm->SetPos(Vector3(0,0,0));
+		}
+		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetParent() == nullptr) {
+			boss->rightarm->SetPos(Vector3(0, 0, 0));
+			boss->rightarm->SetRotation(Vector3(0, 0, 0));
 			boss->rightarm->SetParent(player->player);
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0) {
+		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0 && boss->leftarm->GetParent() == nullptr) {
 			boss->leftarm->SetPos(Vector3(0, 0, 0));
+			boss->leftarm->SetRotation(Vector3(0, 0, 0));
 			boss->leftarm->SetParent(player->player);
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0) {
+		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0 && boss->rightleg->GetParent() == nullptr) {
 			boss->rightleg->SetPos(Vector3(0, 0, 0));
+			boss->rightleg->SetRotation(Vector3(0, 0, 0));
 			boss->rightleg->SetParent(player->player);
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0) {
+		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0 && boss->leftleg->GetParent() == nullptr) {
 			boss->leftleg->SetPos(Vector3(0, 0, 0));
+			boss->leftleg->SetRotation(Vector3(0, 0, 0));
 			boss->leftleg->SetParent(player->player);
 			player->enemyWepon = true;
 		}
 	}
 
-	
+
 #pragma endregion
 #pragma region 部位を落とす
 	if (input->PressKey(DIK_G))
@@ -642,7 +648,7 @@ void GameScene::Update()
 
 	if (input->PressKeyTrigger(DIK_END))
 	{
-		gameEndFlag=true;
+		gameEndFlag = true;
 	}
 }
 
