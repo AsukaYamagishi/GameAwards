@@ -45,6 +45,7 @@ private: //ƒƒ“ƒo•Ï”
 	float playerHPY = 128;
 	int playerMaxHp = 10;
 	Sprite* playerHP = nullptr;
+	Sprite* control = nullptr;
 	//‰¹Šy
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];

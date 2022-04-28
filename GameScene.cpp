@@ -68,10 +68,16 @@ void GameScene::Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio
 		assert(0);
 		return;
 	}
+
+	if (!Sprite::LoadTexture(5, L"Resources/sprite/control.png")) {
+		assert(0);
+		return;
+	}
 	//// スプライト生成
-	boss1HP_Red = Sprite::CreateSprite(2, { 210.0f,10.0f });
-	boss1HP_Black = Sprite::CreateSprite(3, { 210.0f,10.0f });
+	boss1HP_Red = Sprite::CreateSprite(2, { 310.0f,10.0f });
+	boss1HP_Black = Sprite::CreateSprite(3, { 310.0f,10.0f });
 	playerHP = Sprite::CreateSprite(4, { 10, 582 });
+	control = Sprite::CreateSprite(5, { 20, 10 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -364,21 +370,13 @@ void GameScene::Update()
 	}
 #pragma endregion
 
-	player->Update(*camera);
-	stage->Update();
-	skydome->Update();
-	weapon->Update();
+	debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
+	debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
+	debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
+	debugText.PrintDebugText("R:PICK UP", 25, 105, 1.5f);
+	debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
 
 
-	testObject->Update();
-	//カメラの設定
-	//camera->eye = player->player->GetPos() + meye;
-	//camera->eye.y -= 1.0f;
-	//camera->eye.z -= 15.0f;
-	//camera->target = player->player->GetPos() + mtarget;
-	//camera->target.y = 10.0f;
-
-	//testObject->Update();
 	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
@@ -394,11 +392,14 @@ void GameScene::Update()
 	camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
 	camera->eye.y = 20;
 	camera->target = player->player->GetPos();
-	///camera->target.y = 10.0f;
 
+	player->Update(*camera);
+	stage->Update();
+	skydome->Update();
+	weapon->Update();
+	testObject->Update();
 	camera->SetCam(camera);
 	camera->Update();
-
 	boss->Update();
 
 
@@ -460,10 +461,6 @@ void GameScene::Draw()
 
 #pragma region 3Dモデル描画
 
-
-
-
-
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();
@@ -484,6 +481,7 @@ void GameScene::Draw()
 	boss1HP_Black->Draw();
 	boss1HP_Red->Draw();
 	playerHP->Draw();
+	control->Draw();
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 	// スプライト描画後処理
