@@ -190,7 +190,7 @@ void Boss::Fall(int part)
 	if (part == Parts::head)
 	{
 		pos = head->GetPos();
-		if (pos.y > -40)
+		if (pos.y > -30)
 		{
 			head->SetPos(head->GetPos() + fallspeed);
 		}
@@ -208,7 +208,7 @@ void Boss::Fall(int part)
 	if (part == Parts::rightarm)
 	{
 		pos = rightarm->GetPos();
-		if (pos.y > -5)
+		if (pos.y > 5)
 		{
 			rightarm->SetPos(rightarm->GetPos() + fallspeed);
 		}
@@ -217,7 +217,7 @@ void Boss::Fall(int part)
 	if (part == Parts::leftarm)
 	{
 		pos = leftarm->GetPos();
-		if (pos.y > -20)
+		if (pos.y > -15)
 		{
 			leftarm->SetPos(leftarm->GetPos() + fallspeed);
 		}
@@ -226,7 +226,7 @@ void Boss::Fall(int part)
 	if (part == Parts::rightleg)
 	{
 		pos = rightleg->GetPos();
-		if (pos.y > -10)
+		if (pos.y > 0)
 		{
 			rightleg->SetPos(rightleg->GetPos() + fallspeed);
 		}
@@ -235,7 +235,7 @@ void Boss::Fall(int part)
 	if (part == Parts::leftleg)
 	{
 		pos = leftleg->GetPos();
-		if (pos.y > -10)
+		if (pos.y > 0)
 		{
 			leftleg->SetPos(leftleg->GetPos() + fallspeed);
 		}
