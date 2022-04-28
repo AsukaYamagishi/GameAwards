@@ -1,5 +1,6 @@
 #include "Boss.h"
 #include"MeshCollider.h"
+#include"SphereCollider.h"
 
 using namespace DirectX;
 
@@ -30,6 +31,12 @@ Boss::Boss()
 	MeshCollider* leftarmcollider = new MeshCollider;
 	MeshCollider* rightlegcollider = new MeshCollider;
 	MeshCollider* leftlegcollider = new MeshCollider;
+	//コライダーの追加
+	float radius = 0.0f;
+	float radius2 = 10.0f;
+	//球の当たり判定
+	bullet->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));	
+
 
 	head->SetCollider(headcollider);
 	headcollider->ConstrucTriangles(head->GetModelInput());
@@ -49,12 +56,17 @@ Boss::Boss()
 	leftleg->SetCollider(leftlegcollider);
 	leftlegcollider->ConstrucTriangles(leftleg->GetModelInput());
 
+	/*bullet->SetCollider(bulletcollider);
+	bulletcollider->ConstrucTriangles(bullet->GetModelInput());*/
+
+	//タグ付け
 	headcollider->tag = CollisionTag::TagHead;
 	bodycollider->tag = CollisionTag::TagBody;
 	rightarmcollider->tag = CollisionTag::TagRightArm;
 	leftarmcollider->tag = CollisionTag::TagLeftArm;
 	rightlegcollider->tag = CollisionTag::TagRightLeg;
 	leftlegcollider->tag = CollisionTag::TagLeftLeg;
+	bullet->collider->tag= CollisionTag::TagBullet;
 }
 
 Boss::~Boss()
@@ -83,6 +95,7 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	leftleg->SetParent(boss);
 
 	rightarm->SetPos(Vector3(0, 11, 32));
+	rightarm->SetScale(Vector3(5, 5, 5));
 	leftarm->SetPos(Vector3(13, -18, 7));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
@@ -157,9 +170,9 @@ void Boss::Draw()
 	leftarm->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
-	if (attackType == BEAM) {
+	//if (attackType == BEAM) {
 		bullet->Draw();
-	}
+	//}
 	ModelDraw::PostDraw();
 }
 

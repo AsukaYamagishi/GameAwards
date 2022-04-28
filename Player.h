@@ -36,6 +36,10 @@ public:
 	float GetPosY() { Vector3 pos = player->GetPos(); return pos.y; }
 	float GetPosZ() { Vector3 pos = player->GetPos(); return pos.z; }
 
+	//プレイヤーが撃つ球
+	ModelDraw* bullet = nullptr;
+
+
 public:
 	ModelDraw* player = nullptr;
 	int attacktime = 0;
@@ -45,7 +49,7 @@ public:
 	int hp = 10;
 	bool jumpflag = false;
 	float graundheight = 5.0f;//地面の高さ
-
+	bool headFlag = false;
 private:
 	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* input = nullptr;
@@ -56,6 +60,8 @@ private:
 	float jumpadd = initjumpNum;
 	float gravity = 0;	
 
+
+	void BeamAttack();
 public:
 	Vector3 attacktorota = { 0.0f,0.0f,0.0f };
 

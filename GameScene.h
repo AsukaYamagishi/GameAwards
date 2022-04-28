@@ -51,7 +51,7 @@ private: //メンバ変数
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
 
-	bool hit[9] = { false };
+	bool hit[20] = { false };
 
 	//プレイヤー
 	Player *player;	

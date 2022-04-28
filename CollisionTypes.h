@@ -16,21 +16,24 @@ enum CollisionTag
 {
 	TagNone = 0,
 	TagHead = 1,
-	TagBody=2,
-	TagRightArm=3,
-	TagLeftArm=4,
-	TagRightLeg=5,
-	TagLeftLeg=6,
+	TagBody = 2,
+	TagRightArm = 3,
+	TagLeftArm = 4,
+	TagRightLeg = 5,
+	TagLeftLeg = 6,
 	TagPlayer = 7,
-	TagWeapon=8,
+	TagWeapon = 8,
+	TagBullet = 9,
 };
 
 enum AnyHit
 {
-	WwaponToHead =1,
+	WwaponToHead = 1,
 	WwaponToBody,
 	WwaponToRightArm,
 	WwaponToLeftArm,
 	WwaponToRightLeg,
 	WwaponToLeftLeg,
+
+	BulletToPlayer,
 };

@@ -159,10 +159,13 @@ void Player::Update(Camera camera)
 #pragma region 攻撃処理
 	if (input->PressKey(DIK_SPACE) && attacktime == 0)
 	{
-
 		attack = true;
 		attacktime += 1;
 		attacktorota = { 0.0f,0.0f,0.0f };
+		if (headFlag == true)
+		{
+			BeamAttack();
+		}
 	}
 	if (attacktime > 0)
 	{
@@ -176,8 +179,7 @@ void Player::Update(Camera camera)
 			}
 			else {
 				player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
-			}
-			
+			}			
 		}
 		else if (attacktime >= 30 && attacktime < 59)
 		{
@@ -211,4 +213,64 @@ void Player::Draw()
 	ModelDraw::PreDraw(cmdList);
 	player->Draw();
 	ModelDraw::PostDraw();
+}
+
+
+void Player::BeamAttack() {
+	//説明変数
+	const float shotSpeed = 10.0f;
+	const float timeOver = 0.0f;
+	const float initCharge = 30.0f;
+	const float initAttack = 100.0f;
+	const float initCoolTime = 100.0f;
+
+	//攻撃用メンバ変数
+	if (attack == false) {				
+		//chargeTime = initCharge;
+		//attackTime = initAttack;
+	}
+	attack = true;
+
+	//攻撃用ローカル変数
+	/*Vector3 direction = oldBossPos - oldPlayerPos;
+	direction.Normalize();*/
+
+	//ボスの正面から少し前を求める
+	XMVECTOR movement = { 0, 0, 1.0f, 0 };
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
+	movement = XMVector3TransformNormal(movement, matRot);
+
+	movement *= XMVECTOR{ -1, -1, -1 };
+	matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
+
+	XMVECTOR bossFront = /*oldBossPos +*/ movement * XMVECTOR{ 50, 50, 50 };
+
+	//振動
+	/*if (chargeTime >= timeOver) {
+		if (chargeTime == initCharge) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Charge], Audio::not, 0.2f);
+		}
+		chargeTime -= 1.0f;
+		bulletPos = bossFront;
+		bullet->SetPos(bulletPos);
+		shakePosX = oldBossPos.x + rand() % 4 - 2;
+		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
+	}*/
+	/*if (chargeTime <= timeOver && attackTime >= timeOver) {
+		if (attackTime == initAttack) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+		}
+		attackTime -= 1.0f;
+		bulletPos -= direction * shotSpeed;
+		bullet->SetPos(bulletPos);
+	}*/
+	if (attacktime <= timeOver) {
+	/*	chargeTime = initCharge;
+		coolTime = initAttack;*/
+		//boss->SetPos(oldBossPos);
+		//attacktime = initAttack;
+		//attackType = NONE;
+		attack = false;
+	}
 }

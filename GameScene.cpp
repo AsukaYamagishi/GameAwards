@@ -183,34 +183,45 @@ void GameScene::Update()
 
 
 #pragma region 当たり判定
-	Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
+	//Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
+	////体の各部位のカプセル
+	//Capsule headCapsule(Vector3(0, +50, 0), Vector3(0, 40, 0), 3, (0, 255, 255));
+	//Capsule bodyCapsule(Vector3(0, 50, 5), Vector3(0, 20, 5), 6, (0, 255, 255));
+	//Capsule rightAramCapsule(Vector3(-10, 50, 5), Vector3(-20, 5, -5), 5, (0, 255, 255));
+	//Capsule leftAramCapsule(Vector3(20, 50, 5), Vector3(20, 5, 20), 1, (0, 255, 255));
+	//Capsule rightLegCapsule(Vector3(-5, 20, 5), Vector3(-5, 0, 5), 1, (0, 255, 255));
+	//Capsule leftLegCapsule(Vector3(5, 20, 5), Vector3(+5, 0, 5), 1, (0, 255, 255));
 
-	//体の各部位のカプセル
-	Capsule headCapsule(Vector3(0, +50, 0), Vector3(0, 40, 0), 3, (0, 255, 255));
-	Capsule bodyCapsule(Vector3(0, 50, 5), Vector3(0, 20, 5), 6, (0, 255, 255));
-	Capsule rightAramCapsule(Vector3(-10, 50, 5), Vector3(-20, 5, -5), 5, (0, 255, 255));
-	Capsule leftAramCapsule(Vector3(20, 50, 5), Vector3(20, 5, 20), 1, (0, 255, 255));
-	Capsule rightLegCapsule(Vector3(-5, 20, 5), Vector3(-5, 0, 5), 1, (0, 255, 255));
-	Capsule leftLegCapsule(Vector3(5, 20, 5), Vector3(+5, 0, 5), 1, (0, 255, 255));
-
-	//プレイヤーの攻撃範囲
-	Vector3 startpoint = player->player->GetPos();
-	Vector3 endpoint = player->player->GetPos() + Vector3(0.0f, 0.0f, 5.0f);
-	Capsule attackCapsule(startpoint, endpoint, 3, (0, 255, 255));
+	////プレイヤーの攻撃範囲
+	//Vector3 startpoint = player->player->GetPos();
+	//Vector3 endpoint = player->player->GetPos() + Vector3(0.0f, 0.0f, 5.0f);
+	//Capsule attackCapsule(startpoint, endpoint, 3, (0, 255, 255));
 	int damage = 1;
 	//敵のパーツ保持中（今回は左腕）
 	if (player->enemyWepon == true)
 	{
-		endpoint = player->player->GetPos() + Vector3(0.0f, 0.0f, 80.0f);
+		/*endpoint = player->player->GetPos() + Vector3(0.0f, 0.0f, 80.0f);
 		attackCapsule.endPosition = endpoint;
-		attackCapsule.radius = 6;
+		attackCapsule.radius = 6;*/
 		damage = 3;
+	}
+	else
+	{
+		damage = 1;
 	}
 #pragma endregion
 	if (hit[headToPlayer])
 	{
 		debugText.PrintDebugText("headToPlayer", 500, 0);
 	}
+
+#pragma region プレイヤーのダメージ処理
+	if (hit[BulletToPlayer]){
+		//player->HitDamage();
+		debugText.PrintDebugText("aaaaaaaaaaaaaaaaitaiiiiiiiiiiiiiiiii", 0, 0);
+	}
+#pragma endregion
+
 
 #pragma region 攻撃処理
 	if (player->attack)
@@ -464,6 +475,8 @@ void GameScene::Update()
 			boss->head->SetPos(player->player->GetPos());
 			boss->head->SetParent(player->player);
 			player->enemyWepon = true;
+			//球を拾ったフラグ
+			player->headFlag = true;
 		}
 		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetParent() == nullptr) {
 			boss->rightarm->SetPos(Vector3(0, 0, 0));
@@ -493,7 +506,7 @@ void GameScene::Update()
 
 
 #pragma endregion
-#pragma region 部位を落とす
+#pragma region 武器にした部位を落とす
 	if (input->PressKey(DIK_G))
 	{
 		//boss->head->SetParent(nullptr);
@@ -502,6 +515,8 @@ void GameScene::Update()
 		//boss->leftarm->SetParent(nullptr);
 		//boss->rightleg->SetParent(nullptr);
 		//boss->leftleg->SetParent(nullptr);
+		player->enemyWepon = false;
+		player->headFlag = false;
 
 		//ボスの胴体は最後まで残る
 		if (boss->parthp[body] <= 0)
@@ -639,14 +654,15 @@ void GameScene::Update()
 
 #pragma endregion
 	//フラグを毎フレームリセットする
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		hit[i] = 0;
 	}
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollision(hit);
 
-	if (input->PressKeyTrigger(DIK_END))
+	//ボスが死んだらエンドシーンに移行
+	if (input->PressKeyTrigger(DIK_END) || boss->hp <= 0)
 	{
 		gameEndFlag = true;
 	}
