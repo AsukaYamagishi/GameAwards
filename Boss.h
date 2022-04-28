@@ -87,6 +87,8 @@ public:
 	int hp = maxhp;
 	int parthp[6] = { 3,3,3,3,3,3 };
 	float angle = 0.0f;
+	float watch = 0.0f;
+	float watchB = 0.0f;
 	bool stopFlag = false;
 
 private:
