@@ -116,7 +116,7 @@ public: //メンバ関数
 	//初期化
 	void Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
 	//毎フレーム更新処理
-	void Update();
+	bool Update();
 	//描画
 	void Draw();
 #pragma endregion

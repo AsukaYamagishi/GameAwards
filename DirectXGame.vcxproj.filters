@@ -19,9 +19,6 @@
     <Filter Include="ソース ファイル\Camera">
       <UniqueIdentifier>{fc67d5c0-5b26-4370-92ba-9856677af0b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Input">
-      <UniqueIdentifier>{36ec04cb-8844-44b0-9670-e10ee9b52576}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Object">
       <UniqueIdentifier>{48014e49-c0d0-46dc-a608-c3232a2de3a4}</UniqueIdentifier>
     </Filter>
@@ -87,6 +84,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Weapon">
       <UniqueIdentifier>{7e567d73-39f1-409e-8128-ba18f09eb616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{36ec04cb-8844-44b0-9670-e10ee9b52576}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
