@@ -310,6 +310,7 @@ Sprite* Sprite::CreateSprite(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, 
 
 	// Spriteのインスタンスを生成
 	Sprite* sprite = new Sprite(texNumber, position, size, color, anchorpoint, isFlipX, isFlipY);
+	sprite->defSize = size;
 	if (sprite == nullptr) {
 		return nullptr;
 	}
@@ -409,6 +410,15 @@ void Sprite::SetPosition(XMFLOAT2 position)
 void Sprite::SetSize(XMFLOAT2 size)
 {
 	this->size = size;
+
+	// 頂点バッファへのデータ転送
+	TransferVertices();
+}
+
+void Sprite::SetSize(float scale)
+{
+	this->size.x = defSize.x * scale;
+	this->size.y = defSize.y * scale;
 
 	// 頂点バッファへのデータ転送
 	TransferVertices();
