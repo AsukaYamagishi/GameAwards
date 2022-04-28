@@ -94,8 +94,7 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	rightleg->SetParent(boss);
 	leftleg->SetParent(boss);
 
-	rightarm->SetPos(Vector3(0, 11, 32));
-	rightarm->SetScale(Vector3(5, 5, 5));
+	rightarm->SetPos(Vector3(0, 11, 32));	
 	leftarm->SetPos(Vector3(13, -18, 7));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
@@ -170,9 +169,9 @@ void Boss::Draw()
 	leftarm->Draw();
 	rightleg->Draw();
 	leftleg->Draw();
-	//if (attackType == BEAM) {
+	if (attackType == BEAM) {
 		bullet->Draw();
-	//}
+	}
 	ModelDraw::PostDraw();
 }
 
@@ -323,8 +322,8 @@ void Boss::BeamAttack() {
 	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
 	const float initCharge = 30.0f;
-	const float initAttack = 100.0f;
-	const float initCoolTime = 100.0f;
+	const float initAttack = 80.0f;
+	const float initCoolTime = 80.0f;
 
 	//UŒ‚—pƒƒ“ƒo•Ï”
 	if (attackFlag == false) {
@@ -384,7 +383,7 @@ void Boss::PressAttack() {
 	const float timeOver = 0.0f;
 	const float initCharge = 20.0f;
 	const float initAttack = 20.0f;
-	const float initCoolTime = 100.0f;
+	const float initCoolTime = 80.0f;
 
 	//UŒ‚—pƒƒ“ƒo•Ï”
 	if (attackFlag == false) {
@@ -395,7 +394,7 @@ void Boss::PressAttack() {
 		chargeTime = initCharge;
 	}
 	attackFlag = true;
-
+	timer++;
 	//ƒvƒŒƒXUŒ‚
 	if (chargeTime >= timeOver) {
 		chargeTime -= 1.0f;
@@ -415,5 +414,6 @@ void Boss::PressAttack() {
 		boss->SetPos(oldBossPos);
 		attackType = NONE;
 		attackFlag = false;
+		timer = 0;
 	}
 }

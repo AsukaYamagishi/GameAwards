@@ -60,12 +60,12 @@ void Player::Update(Camera camera)
 	//}
 
 	//デバッグ移動
-	if (input->PressKey(DIK_E)) {
-		player->SetPos(player->GetPos() + Vector3(0.0f, move, 0.0f));
-	}
-	if (input->PressKey(DIK_Q)) {
-		player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
-	}
+	//if (input->PressKey(DIK_E)) {
+	//	player->SetPos(player->GetPos() + Vector3(0.0f, move, 0.0f));
+	//}
+	//if (input->PressKey(DIK_Q)) {
+	//	player->SetPos(player->GetPos() + Vector3(0.0f, -move, 0.0f));
+	//}
 
 	//ジャンプ
 	Vector3 jumppos = player->GetPos();
@@ -222,8 +222,9 @@ void Player::Draw()
 
 void Player::HitDamege() {
 	if (damageCoolTime <= 0) {
-		hp -= 1;
+		hp -= 2;
 		damageCoolTime = 100.0f;
+		KnockBack();
 	}
 }
 

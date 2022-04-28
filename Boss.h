@@ -73,7 +73,9 @@ public:
 
 	//ƒvƒŒƒXUŒ‚
 	void PressAttack();
-
+	bool GetAttackFlag() { return attackFlag; }
+	int GetAttackTime() { return attackTime; }
+	int GetAttackType() { return attackType;}
 public:
 	ModelDraw *boss = nullptr;
 
@@ -92,6 +94,7 @@ public:
 	bool stopFlag = false;
 	int attackType = NONE;
 
+	int timer = 0;
 private:
 	DirectXCommon *dxCommon = nullptr;
 	KeyboardInput *input = nullptr;
