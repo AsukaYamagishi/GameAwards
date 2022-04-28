@@ -90,6 +90,7 @@ public:
 	float watch = 0.0f;
 	float watchB = 0.0f;
 	bool stopFlag = false;
+	int attackType = NONE;
 
 private:
 	DirectXCommon *dxCommon = nullptr;
@@ -109,7 +110,6 @@ private:
 	bool attackFlag = false;
 	float shakePosX = 0.0f;
 	float shakePosZ = 0.0f;
-	int attackType = NONE;
 	//ƒr[ƒ€UŒ‚—p•Ï”
 	Vector3 bulletPos = { 0, 0, 0 };
 	float attackTime = 100.0f;

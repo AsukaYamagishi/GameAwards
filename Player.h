@@ -36,6 +36,12 @@ public:
 	float GetPosY() { Vector3 pos = player->GetPos(); return pos.y; }
 	float GetPosZ() { Vector3 pos = player->GetPos(); return pos.z; }
 
+	//ダメージ処理
+	void HitDamege();
+
+	//ノックバック処理
+	void KnockBack();
+
 public:
 	ModelDraw* player = nullptr;
 	int attacktime = 0;
@@ -43,7 +49,9 @@ public:
 	bool oldattack = false;
 	bool enemyWepon = false;
 	int hp = 10;
+	float damageCoolTime = 100.0f;
 	bool jumpflag = false;
+	bool knockBackFlag = false;
 	float graundheight = 5.0f;//地面の高さ
 
 private:
@@ -54,7 +62,9 @@ private:
 	float move = 1.5f;	
 	const float initjumpNum = 2.0f;
 	float jumpadd = initjumpNum;
-	float gravity = 0;	
+	float gravity = 0;
+	Vector3 oldPlayerPos = { 0, 0, 0 };
+	Vector3 testPos = { 0, 0, 0 };
 
 public:
 	Vector3 attacktorota = { 0.0f,0.0f,0.0f };
