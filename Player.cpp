@@ -10,6 +10,8 @@ Player::Player()
 {
 	player = ModelDraw::Create();
 	player->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Player));
+	bullet = ModelDraw::Create();
+	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
 }
 
 Player::~Player()
@@ -31,6 +33,7 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 
 	player->SetScale(Vector3(1, 1, 1));
 	player->SetPos(Vector3(0, 5, 0));
+	bullet->SetScale(Vector3(5, 5, 5));
 
 	//コライダーの追加
 	float radius = 0.0f;
@@ -164,13 +167,14 @@ void Player::Update(Camera camera)
 		attack = true;
 		attacktime += 1;
 		attacktorota = { 0.0f,0.0f,0.0f };
+	}
+	if (attacktime > 0)
+	{
 		if (headFlag == true)
 		{
 			BeamAttack();
 		}
-	}
-	if (attacktime > 0)
-	{
+
 		if (attacktime < 30)
 		{
 			attacktime++;
@@ -181,7 +185,9 @@ void Player::Update(Camera camera)
 			}
 			else {
 				player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
-			}			
+			}
+
+		
 		}
 		else if (attacktime >= 30 && attacktime < 59)
 		{
@@ -208,6 +214,7 @@ void Player::Update(Camera camera)
 	}
 
 	player->Update();
+	bullet->Update();
 }
 
 void Player::Draw()
@@ -217,6 +224,10 @@ void Player::Draw()
 
 	ModelDraw::PreDraw(cmdList);
 	player->Draw();
+	bullet->Draw();
+	if (attack == true && headFlag == true) {
+		
+	}
 	ModelDraw::PostDraw();
 }
 
@@ -269,58 +280,25 @@ void Player::KnockBack() {
 void Player::BeamAttack() {
 	//説明変数
 	const float shotSpeed = 10.0f;
-	const float timeOver = 0.0f;
-	const float initCharge = 30.0f;
-	const float initAttack = 100.0f;
-	const float initCoolTime = 100.0f;
-
-	//攻撃用メンバ変数
-	if (attack == false) {				
-		//chargeTime = initCharge;
-		//attackTime = initAttack;
-	}
-	attack = true;
-
-	//攻撃用ローカル変数
-	/*Vector3 direction = oldBossPos - oldPlayerPos;
-	direction.Normalize();*/
 
 	//ボスの正面から少し前を求める
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
 	movement = XMVector3TransformNormal(movement, matRot);
 
-	movement *= XMVECTOR{ -1, -1, -1 };
+	movement *= XMVECTOR{ 1, 1, 1 };
 	matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
 
-	XMVECTOR bossFront = /*oldBossPos +*/ movement * XMVECTOR{ 50, 50, 50 };
+	playerFront = player->GetPos() + movement * XMVECTOR{ 50, 50, 50 };
 
-	//振動
-	/*if (chargeTime >= timeOver) {
-		if (chargeTime == initCharge) {
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Charge], Audio::not, 0.2f);
-		}
-		chargeTime -= 1.0f;
-		bulletPos = bossFront;
-		bullet->SetPos(bulletPos);
-		shakePosX = oldBossPos.x + rand() % 4 - 2;
-		shakePosZ = oldBossPos.z + rand() % 4 - 2;
-		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
-	}*/
-	/*if (chargeTime <= timeOver && attackTime >= timeOver) {
-		if (attackTime == initAttack) {
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
-		}
-		attackTime -= 1.0f;
-		bulletPos -= direction * shotSpeed;
-		bullet->SetPos(bulletPos);
-	}*/
-	if (attacktime <= timeOver) {
-	/*	chargeTime = initCharge;
-		coolTime = initAttack;*/
-		//boss->SetPos(oldBossPos);
-		//attacktime = initAttack;
-		//attackType = NONE;
-		attack = false;
+	if (attacktime == 1) {
+		bulletPos = playerFront;
 	}
+
+	//攻撃用ローカル変数
+	Vector3 direction = player->GetPos() - playerFront;
+	direction.Normalize();
+
+	bulletPos -= direction * shotSpeed;
+	bullet->SetPos(bulletPos);
 }
