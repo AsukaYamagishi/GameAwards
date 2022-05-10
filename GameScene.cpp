@@ -784,7 +784,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dƒ‚ƒfƒ‹•`‰æ
-	testObject->Draw(cmdList);
+	//testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();
