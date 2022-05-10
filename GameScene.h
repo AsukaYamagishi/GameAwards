@@ -17,7 +17,6 @@
 #include "mCollision.h"
 class CollisionManager;
 class FbxCollisionManager;
-#include"Player2.h"
 #include"Weapon.h"
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -56,7 +55,6 @@ private: //メンバ変数
 
 	//プレイヤー
 	Player *player;	
-	Player2* player2 = nullptr;
 	//武器
 	//OBJObject *weapon;
 	Weapon* weapon = nullptr;
