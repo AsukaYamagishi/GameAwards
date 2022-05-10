@@ -69,7 +69,8 @@ private:
 	float gravity = 0;
 	Vector3 oldPlayerPos = { 0, 0, 0 };
 	Vector3 testPos = { 0, 0, 0 };
-
+	Vector3 playerFront = { 0, 0, 0 };
+	Vector3 bulletPos = { 0, 0, 0 };
 
 	void BeamAttack();
 public:
