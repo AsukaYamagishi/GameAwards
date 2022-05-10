@@ -73,6 +73,8 @@ private:
 	Vector3 bulletPos = { 0, 0, 0 };
 
 	void BeamAttack();
+
+	Vector3 oldRota = { 0,0,0 };
 public:
 	Vector3 attacktorota = { 0.0f,0.0f,0.0f };
 

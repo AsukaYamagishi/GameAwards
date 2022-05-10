@@ -33,7 +33,8 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 
 	player->SetScale(Vector3(1, 1, 1));
 	player->SetPos(Vector3(0, 5, 0));
-	bullet->SetScale(Vector3(5, 5, 5));
+	bullet->SetScale(Vector3(10, 10, 10));
+	bullet->SetPos(Vector3(10, -100, 10));
 
 	//コライダーの追加
 	float radius = 0.0f;
@@ -41,6 +42,9 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	//球の当たり判定
 	player->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));
 	player->collider->tag = CollisionTag::TagPlayer;
+
+	bullet->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), 15));
+	bullet->collider->tag = CollisionTag::TagPlayerBullet;
 }
 
 void Player::Update(Camera camera)
@@ -167,6 +171,7 @@ void Player::Update(Camera camera)
 		attack = true;
 		attacktime += 1;
 		attacktorota = { 0.0f,0.0f,0.0f };
+		oldRota = player->GetRotation();
 	}
 	if (attacktime > 0)
 	{
@@ -233,7 +238,7 @@ void Player::Draw()
 
 void Player::HitDamege() {
 	if (damageCoolTime <= 0) {
-		hp -= 2;
+		//hp -= 2;
 		damageCoolTime = 100.0f;
 		KnockBack();
 	}
@@ -283,11 +288,11 @@ void Player::BeamAttack() {
 
 	//ボスの正面から少し前を求める
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
-	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
+	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(oldRota.y)));
 	movement = XMVector3TransformNormal(movement, matRot);
 
 	movement *= XMVECTOR{ 1, 1, 1 };
-	matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
+	matRot = XMMatrixRotationY((XMConvertToRadians(oldRota.y)));
 
 	playerFront = player->GetPos() + movement * XMVECTOR{ 50, 50, 50 };
 

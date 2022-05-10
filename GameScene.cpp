@@ -732,7 +732,7 @@ bool GameScene::Update()
 	}
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollision(hit);
-	fbxcollisionManager->CheckAllCollision(hit);
+//	fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
 	//ボスが死んだらエンドシーンに移行

@@ -24,6 +24,7 @@ enum CollisionTag
 	TagPlayer = 7,
 	TagWeapon = 8,
 	TagBullet = 9,
+	TagPlayerBullet=10
 };
 
 enum AnyHit
