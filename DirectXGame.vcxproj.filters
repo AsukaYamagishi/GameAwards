@@ -159,20 +159,11 @@
     <ClInclude Include="FbxDraw.h">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="OBJObject.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>ソース ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
       <Filter>ソース ファイル\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Primitive.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="mCollision.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ControllerInput.h">
       <Filter>ソース ファイル\Input</Filter>
@@ -197,6 +188,15 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>ソース ファイル\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="mCollision.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJObject.h">
+      <Filter>ソース ファイル\Model\Obj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,20 +266,11 @@
     <ClCompile Include="FbxDraw.cpp">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClCompile>
-    <ClCompile Include="OBJObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
       <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Primitive.cpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="mCollision.cpp">
-      <Filter>ヘッダー ファイル</Filter>
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
@@ -298,6 +289,15 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>ソース ファイル\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="mCollision.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJObject.cpp">
+      <Filter>ソース ファイル\Model\Obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

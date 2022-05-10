@@ -60,7 +60,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	camera->Initialize({ 0,30,130 });
 	camera = Camera::GetCam();
 	camera->target = { 0 ,50 ,0 };
-#pragma endregion
 
 #pragma region デバッグテキスト読み込み
 	// デバッグテキスト用テクスチャ読み込み
@@ -74,7 +73,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 #pragma endregion
 
 #pragma region Sprite初期設定
-	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
+	// テクスチャ読み込み
 	if (!Sprite::LoadTexture(2, L"Resources/sprite/redHP.png")) {
 		assert(0);
 		return;
@@ -108,16 +107,16 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	FbxDraw::CreateGraphicsPipeline();
 
 #pragma region 3DモデルCreate・初期設定
-	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
-	//3Dオブジェクト生成とモデルのセット
-	testObject = new FbxDraw();
-	testObject->Init();
-	testObject->SetModel(testModel.get());
-	testObject->SetScale({ 0.01,0.0001,0.001 });
-	testObject->SetRotation({ 0,0,0 });
-	testObject->SetPosition({ 0,5,3 });
-	//testObject->PlayAnimation(true);
+	////モデルを指定して読み込み
+	//testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
+	////3Dオブジェクト生成とモデルのセット
+	//testObject = new FbxDraw();
+	//testObject->Init();
+	//testObject->SetModel(testModel.get());
+	//testObject->SetScale({ 0.01,0.0001,0.001 });
+	//testObject->SetRotation({ 0,0,0 });
+	//testObject->SetPosition({ 0,5,3 });
+	////testObject->PlayAnimation(true);
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -643,7 +642,7 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	testObject->Update();
+	//testObject->Update();
 
 	//testObject->Update();
 	//カメラの設定
@@ -652,7 +651,6 @@ bool GameScene::Update()
 	//camera->eye.z -= 15.0f;
 	//camera->target = player->player->GetPos() + mtarget;
 	//camera->target.y = 10.0f;
-
 	//testObject->Update();
 
 	XMFLOAT3 rote = player->GetNoAttackRotation();
@@ -678,7 +676,7 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	testObject->Update();
+	//testObject->Update();
 	camera->SetCam(camera);
 	camera->Update();
 	boss->Update();
