@@ -16,6 +16,7 @@
 #include"Primitive.h"
 #include "mCollision.h"
 class CollisionManager;
+class FbxCollisionManager;
 #include"Player2.h"
 #include"Weapon.h"
 using namespace Microsoft::WRL;
@@ -67,10 +68,13 @@ private: //メンバ変数
 
 	//衝突マネージャ
 	CollisionManager* collisionManager = nullptr;
+	FbxCollisionManager* fbxcollisionManager = nullptr;
 
 	//FBXモデル
 	std::unique_ptr<FbxModel> testModel = nullptr;
 	FbxDraw *testObject = nullptr;
+	std::unique_ptr<FbxModel> testsphereModel = nullptr;
+	FbxDraw* testsphereObject = nullptr;
 
 	//パーティクル
 	ParticleManager* particleMan = nullptr;

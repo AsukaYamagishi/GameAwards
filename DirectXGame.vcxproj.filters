@@ -156,9 +156,6 @@
     <ClInclude Include="FbxModel.h">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="FbxDraw.h">
-      <Filter>ソース ファイル\Model\FBX</Filter>
-    </ClInclude>
     <ClInclude Include="OBJObject.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -197,6 +194,21 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>ソース ファイル\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxDraw.h">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxBaseCollider.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxSphereCollider.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxCollisionManager.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxMeshCollider.h">
+      <Filter>ソース ファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +310,15 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>ソース ファイル\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxSphereCollider.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxCollisionManager.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxMeshCollider.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

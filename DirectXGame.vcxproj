@@ -164,9 +164,13 @@
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="FbxBaseCollider.h" />
+    <ClInclude Include="FbxCollisionManager.h" />
     <ClInclude Include="FbxDraw.h" />
     <ClInclude Include="FbxInput.h" />
+    <ClInclude Include="FbxMeshCollider.h" />
     <ClInclude Include="FbxModel.h" />
+    <ClInclude Include="FbxSphereCollider.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="mCollision.h" />
@@ -200,9 +204,12 @@
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="FbxCollisionManager.cpp" />
     <ClCompile Include="FbxDraw.cpp" />
     <ClCompile Include="FbxInput.cpp" />
+    <ClCompile Include="FbxMeshCollider.cpp" />
     <ClCompile Include="FbxModel.cpp" />
+    <ClCompile Include="FbxSphereCollider.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
