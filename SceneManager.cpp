@@ -35,7 +35,7 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 void SceneManager::Update()
 {
 	//シーン切り替え
-	if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == titleScene||input->PressKeyTrigger(DIK_M))
+	if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == titleScene||input->PressKeyTrigger(DIK_M))
 	{		
 		game->Finalize();
 		game->Init(dxCommon, input, audio);
@@ -46,17 +46,17 @@ void SceneManager::Update()
 		end->Init(dxCommon, input, audio);
 		sceneNo = endScene;
 	}
-	else if (input->PressKeyTrigger(DIK_SPACE) && sceneNo == endScene)
+	else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
 	{
 		title->Init(dxCommon, input, audio);
 		sceneNo = titleScene;
 	}
-	else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
-	{
-		game->Finalize();
-		game->Init(dxCommon, input, audio);
-		sceneNo = gameScene;
-	}
+	//else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
+	//{
+	//	game->Finalize();
+	//	game->Init(dxCommon, input, audio);
+	//	sceneNo = gameScene;
+	//}
 
 #pragma region シーンアップデート
 	
@@ -84,6 +84,6 @@ void SceneManager::Draw()
 		game->Draw();
 	}
 	else if (sceneNo == endScene) {
-		end->Draw();
+		end->Draw(game->winJudeg);
 	}
 }

@@ -741,10 +741,12 @@ bool GameScene::Update()
 		gameEndFlag = true;
 		if (boss->hp <= 0)
 		{
+			winJudeg = true;
 			return true;
 		}
 		else
 		{
+			winJudeg = false;
 			return false;
 		}
 	}

@@ -29,10 +29,13 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 		assert(0);
 		return;
 	}
+	Sprite::LoadTexture(3, L"Resources/sprite/failure.png");
 	//// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
-
 	spriteBG->SetSize({ 1280, 720 });
+
+	sprite1 = Sprite::CreateSprite(3, { 0.0f,0.0f });
+	sprite1->SetSize({ 1280, 720 });
 	
 }
 
@@ -42,7 +45,7 @@ void EndGame::Update()
 	input->Update();
 }
 
-void EndGame::Draw()
+void EndGame::Draw(bool winjude)
 {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
@@ -51,7 +54,14 @@ void EndGame::Draw()
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	// 背景スプライト描画
-	spriteBG->Draw();
+	if (winjude)
+	{
+		spriteBG->Draw();
+	}
+	else
+	{
+		sprite1->Draw();
+	}
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる

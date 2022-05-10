@@ -92,7 +92,7 @@ private: //メンバ変数
 public:
 	//ゲームシーン終了用
 	bool gameEndFlag = false;
-
+	bool winJudeg = false;
 #pragma endregion
 
 #pragma region 静的メンバ関数
