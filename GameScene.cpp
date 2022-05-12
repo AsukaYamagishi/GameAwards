@@ -141,11 +141,16 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	testsphereObject->SetCollider(new FbxSphereCollider(XMVECTOR({ 0, 0, 0.0 }), 100));
 	testsphereObject->collider->tag = CollisionTag::TagPlayer;
 
-	arrow = ModelDraw::Create();
-	arrow->SetModel(ModelManager::GetIns()->GetModel(ModelManager::arrow));
-	arrow->SetRotation({ 0, 90, -90 });
-	arrow->SetScale({ 7,7,7 });
-	arrow->SetPos({ 0,10,0 });
+	//拾える武器用の矢印
+	for (int i = 0; i < 5; i++)
+	{
+		arrow[i] = ModelDraw::Create();
+		arrow[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::arrow));
+		arrow[i]->SetRotation({90, 90, -90});
+		arrow[i]->SetScale({7,7,7});
+		DrawFlag[i] = false;
+	}
+	frame = 0;
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -416,6 +421,15 @@ bool GameScene::Update()
 		}
 	}
 
+	//矢印の座標
+	arrowPos[0] = boss->head->GetPos();
+	arrowPos[1] = boss->rightarm->GetPos();
+	arrowPos[2] = boss->leftarm->GetPos();
+	arrowPos[3] = boss->rightleg->GetPos();
+	arrowPos[4] = boss->leftleg->GetPos();
+
+	frame++;
+
 	//パーツ落下処理
 	if (boss->parthp[head] <= 0)
 	{
@@ -425,6 +439,9 @@ bool GameScene::Update()
 		}
 		if (boss->head->GetParent() == nullptr) {
 			boss->Fall(head);
+			DrawFlag[0] = true;
+			arrow[0]->SetPos({ arrowPos[0].x - 10, arrowPos[0].y + 40, arrowPos[0].z });
+			arrow[0]->SetRotation({ 90, 90, -90 + frame });
 		}
 	}
 	if (boss->parthp[body] <= 0)
@@ -438,6 +455,9 @@ bool GameScene::Update()
 	{
 		if (boss->rightarm->GetParent() == nullptr) {
 			boss->Fall(rightarm);
+			arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 40, arrowPos[1].z - 50 });
+			arrow[1]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[1] = true;
 		}
 		if (boss->rightarm->GetParent() == boss->boss) {
 			boss->rightarm->SetParent(nullptr);
@@ -447,6 +467,9 @@ bool GameScene::Update()
 	{
 		if (boss->leftarm->GetParent() == nullptr) {
 			boss->Fall(leftarm);
+			arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 70, arrowPos[2].z + 10});
+			arrow[2]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[2] = true;
 		}
 		if (boss->leftarm->GetParent() == boss->boss) {
 			boss->leftarm->SetParent(nullptr);
@@ -457,6 +480,9 @@ bool GameScene::Update()
 	{
 		if (boss->rightleg->GetParent() == nullptr) {
 			boss->Fall(rightleg);
+			arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40, arrowPos[3].z });
+			arrow[3]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[3] = true;
 		}
 		if (boss->rightleg->GetParent() == boss->boss) {
 			boss->rightleg->SetParent(nullptr);
@@ -468,6 +494,9 @@ bool GameScene::Update()
 	{
 		if (boss->leftleg->GetParent() == nullptr) {
 			boss->Fall(leftleg);
+			arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 40, arrowPos[4].z });
+			arrow[4]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[4] = true;
 		}
 		if (boss->leftleg->GetParent() == boss->boss) {
 			boss->leftleg->SetParent(nullptr);
@@ -560,6 +589,11 @@ bool GameScene::Update()
 			boss->leftleg->SetPos(Vector3(-15, 7, -3));
 			boss->leftleg->SetRotation(Vector3(0, 0, 190));
 			player->enemyWepon = true;
+		}
+
+		for (int i = 0; i < 5; i++)
+		{
+			DrawFlag[i] = false;
 		}
 	}
 
@@ -711,7 +745,11 @@ bool GameScene::Update()
 	camera->SetCam(camera);
 	camera->Update();
 	boss->Update();
-	arrow->Update();
+	for (int i = 0; i < 5; i++)
+	{
+		arrow[i]->Update();
+	}
+	
 
 
 
@@ -782,7 +820,14 @@ void GameScene::Draw()
 
 
 	// 3Dオブクジェクトの描画
-	arrow->Draw();
+	for (int i = 0; i < 5; i++)
+	{
+		if (DrawFlag[i] == true)
+		{
+			arrow[i]->Draw();
+		}
+	}
+	
 
 
 	// 3Dオブジェクト描画後処理

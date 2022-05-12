@@ -48,8 +48,11 @@ private: //ƒƒ“ƒo•Ï”
 	int playerMaxHp = 10;
 	Sprite* playerHP = nullptr;
 	Sprite* control = nullptr;
-	ModelDraw* arrow = nullptr;
-	bool DrawFlag = true;
+	//E‚¦‚é•Ší—p–îˆó
+	ModelDraw* arrow[5];
+	bool DrawFlag[5];
+	XMFLOAT3 arrowPos[5];
+	float frame;
 	//‰¹Šy
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
