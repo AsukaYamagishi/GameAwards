@@ -112,18 +112,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	FbxDraw::CreateGraphicsPipeline();
 
 #pragma region 3DモデルCreate・初期設定
-<<<<<<< HEAD
-	////モデルを指定して読み込み
-	//testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
-	////3Dオブジェクト生成とモデルのセット
-	//testObject = new FbxDraw();
-	//testObject->Init();
-	//testObject->SetModel(testModel.get());
-	//testObject->SetScale({ 0.01,0.0001,0.001 });
-	//testObject->SetRotation({ 0,0,0 });
-	//testObject->SetPosition({ 0,5,3 });
-	////testObject->PlayAnimation(true);
-=======
+
 	//モデルを指定して読み込み
 	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
 	//3Dオブジェクト生成とモデルのセット
@@ -151,13 +140,33 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 	testsphereObject->SetCollider(new FbxSphereCollider(XMVECTOR({ 0, 0, 0.0 }), 100));
 	testsphereObject->collider->tag = CollisionTag::TagPlayer;
->>>>>>> master
+
+	//プレイヤーなど生成
+	player = new Player();
+	player->Initialize(dxCommon, input, audio);
+
+	boss = new Boss();
+	boss->Initialize(dxCommon, input, audio, player->player);
+	boss->boss->SetPos(Vector3(0, 5, 0));
+	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
+
+	stage = new OBJObject();
+	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
+	stage->model->SetScale({ 30,30,30 });
+	skydome = new OBJObject();
+	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
+
+	weapon = new Weapon();
+	weapon->Initialize(dxCommon, input, audio);
+
+	//プレイヤーに追従
+	weapon->weapon->SetParent(player->player);
+
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
 	particleMan->Update();
 #pragma endregion
-
 
 #pragma region 音楽リソース初期設定
 
@@ -176,26 +185,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 #pragma endregion
 
-	player = new Player();
-	player->Initialize(dxCommon, input, audio);
-
-	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio, player->player);
-	boss->boss->SetPos(Vector3(0, 5, 0));
-	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
-
-	stage = new OBJObject();
-	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
-	stage->model->SetScale({ 30,30,30 });
-	skydome = new OBJObject();
-	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
-
-	weapon = new Weapon();
-	weapon->Initialize(dxCommon, input, audio);
-	//プレイヤーに追従
-	weapon->weapon->SetParent(player->player);
-
-
 	gameEndFlag = false;
 
 	//コリジョンマネージャーの生成
@@ -206,12 +195,12 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 bool GameScene::Update()
 {
 
-
+	//カメラ操作
 	if (input->PressKey(DIK_RIGHT)) {
-		camera->matrot *= XMMatrixRotationY(0.1f);
+		camera->matRot *= XMMatrixRotationY(0.1f);
 	}
 	else if (input->PressKey(DIK_LEFT)) {
-		camera->matrot *= XMMatrixRotationY(-0.1f);
+		camera->matRot *= XMMatrixRotationY(-0.1f);
 	}
 
 	particleMan->Update();
@@ -349,8 +338,6 @@ bool GameScene::Update()
 			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
 		}*/
 
-
-		//メッシュとの
 #pragma region メッシュとの
 			//頭
 		if (hit[Ghead] && boss->parthp[head] > 0)
@@ -568,9 +555,8 @@ bool GameScene::Update()
 			player->enemyWepon = true;
 		}
 	}
-
-
 #pragma endregion
+
 #pragma region 武器にした部位を落とす
 	if (input->PressKey(DIK_G))
 	{
@@ -679,7 +665,6 @@ bool GameScene::Update()
 	skydome->Update();
 	weapon->Update();
 	//testObject->Update();
-
 	//testObject->Update();
 	//カメラの設定
 	//camera->eye = player->player->GetPos() + meye;
@@ -693,7 +678,7 @@ bool GameScene::Update()
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rote.y));
-	movement = XMVector3TransformNormal(movement, camera->matrot);
+	movement = XMVector3TransformNormal(movement, camera->matRot);
 
 	movement *= XMVECTOR{ -1, -1, -1 };
 	if (player->attack == false)

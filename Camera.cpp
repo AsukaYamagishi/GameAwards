@@ -2,7 +2,7 @@
 #include "WindowsAPI.h"
 #include "yMath.h"
 
-Camera* Camera::NowMatView = nullptr;
+Camera* Camera::nowMatView = nullptr;
 
 Camera::Camera(Vector3 eye, Vector3 target, Vector3 up)
 {
@@ -15,7 +15,7 @@ Camera::Camera(Vector3 eye, Vector3 target, Vector3 up)
 	UpdateProjectionMatrix();
 	//ビュープロジェクション合成
 	matViewProjection = matView * matProjection;
-	matrot = XMMatrixIdentity();
+	matRot = XMMatrixIdentity();
 }
 
 void Camera::Update()
@@ -50,8 +50,8 @@ void Camera::UpdateProjectionMatrix()
 
 void Camera::Initialize(const XMFLOAT3 eye)
 {
-	NowMatView = new Camera(Vector3{ eye });
-	NowMatView->matView = XMMatrixLookAtLH(
+	nowMatView = new Camera(Vector3{ eye });
+	nowMatView->matView = XMMatrixLookAtLH(
 		XMLoadFloat3(&eye),
 		XMLoadFloat3(&Vector3{ 0,0,0 }),
 		XMLoadFloat3(&Vector3{ 0,1,0 })
@@ -60,7 +60,7 @@ void Camera::Initialize(const XMFLOAT3 eye)
 
 void Camera::SetCam(Camera* cam)
 {
-	NowMatView = cam;
+	nowMatView = cam;
 }
 
 //void Camera::TargetSpin(float length)

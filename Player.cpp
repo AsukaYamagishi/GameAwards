@@ -141,14 +141,14 @@ void Player::Update(Camera camera)
 	XMVECTOR playermatrot = { forvardvec };
 	//回転行列をかける
 	playermatrot = XMVector3Normalize(playermatrot);
-	playermatrot = XMVector3Transform(playermatrot, camera.matrot);
+	playermatrot = XMVector3Transform(playermatrot, camera.matRot);
 	//正規化する
 	playermatrot = XMVector3Normalize(playermatrot);
 
 
 	XMFLOAT3 rote = player->GetRotation();
 	XMFLOAT3 pos = player->GetPos();
-	forvardvec = XMVector3TransformNormal(forvardvec, camera.matrot);
+	forvardvec = XMVector3TransformNormal(forvardvec, camera.matRot);
 
 	float speed = 1.0f;
 
