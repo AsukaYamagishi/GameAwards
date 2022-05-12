@@ -23,6 +23,7 @@ private: //メンバ変数
 	
 	//ゲームシーン用
 	Sprite* spriteBG = nullptr;
+	Sprite* background = nullptr;
 
 	//音楽
 	Audio::SoundData soundData;
