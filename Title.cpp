@@ -30,10 +30,18 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(3, L"Resources/sprite/title_back.png")) {
+		assert(0);
+		return;
+	}
 	// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 
 	spriteBG->SetSize({ 1280, 720 });
+
+	background = Sprite::CreateSprite(3, { 0.0f,0.0f });
+
+	background->SetSize({ 1280, 720 });
 #pragma endregion
 
 
@@ -67,7 +75,7 @@ void Title::Draw()
 	Sprite::PreDraw(cmdList);
 
 	// 背景スプライト描画
-	
+	background->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

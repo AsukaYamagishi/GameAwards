@@ -39,3 +39,10 @@ enum AnyHit
 	BulletToPlayer,
 	BossAttackToPlayer,
 };
+
+enum AttackFlagNum
+{
+	PlayerAttack,
+	BossBeam,
+	BossPress
+};

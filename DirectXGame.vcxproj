@@ -161,6 +161,7 @@
     <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimitive.h" />
+    <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />

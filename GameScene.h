@@ -51,8 +51,10 @@ private: //メンバ変数
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
 
+	//コリジョンマネージャーに送ってどのパーツ、対象が当たっているのかを保存する
 	bool hit[20] = { false };
-
+	//ゲームシーンに存在するアタックする奴らのアタックフラグを全部入れる
+	bool attackFlag[10] = { false };
 	//プレイヤー
 	Player *player;	
 	//武器
