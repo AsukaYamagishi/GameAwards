@@ -195,7 +195,9 @@ void Player::Update(Camera camera)
 			attacktime++;
 			attacktorota += Vector3(0.0f, 5.0f, 0.0f);
 			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
-				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D)) {
+				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D) ||
+				padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) != 0 || 
+				padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) != 0) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
 			else {
@@ -209,7 +211,9 @@ void Player::Update(Camera camera)
 			attacktime++;
 			attacktorota += Vector3(0.0f, -5.0f, 0.0f);
 			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
-				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D)) {
+				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D) ||
+				padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) != 0 || 
+				padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) != 0) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
 			else {
