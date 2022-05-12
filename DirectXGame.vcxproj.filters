@@ -204,6 +204,9 @@
     <ClInclude Include="FbxMeshCollider.h">
       <Filter>ソース ファイル\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
