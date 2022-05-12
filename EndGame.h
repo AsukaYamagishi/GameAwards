@@ -43,7 +43,7 @@ public: //メンバ関数
 	//毎フレーム更新処理
 	void Update();
 	//描画
-	void Draw();
+	void Draw(bool winjude);
 #pragma endregion
 };
 

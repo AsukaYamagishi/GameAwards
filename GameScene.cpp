@@ -5,7 +5,10 @@
 #include "FbxInput.h"
 #include "FbxDraw.h"
 #include "CollisionManager.h"
+#include "FbxCollisionManager.h"
 #include"CollisionTypes.h"
+#include"FbxMeshCollider.h"
+#include "FbxSphereCollider.h"
 
 using namespace DirectX;
 enum mesh
@@ -35,12 +38,14 @@ GameScene::~GameScene()
 	safe_delete(weapon);
 	safe_delete(camera);
 	safe_delete(collisionManager);
+	safe_delete(fbxcollisionManager);
 	//safe_delete(testModel);
 }
 
 void GameScene::Finalize()
 {
 	collisionManager->Finalize();
+	fbxcollisionManager->Finalize();
 }
 
 void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
@@ -107,6 +112,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	FbxDraw::CreateGraphicsPipeline();
 
 #pragma region 3DモデルCreate・初期設定
+<<<<<<< HEAD
 	////モデルを指定して読み込み
 	//testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
 	////3Dオブジェクト生成とモデルのセット
@@ -117,6 +123,35 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	//testObject->SetRotation({ 0,0,0 });
 	//testObject->SetPosition({ 0,5,3 });
 	////testObject->PlayAnimation(true);
+=======
+	//モデルを指定して読み込み
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
+	//3Dオブジェクト生成とモデルのセット
+	testObject = new FbxDraw();
+	testObject->Init();
+	testObject->SetModel(testModel.get());	
+	//testObject->SetScale({ 0.01,0.0001,0.001 });
+	testObject->SetScale({ 0.1,0.1,0.1 });
+	testObject->SetRotation({ 0,0,0 });
+	testObject->SetPosition({ 0,5,3 });
+	testObject->PlayAnimation(true);
+	FbxMeshCollider* testcollider = new FbxMeshCollider;
+	testObject->SetCollider(testcollider);
+	testcollider->ConstrucTriangles(testObject->GetModel());
+	testcollider->tag = CollisionTag::TagHead;
+
+	testsphereObject = new FbxDraw();
+	testsphereObject->Init();
+	testsphereObject->SetModel(testModel.get());	
+	//testObject->SetScale({ 0.01,0.0001,0.001 });
+	testsphereObject->SetScale({ 0.01,0.01,0.01 });
+	testsphereObject->SetRotation({ 0,0,0 });
+	testsphereObject->SetPosition({ 0,0,0 });
+	testsphereObject->PlayAnimation(true);
+
+	testsphereObject->SetCollider(new FbxSphereCollider(XMVECTOR({ 0, 0, 0.0 }), 100));
+	testsphereObject->collider->tag = CollisionTag::TagPlayer;
+>>>>>>> master
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -165,6 +200,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 	//コリジョンマネージャーの生成
 	collisionManager = CollisionManager::GetInstance();
+	fbxcollisionManager = FbxCollisionManager::GetInstance();
 }
 
 bool GameScene::Update()
@@ -707,6 +743,7 @@ bool GameScene::Update()
 	}
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollision(hit);
+//	fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
 	//ボスが死んだらエンドシーンに移行
@@ -715,10 +752,12 @@ bool GameScene::Update()
 		gameEndFlag = true;
 		if (boss->hp <= 0)
 		{
+			winJudeg = true;
 			return true;
 		}
 		else
 		{
+			winJudeg = false;
 			return false;
 		}
 	}
@@ -758,7 +797,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dモデル描画
-
+	//testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();

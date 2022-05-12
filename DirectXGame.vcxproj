@@ -142,7 +142,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SorutionDir)DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,9 +164,13 @@
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="FbxBaseCollider.h" />
+    <ClInclude Include="FbxCollisionManager.h" />
     <ClInclude Include="FbxDraw.h" />
     <ClInclude Include="FbxInput.h" />
+    <ClInclude Include="FbxMeshCollider.h" />
     <ClInclude Include="FbxModel.h" />
+    <ClInclude Include="FbxSphereCollider.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="mCollision.h" />
@@ -177,7 +181,6 @@
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="OBJObject.h" />
     <ClInclude Include="ParticleManager.h" />
-    <ClInclude Include="Player2.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Sprite.h" />
@@ -200,9 +203,12 @@
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="FbxCollisionManager.cpp" />
     <ClCompile Include="FbxDraw.cpp" />
     <ClCompile Include="FbxInput.cpp" />
+    <ClCompile Include="FbxMeshCollider.cpp" />
     <ClCompile Include="FbxModel.cpp" />
+    <ClCompile Include="FbxSphereCollider.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
@@ -214,7 +220,6 @@
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="OBJObject.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
-    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />

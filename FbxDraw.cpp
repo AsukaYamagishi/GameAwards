@@ -5,6 +5,9 @@
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
+#include"FbxBaseCollider.h"
+#include "FbxCollisionManager.h"
+
 //静的メンバ変数の実体
 ID3D12Device* FbxDraw::dev = nullptr;
 Camera* FbxDraw::camera = nullptr;
@@ -119,6 +122,11 @@ void FbxDraw::Update()
 	}
 	constBuffSkin->Unmap(0, nullptr);
 	
+	//当たり判定の更新
+	if (collider)
+	{
+		collider->Update();
+	}
 }
 
 void FbxDraw::PlayAnimation(bool isLoop)
@@ -165,6 +173,16 @@ void FbxDraw::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	//モデル描画
 	model->Draw(cmdList);
+}
+
+void FbxDraw::SetCollider(FbxBaseCollider* collider)
+{
+	collider->SetObject(this);
+	this->collider = collider;
+	// コリジョンマネージャに登録
+	FbxCollisionManager::GetInstance()->AddCollider(collider);
+	//コライダーを更新しておく
+	collider->Update();
 }
 
 void FbxDraw::CreateGraphicsPipeline()

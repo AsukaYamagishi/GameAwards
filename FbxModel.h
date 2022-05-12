@@ -100,6 +100,10 @@ public: //ゲッター・セッター
 	//インデックスの取得
 	std::vector<unsigned short>* GetIndces() { return &indices; }
 
+	//当たり判定時に使うようですこし変えたやつ
+	std::vector<VertexPosNormalUvSkin>& GetColVertices() { return vertices; }
+	std::vector<unsigned short>& GetColIndces() { return indices; }
+
 private: //メンバ変数
 	//モデル名
 	std::string name;

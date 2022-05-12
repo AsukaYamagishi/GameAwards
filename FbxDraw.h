@@ -10,6 +10,8 @@
 #include "FbxInput.h"
 #include "Camera.h"
 
+class FbxBaseCollider;
+
 class FbxDraw
 {
 protected: //エイリアス
@@ -60,6 +62,11 @@ public: //メンバ関数
 	void SetPosition(Vector3 nextPos) { position = nextPos; }
 	void SetRotation(Vector3 nextRotate) { rotation = nextRotate; }
 
+	void SetCollider(FbxBaseCollider* collider);
+	//ワールド行列を取得する関数
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+	FbxModel* GetModel() { return model; }
+
 public: //静的メンバ関数
 	//セッター
 	static void SetDevice(ID3D12Device* dev) { FbxDraw::dev = dev; }
@@ -108,5 +115,8 @@ private: //静的メンバ変数
 	//アニメーションループ再生
 	bool isLoop = false;
 
+public:
+	//コライダー
+	FbxBaseCollider* collider = nullptr;
 };
 

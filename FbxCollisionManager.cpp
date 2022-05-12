@@ -1,5 +1,5 @@
-#include "CollisionManager.h"
-#include "BaseCollider.h"
+#include "FbxCollisionManager.h"
+#include "FbxBaseCollider.h"
 #include"Collision.h"
 #include"MeshCollider.h"
 
@@ -8,16 +8,16 @@
 #include <string>
 #include <unordered_map>
 
-CollisionManager* CollisionManager::GetInstance()
+FbxCollisionManager* FbxCollisionManager::GetInstance()
 {
-	static CollisionManager instance;
+	static FbxCollisionManager instance;
 	return &instance;
 }
 
-void CollisionManager::CheckAllCollision(bool hit[])
+void FbxCollisionManager::CheckAllCollision(bool hit[])
 {
-	std::forward_list<BaseCollider*>::iterator itA;
-	std::forward_list<BaseCollider*>::iterator itB;
+	std::forward_list<FbxBaseCollider*>::iterator itA;
+	std::forward_list<FbxBaseCollider*>::iterator itB;
 
 	int i = 0;
 	//全ての組み合わせについて総当たりチェック
@@ -28,8 +28,8 @@ void CollisionManager::CheckAllCollision(bool hit[])
 		++itB;
 		for (; itB != colliders.end(); ++itB)
 		{
-			BaseCollider* colA = *itA;
-			BaseCollider* colB = *itB;
+			FbxBaseCollider* colA = *itA;
+			FbxBaseCollider* colB = *itB;
 
 #pragma region 初期当たり判定（全タイプの判定をして重くなるのでコメントアウット）
 			////ともに球
@@ -391,154 +391,6 @@ void CollisionManager::CheckAllCollision(bool hit[])
 			}
 #pragma endregion
 
-#pragma region ハンマーとボスの当たり判定
-			//プレイヤーとボスの頭
-			if (colA->tag == TagHead &&
-				colB->tag == TagPlayerBullet)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToHead] = 1;
-				}
-			}
-			//プレイヤーとボスの体
-			if (colA->tag == TagBody &&
-				colB->tag == TagPlayerBullet)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToBody] = 1;
-				}
-			}
-			//プレイヤーとボスの右腕
-			if (colA->tag == TagRightArm &&
-				colB->tag == TagPlayerBullet)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToRightArm] = 1;
-				}
-			}
-			//プレイヤーとボスの左腕
-			if (colA->tag == TagLeftArm &&
-				colB->tag == TagPlayerBullet)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToLeftArm] = 1;
-				}
-			}
-			//プレイヤーとボスの右足
-			if (colA->tag == TagRightLeg &&
-				colB->tag == TagPlayerBullet)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToRightLeg] = 1;
-				}
-			}
-			//プレイヤーとボスの左足
-			if (colA->tag == TagLeftLeg &&
-				colB->tag == TagPlayerBullet)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToLeftLeg] = 1;
-				}
-			}
-
-			//--------------------------------------------------------------------------------//
-			//プレイヤーとボスの頭
-			if (colA->tag == TagPlayerBullet &&
-				colB->tag == TagHead)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToHead] = 1;
-				}
-			}
-			//プレイヤーとボスの体
-			if (colA->tag == TagPlayerBullet &&
-				colB->tag == TagBody)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToBody] = 1;
-				}
-			}
-			//プレイヤーとボスの右腕
-			if (colA->tag == TagPlayerBullet &&
-				colB->tag == TagRightArm)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToRightArm] = 1;
-				}
-			}
-			//プレイヤーとボスの左腕
-			if (colA->tag == TagPlayerBullet &&
-				colB->tag == TagLeftArm)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToLeftArm] = 1;
-				}
-			}
-			//プレイヤーとボスの右足
-			if (colA->tag == TagPlayerBullet &&
-				colB->tag == TagRightLeg)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToRightLeg] = 1;
-				}
-			}
-			//プレイヤーとボスの左足
-			if (colA->tag == TagPlayerBullet &&
-				colB->tag == TagLeftLeg)
-			{
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				{
-					hit[WwaponToLeftLeg] = 1;
-				}
-			}
-#pragma endregion
 
 		}
 		i++;
@@ -546,12 +398,12 @@ void CollisionManager::CheckAllCollision(bool hit[])
 	int j = 0;
 }
 
-CollisionManager::~CollisionManager()
+FbxCollisionManager::~FbxCollisionManager()
 {
 	//delete &colliders;
 }
 
-void CollisionManager::Finalize()
+void FbxCollisionManager::Finalize()
 {
 	//erase(v, LessThan10);
 	/*std::forward_list<BaseCollider*>::iterator itA=colliders.begin();

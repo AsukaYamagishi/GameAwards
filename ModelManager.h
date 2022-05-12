@@ -23,7 +23,8 @@ public:
 		Rightleg,
 		Leftleg,
 		Plane,
-		Bullet
+		Bullet,
+		playerBullet
 	};
 
 public:

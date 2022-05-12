@@ -16,7 +16,7 @@
 #include"Primitive.h"
 #include "mCollision.h"
 class CollisionManager;
-#include"Player2.h"
+class FbxCollisionManager;
 #include"Weapon.h"
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -55,7 +55,6 @@ private: //メンバ変数
 
 	//プレイヤー
 	Player *player;	
-	Player2* player2 = nullptr;
 	//武器
 	//OBJObject *weapon;
 	Weapon* weapon = nullptr;
@@ -67,10 +66,13 @@ private: //メンバ変数
 
 	//衝突マネージャ
 	CollisionManager* collisionManager = nullptr;
+	FbxCollisionManager* fbxcollisionManager = nullptr;
 
 	//FBXモデル
 	std::unique_ptr<FbxModel> testModel = nullptr;
 	FbxDraw *testObject = nullptr;
+	std::unique_ptr<FbxModel> testsphereModel = nullptr;
+	FbxDraw* testsphereObject = nullptr;
 
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
@@ -88,7 +90,7 @@ private: //メンバ変数
 public:
 	//ゲームシーン終了用
 	bool gameEndFlag = false;
-
+	bool winJudeg = false;
 #pragma endregion
 
 #pragma region 静的メンバ関数
