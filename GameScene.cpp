@@ -141,6 +141,12 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	testsphereObject->SetCollider(new FbxSphereCollider(XMVECTOR({ 0, 0, 0.0 }), 100));
 	testsphereObject->collider->tag = CollisionTag::TagPlayer;
 
+	arrow = ModelDraw::Create();
+	arrow->SetModel(ModelManager::GetIns()->GetModel(ModelManager::arrow));
+	arrow->SetRotation({ 0, 90, -90 });
+	arrow->SetScale({ 7,7,7 });
+	arrow->SetPos({ 0,10,0 });
+
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
 	particleMan->Update();
@@ -705,6 +711,7 @@ bool GameScene::Update()
 	camera->SetCam(camera);
 	camera->Update();
 	boss->Update();
+	arrow->Update();
 
 
 
@@ -771,15 +778,15 @@ void GameScene::Draw()
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	//Object3D::PreDraw(cmdList);
+	ModelDraw::PreDraw(cmdList);
 
 
 	// 3Dオブクジェクトの描画
-	//object3d->Draw();
+	arrow->Draw();
 
 
 	// 3Dオブジェクト描画後処理
-	//Object3D::PostDraw();
+	ModelDraw::PostDraw();
 
 #pragma endregion
 

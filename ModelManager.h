@@ -24,7 +24,8 @@ public:
 		Leftleg,
 		Plane,
 		Bullet,
-		playerBullet
+		playerBullet,
+		arrow
 	};
 
 public:
