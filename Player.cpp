@@ -20,15 +20,17 @@ Player::~Player()
 
 }
 
-void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio)
 {
 	// nullptr�`�F�b�N
 	assert(dxCommon);
-	assert(input);
+	assert(keyInput);
+	assert(padInput);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	this->keyInput = keyInput;
+	this->padInput = padInput;
 	this->audio = audio;
 
 	player->SetScale(Vector3(1, 1, 1));
@@ -82,7 +84,7 @@ void Player::Update(Camera camera)
 		//jumppos.y = graundheight;
 		jumpflag = false;
 	}
-	if (input->PressKey(DIK_LSHIFT)&& jumppos.y <= graundheight) {
+	if ((keyInput->PressKey(DIK_LSHIFT) || padInput->IsPadButtonTrigger(XBOX_INPUT_A)) && jumppos.y <= graundheight) {
 		jumpflag = true;
 	}
 	//ジャンプフラグがあったら加算させて上昇させる
@@ -119,20 +121,28 @@ void Player::Update(Camera camera)
 	bool isinput = false;
 
 	if (knockBackFlag == false) {
-		if (input->PressKey(DIK_W)) {
+		if (keyInput->PressKey(DIK_W)) {
 			forvardvec.m128_f32[2] += 1;
 			isinput = true;
 		}
-		else if (input->PressKey(DIK_S)) {
+		else if (keyInput->PressKey(DIK_S)) {
 			forvardvec.m128_f32[2] -= 1;
 			isinput = true;
 		}
-		if (input->PressKey(DIK_A)) {
+		if (keyInput->PressKey(DIK_A)) {
 			forvardvec.m128_f32[0] -= 1;
 			isinput = true;
 		}
-		if (input->PressKey(DIK_D)) {
+		if (keyInput->PressKey(DIK_D)) {
 			forvardvec.m128_f32[0] += 1;
+			isinput = true;
+		}
+
+		if (padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) != 0 || padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) != 0)
+		{
+			forvardvec.m128_f32[0] += 1.0f * (padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) / 1000);
+			forvardvec.m128_f32[2] += 1.0f * -(padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) / 1000);
+
 			isinput = true;
 		}
 	}
@@ -166,7 +176,7 @@ void Player::Update(Camera camera)
 
 
 #pragma region 攻撃処理
-	if (input->PressKey(DIK_SPACE) && attacktime == 0 && knockBackFlag == false)
+	if ((keyInput->PressKey(DIK_SPACE) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && attacktime == 0 && knockBackFlag == false)
 	{
 		attack = true;
 		attacktime += 1;
@@ -184,8 +194,8 @@ void Player::Update(Camera camera)
 		{
 			attacktime++;
 			attacktorota += Vector3(0.0f, 5.0f, 0.0f);
-			if (input->PressKey(DIK_W) || input->PressKey(DIK_S) ||
-				input->PressKey(DIK_A) || input->PressKey(DIK_D)) {
+			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
+				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D)) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
 			else {
@@ -198,8 +208,8 @@ void Player::Update(Camera camera)
 		{
 			attacktime++;
 			attacktorota += Vector3(0.0f, -5.0f, 0.0f);
-			if (input->PressKey(DIK_W) || input->PressKey(DIK_S) ||
-				input->PressKey(DIK_A) || input->PressKey(DIK_D)) {
+			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
+				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D)) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
 			else {

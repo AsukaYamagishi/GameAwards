@@ -2,6 +2,7 @@
 #include "SafeDelete.h"
 #include "DirectXCommon.h"
 #include "KeyboardInput.h"
+#include "ControllerInput.h"
 #include "Audio.h"
 #include "ModelDraw.h"
 #include "ModelManager.h"
@@ -17,7 +18,7 @@ class Player {
 public:
 	Player();
 	~Player();
-	void Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
+	void Initialize(DirectXCommon* dxCommon, KeyboardInput* input, ControllerInput* padInput, Audio* audio);
 
 	/// <summary>
 	/// ���t���[������
@@ -60,7 +61,8 @@ public:
 	bool headFlag = false;
 private:
 	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
+	KeyboardInput* keyInput = nullptr;
+	ControllerInput* padInput = nullptr;
 	Audio* audio = nullptr;
 
 	float move = 1.5f;	

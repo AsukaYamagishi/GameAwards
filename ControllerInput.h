@@ -72,7 +72,7 @@ public: //静的メンバ関数
 	//ボタンから離れたか
 	static bool IsPadButtonRelease(const size_t& button, const size_t& padNo = 0);
 	//スティックに入力があるか
-	static int IsPadStick(const size_t& stickAxis, const float& deadzone, const size_t& padNo = 0);
+	static float IsPadStick(const size_t& stickAxis, const float& deadzone, const size_t& padNo = 0);
 
 private:
 	//ゲームパッドデバイスの生成

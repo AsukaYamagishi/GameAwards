@@ -48,15 +48,17 @@ void GameScene::Finalize()
 	fbxcollisionManager->Finalize();
 }
 
-void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio)
 {
 #pragma region nullptrチェック/代入
 	assert(dxCommon);
-	assert(input);
+	assert(keyInput);
+	assert(padInput);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	this->keyInput = keyInput;
+	this->padInput = padInput;
 	this->audio = audio;
 #pragma endregion
 
@@ -143,21 +145,21 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 	//プレイヤーなど生成
 	player = new Player();
-	player->Initialize(dxCommon, input, audio);
+	player->Initialize(dxCommon, keyInput,padInput, audio);
 
 	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio, player->player);
+	boss->Initialize(dxCommon, keyInput, audio, player->player);
 	boss->boss->SetPos(Vector3(0, 5, 0));
 	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
 
 	stage = new OBJObject();
-	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
+	stage->Initialize(dxCommon, keyInput, audio, ModelManager::Stage);
 	stage->model->SetScale({ 30,30,30 });
 	skydome = new OBJObject();
-	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
+	skydome->Initialize(dxCommon, keyInput, audio, ModelManager::Skydome);
 
 	weapon = new Weapon();
-	weapon->Initialize(dxCommon, input, audio);
+	weapon->Initialize(dxCommon, keyInput, audio);
 
 	//プレイヤーに追従
 	weapon->weapon->SetParent(player->player);
@@ -196,16 +198,18 @@ bool GameScene::Update()
 {
 
 	//カメラ操作
-	if (input->PressKey(DIK_RIGHT)) {
+	if (keyInput->PressKey(DIK_RIGHT)) {
 		camera->matRot *= XMMatrixRotationY(0.1f);
 	}
-	else if (input->PressKey(DIK_LEFT)) {
+	else if (keyInput->PressKey(DIK_LEFT)) {
 		camera->matRot *= XMMatrixRotationY(-0.1f);
 	}
+	//コントローラによるカメラ操作
+	camera->matRot *= XMMatrixRotationY(0.08f * padInput->IsPadStick(INPUT_AXIS_RX, 0.01f) / 1000);
 
+
+	//パーティクルマネージャ
 	particleMan->Update();
-
-
 
 #pragma region 当たり判定
 	//Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
@@ -470,20 +474,20 @@ bool GameScene::Update()
 	}
 
 	//デバッグ用にパーツに直接ダメージ
-	if (input->PressKeyTrigger(DIK_1))
+	if (keyInput->PressKeyTrigger(DIK_1))
 	{
 		boss->parthp[rightarm]--;
 	}
-	if (input->PressKeyTrigger(DIK_2))
+	if (keyInput->PressKeyTrigger(DIK_2))
 	{
 		boss->parthp[leftarm]--;
 		particleMan->HitParticle();
 	}
-	if (input->PressKeyTrigger(DIK_3))
+	if (keyInput->PressKeyTrigger(DIK_3))
 	{
 		boss->parthp[rightleg]--;
 	}
-	if (input->PressKeyTrigger(DIK_4))
+	if (keyInput->PressKeyTrigger(DIK_4))
 	{
 		boss->parthp[leftleg]--;
 	}
@@ -507,7 +511,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 部位の取得
-	if (input->PressKey(DIK_R)) {
+	if (keyInput->PressKey(DIK_R) || (padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && !player->enemyWepon)) {
 
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
@@ -558,7 +562,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 武器にした部位を落とす
-	if (input->PressKey(DIK_G))
+	if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon))
 	{
 		//boss->head->SetParent(nullptr);
 		//boss->body->SetParent(nullptr);
@@ -628,7 +632,7 @@ bool GameScene::Update()
 #pragma endregion
 
 
-	if (input->PressKeyTrigger(DIK_P)) {
+	if (keyInput->PressKeyTrigger(DIK_P)) {
 		audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
 		if (soundNo < 1) {
 			soundNo++;
@@ -639,7 +643,7 @@ bool GameScene::Update()
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 	}
 
-	if (input->PressKeyTrigger(DIK_L)) {
+	if (keyInput->PressKeyTrigger(DIK_L)) {
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
 		if (seNo < 6) {
 			seNo++;
@@ -649,7 +653,7 @@ bool GameScene::Update()
 		}
 	}
 
-	if (input->PressKeyTrigger(DIK_K)) {
+	if (keyInput->PressKeyTrigger(DIK_K)) {
 		player->KnockBack();
 	}
 
@@ -732,7 +736,7 @@ bool GameScene::Update()
 
 	//return false;
 	//ボスが死んだらエンドシーンに移行
-	if (input->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
+	if (keyInput->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
 	{
 		gameEndFlag = true;
 		if (boss->hp <= 0)

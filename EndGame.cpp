@@ -13,15 +13,17 @@ EndGame::~EndGame()
 	//safe_delete(sprite1);
 }
 
-void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
-	assert(input);
+	assert(keyInput);
+	assert(padInput);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	this->keyInput = keyInput;
+	this->padInput = padInput;
 	this->audio = audio;
 
 
@@ -43,8 +45,7 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 
 void EndGame::Update()
 {
-	//キーボード入力更新
-	input->Update();
+	
 }
 
 void EndGame::Draw(bool winjude)

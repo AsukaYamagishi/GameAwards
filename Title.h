@@ -4,6 +4,7 @@
 #include <DirectXMath.h>
 #include "Audio.h"
 #include "KeyboardInput.h"
+#include "ControllerInput.h"
 #include "Sprite.h"
 
 using namespace Microsoft::WRL;
@@ -18,7 +19,8 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
+	KeyboardInput* keyInput = nullptr;
+	ControllerInput* padInput = nullptr;
 	Audio* audio = nullptr;
 	
 	//ゲームシーン用
@@ -46,7 +48,7 @@ public: //メンバ関数
 	//デストラクタ
 	~Title();
 	//初期化
-	void Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
+	void Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio);
 	//毎フレーム更新処理
 	void Update();
 	//描画

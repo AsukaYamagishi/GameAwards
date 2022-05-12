@@ -325,7 +325,7 @@ bool ControllerInput::IsPadButtonRelease(const size_t& button, const size_t& pad
 	return false;
 }
 
-int ControllerInput::IsPadStick(const size_t& stickAxis, const float& deadzone, const size_t& padNo)
+float ControllerInput::IsPadStick(const size_t& stickAxis, const float& deadzone, const size_t& padNo)
 {
 	if (padNo >= gamepad.size())
 	{
