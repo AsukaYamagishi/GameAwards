@@ -4,6 +4,8 @@
 //インクルード関係
 #define DIRECTINPUT_VERSION 0x0800 //DirectInputバージョン指定
 #include<dinput.h>
+#pragma comment(lib,"dinput8.lib")
+#pragma comment(lib,"dxguid.lib")
 
 class KeyboardInput final
 {
@@ -13,9 +15,9 @@ private:
 
 private: //メンバ関数
 	//コンストラクタ
-	KeyboardInput();
+	KeyboardInput() {}
 	//デストラクタ
-	~KeyboardInput();
+	~KeyboardInput() {}
 
 public: //静的メンバ関数
 	//初期化
@@ -23,10 +25,7 @@ public: //静的メンバ関数
 	//毎フレーム更新
 	static void Update();
 	//情報の利用
-	//static void GetHitKeyStateAll(int *key);
-	//static bool CheckHitKey(int key);
-	//static bool CheckHitKeyTrigger(int key);
-
+	
 //private:
 	static bool PressKeyTrigger(int key);
 	static bool ReleaseKeyTrigger(int key);

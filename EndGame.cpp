@@ -13,17 +13,21 @@ EndGame::~EndGame()
 	//safe_delete(sprite1);
 }
 
-void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
-	assert(input);
+	assert(keyInput);
+	assert(padInput);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	this->keyInput = keyInput;
+	this->padInput = padInput;
 	this->audio = audio;
 
+
+#pragma region sprite関係
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
 	if (!Sprite::LoadTexture(2, L"Resources/sprite/clear.png")) {
 		assert(0);
@@ -36,13 +40,12 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
 
 	sprite1 = Sprite::CreateSprite(3, { 0.0f,0.0f });
 	sprite1->SetSize({ 1280, 720 });
-	
+#pragma endregion
 }
 
 void EndGame::Update()
 {
-	//キーボード入力更新
-	input->Update();
+	
 }
 
 void EndGame::Draw(bool winjude)
@@ -62,11 +65,6 @@ void EndGame::Draw(bool winjude)
 	{
 		sprite1->Draw();
 	}
-
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -80,10 +78,6 @@ void EndGame::Draw(bool winjude)
 	// 3Dオブクジェクトの描画
 	//object3d->Draw();
 
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
 	// 3Dオブジェクト描画後処理
 	//Object3D::PostDraw();
 #pragma endregion
@@ -94,10 +88,6 @@ void EndGame::Draw(bool winjude)
 
 	// 3Dオブクジェクトの描画
 	//model->Draw();
-
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
 
 	// 3Dオブジェクト描画後処理
 	//ModelObj::PostDraw();
@@ -114,8 +104,7 @@ void EndGame::Draw(bool winjude)
 	//sprite1->Draw();
 	//sprite2->Draw();
 	
-	/// </summary>
-
+	
 
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);

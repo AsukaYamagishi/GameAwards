@@ -8,26 +8,28 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio)
 {
 #pragma region nullptrチェック/代入
 	assert(dxCommon);
-	assert(input);
+	assert(keyInput);
+	assert(padInput);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	this->keyInput = keyInput;
+	this->padInput = padInput;
 	this->audio = audio;
 #pragma endregion
 
 	//各シーン生成/最初のシーン初期化
 	title = new Title();
-	title->Init(dxCommon, input, audio);
+	title->Init(dxCommon, keyInput, padInput, audio);
 	end = new EndGame();
 	//end->Init(dxCommon, input, audio);
 	game = new GameScene();
-	game->Init(dxCommon, input, audio);
-	title->Init(dxCommon, input, audio);
+	game->Init(dxCommon, keyInput, padInput, audio);
+	title->Init(dxCommon, keyInput, padInput, audio);
 	//ゲーム開始シーンの設定
 	sceneNo = titleScene;
 }
@@ -35,28 +37,30 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 void SceneManager::Update()
 {
 	//シーン切り替え
-	if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == titleScene||input->PressKeyTrigger(DIK_M))
+	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene)
 	{		
 		game->Finalize();
-		game->Init(dxCommon, input, audio);
+		game->Init(dxCommon, keyInput, padInput, audio);
 		sceneNo = gameScene;
 	}
 	else if (game->gameEndFlag == true && sceneNo == gameScene)
 	{
-		end->Init(dxCommon, input, audio);
+		end->Init(dxCommon, keyInput, padInput, audio);
 		sceneNo = endScene;
 	}
-	else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
+	else if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == endScene)
 	{
-		title->Init(dxCommon, input, audio);
+		title->Init(dxCommon, keyInput, padInput, audio);
 		sceneNo = titleScene;
 	}
-	//else if (input->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
-	//{
-	//	game->Finalize();
-	//	game->Init(dxCommon, input, audio);
-	//	sceneNo = gameScene;
-	//}
+
+	//ゲームシーンデバッグ用
+	if (keyInput->PressKeyTrigger(DIK_M))
+	{
+		game->Finalize();
+		game->Init(dxCommon, keyInput, padInput, audio);
+		sceneNo = gameScene;
+	}
 
 #pragma region シーンアップデート
 	

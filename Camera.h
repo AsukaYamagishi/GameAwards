@@ -30,7 +30,7 @@ public:
 	const XMMATRIX& GetViewProjectionMatrix() {
 		return matViewProjection;
 	}
-	static Camera* GetCam() { return NowMatView; }
+	static Camera* GetCam() { return nowMatView; }
 	//ビュー行列取得
 	XMMATRIX GetMatView() { return matView; }
 	//プロジェクション行列取得
@@ -41,7 +41,7 @@ public:
 	//void TargetSpin(float length);
 
 	Vector3 eye;			//視点座標
-	XMMATRIX matrot;
+	XMMATRIX matRot;
 	Vector3 target;			//注視点座標
 	Vector3 up;				//上方向ベクトル
 	Vector3 front;			//正面ベクトル
@@ -51,7 +51,7 @@ public:
 
 protected:
 	//今のカメラ
-	static Camera* NowMatView;
+	static Camera* nowMatView;
 	//ビュー行列
 	XMMATRIX matView = XMMatrixIdentity();
 	//射影行列

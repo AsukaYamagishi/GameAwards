@@ -11,13 +11,6 @@ IDirectInputDevice8* devkeyboard = nullptr;
 int KeyboardInput::pressKey[256] = { 0 };
 int KeyboardInput::releaseKey[256] = { 0 };
 
-KeyboardInput::KeyboardInput()
-{
-}
-
-KeyboardInput::~KeyboardInput()
-{
-}
 
 //‰Šú‰»
 void KeyboardInput::Init(HWND hwnd)

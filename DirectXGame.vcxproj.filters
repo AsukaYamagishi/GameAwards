@@ -153,20 +153,19 @@
     <ClInclude Include="FbxModel.h">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="FbxDraw.h">
+      <Filter>ソース ファイル\Model\FBX</Filter>
+=======
     <ClInclude Include="OBJObject.h">
       <Filter>ソース ファイル</Filter>
+>>>>>>> master
     </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>ソース ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
       <Filter>ソース ファイル\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Primitive.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="mCollision.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ControllerInput.h">
       <Filter>ソース ファイル\Input</Filter>
@@ -189,6 +188,16 @@
     <ClInclude Include="Weapon.h">
       <Filter>ソース ファイル\Weapon</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="mCollision.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJObject.h">
+      <Filter>ソース ファイル\Model\Obj</Filter>
+=======
     <ClInclude Include="FbxDraw.h">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClInclude>
@@ -203,6 +212,7 @@
     </ClInclude>
     <ClInclude Include="FbxMeshCollider.h">
       <Filter>ソース ファイル\Collision</Filter>
+>>>>>>> master
     </ClInclude>
     <ClInclude Include="CollisionTypes.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -275,20 +285,11 @@
     <ClCompile Include="FbxDraw.cpp">
       <Filter>ソース ファイル\Model\FBX</Filter>
     </ClCompile>
-    <ClCompile Include="OBJObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
       <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Primitive.cpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="mCollision.cpp">
-      <Filter>ヘッダー ファイル</Filter>
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>ソース ファイル\Input</Filter>
@@ -305,6 +306,16 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>ソース ファイル\Weapon</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="mCollision.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJObject.cpp">
+      <Filter>ソース ファイル\Model\Obj</Filter>
+=======
     <ClCompile Include="FbxSphereCollider.cpp">
       <Filter>ソース ファイル\Collision</Filter>
     </ClCompile>
@@ -313,6 +324,7 @@
     </ClCompile>
     <ClCompile Include="FbxMeshCollider.cpp">
       <Filter>ソース ファイル</Filter>
+>>>>>>> master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
