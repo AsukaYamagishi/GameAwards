@@ -149,8 +149,9 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 		arrow[i]->SetRotation({90, 90, -90});
 		arrow[i]->SetScale({7,7,7});
 		DrawFlag[i] = false;
+		frame = 0;
+		downTimer[i] = 0;
 	}
-	frame = 0;
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -440,8 +441,18 @@ bool GameScene::Update()
 		if (boss->head->GetParent() == nullptr) {
 			boss->Fall(head);
 			DrawFlag[0] = true;
-			arrow[0]->SetPos({ arrowPos[0].x - 10, arrowPos[0].y + 40, arrowPos[0].z });
 			arrow[0]->SetRotation({ 90, 90, -90 + frame });
+
+			downTimer[0]++;
+
+			if (downTimer[0] >= 50)
+			{
+				arrow[0]->SetPos({ arrowPos[0].x, arrowPos[0].y + 70 - (downTimer[0] / 10), arrowPos[0].z - 10 });
+				downTimer[0] = 0;
+			}
+			else {
+				arrow[0]->SetPos({ arrowPos[0].x, arrowPos[0].y + 65 + (downTimer[0] / 10), arrowPos[0].z - 10 });
+			}
 		}
 	}
 	if (boss->parthp[body] <= 0)
@@ -455,9 +466,19 @@ bool GameScene::Update()
 	{
 		if (boss->rightarm->GetParent() == nullptr) {
 			boss->Fall(rightarm);
-			arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 40, arrowPos[1].z - 50 });
 			arrow[1]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[1] = true;
+
+			downTimer[1]++;
+
+			if (downTimer[1] >= 50)
+			{
+				arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 40 - (downTimer[1] / 10), arrowPos[1].z - 50 });
+				downTimer[1] = 0;
+			}
+			else {
+				arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 35 + (downTimer[1] / 10), arrowPos[1].z - 50 });
+			}
 		}
 		if (boss->rightarm->GetParent() == boss->boss) {
 			boss->rightarm->SetParent(nullptr);
@@ -467,9 +488,20 @@ bool GameScene::Update()
 	{
 		if (boss->leftarm->GetParent() == nullptr) {
 			boss->Fall(leftarm);
-			arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 70, arrowPos[2].z + 10});
+			
 			arrow[2]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[2] = true;
+
+			downTimer[2]++;
+
+			if (downTimer[2] >= 50)
+			{
+				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 40 - (downTimer[2] / 10), arrowPos[2].z + 10});
+				downTimer[2] = 0;
+			}
+			else {
+				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 70, arrowPos[2].z + 10 });
+			}
 		}
 		if (boss->leftarm->GetParent() == boss->boss) {
 			boss->leftarm->SetParent(nullptr);
@@ -480,9 +512,19 @@ bool GameScene::Update()
 	{
 		if (boss->rightleg->GetParent() == nullptr) {
 			boss->Fall(rightleg);
-			arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40, arrowPos[3].z });
 			arrow[3]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[3] = true;
+
+			downTimer[3]++;
+
+			if (downTimer[3] >= 50)
+			{
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40 - (downTimer[3] / 10), arrowPos[3].z});
+				downTimer[3] = 0;
+			}
+			else {
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z});
+			}
 		}
 		if (boss->rightleg->GetParent() == boss->boss) {
 			boss->rightleg->SetParent(nullptr);
@@ -494,9 +536,19 @@ bool GameScene::Update()
 	{
 		if (boss->leftleg->GetParent() == nullptr) {
 			boss->Fall(leftleg);
-			arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 40, arrowPos[4].z });
 			arrow[4]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[4] = true;
+
+			downTimer[4]++;
+
+			if (downTimer[4] >= 50)
+			{
+				arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 40 - (downTimer[4] / 10), arrowPos[4].z });
+				downTimer[4] = 0;
+			}
+			else {
+				arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 35 + (downTimer[4] / 10), arrowPos[4].z });
+			}
 		}
 		if (boss->leftleg->GetParent() == boss->boss) {
 			boss->leftleg->SetParent(nullptr);

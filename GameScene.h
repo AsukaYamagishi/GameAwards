@@ -52,6 +52,7 @@ private: //ƒƒ“ƒo•Ï”
 	bool DrawFlag[5];
 	XMFLOAT3 arrowPos[5];
 	float frame;
+	float downTimer[5];
 	//‰¹Šy
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
