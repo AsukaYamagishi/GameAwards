@@ -238,7 +238,7 @@ void Player::Draw()
 
 void Player::HitDamege() {
 	if (damageCoolTime <= 0) {
-		hp -= 2;
+		hp -= 1;
 		damageCoolTime = 100.0f;
 		KnockBack();
 	}
