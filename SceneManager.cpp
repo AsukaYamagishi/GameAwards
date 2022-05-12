@@ -37,7 +37,7 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 void SceneManager::Update()
 {
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
-	if (keyInput->PressKeyTrigger(DIK_RETURN) && sceneNo == titleScene)
+	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene)
 	{		
 		game->Finalize();
 		game->Init(dxCommon, keyInput, padInput, audio);
@@ -48,7 +48,7 @@ void SceneManager::Update()
 		end->Init(dxCommon, keyInput, padInput, audio);
 		sceneNo = endScene;
 	}
-	else if (keyInput->PressKeyTrigger(DIK_RETURN) && sceneNo == endScene)
+	else if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == endScene)
 	{
 		title->Init(dxCommon, keyInput, padInput, audio);
 		sceneNo = titleScene;
