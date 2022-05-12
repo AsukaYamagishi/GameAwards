@@ -118,7 +118,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
-	testObject->SetModel(testModel.get());	
+	testObject->SetModel(testModel.get());
 	//testObject->SetScale({ 0.01,0.0001,0.001 });
 	testObject->SetScale({ 0.1,0.1,0.1 });
 	testObject->SetRotation({ 0,0,0 });
@@ -131,7 +131,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 	testsphereObject = new FbxDraw();
 	testsphereObject->Init();
-	testsphereObject->SetModel(testModel.get());	
+	testsphereObject->SetModel(testModel.get());
 	//testObject->SetScale({ 0.01,0.0001,0.001 });
 	testsphereObject->SetScale({ 0.01,0.01,0.01 });
 	testsphereObject->SetRotation({ 0,0,0 });
@@ -775,9 +775,13 @@ bool GameScene::Update()
 	{
 		hit[i] = 0;
 	}
+
+	attackFlag[PlayerAttack] = player->attack;
+	attackFlag[BossPress] = boss->attackType;
+	attackFlag[BossBeam] = boss->attackType;
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit);
-//	fbxcollisionManager->CheckAllCollision(hit);
+	collisionManager->CheckAllCollision(hit, attackFlag, *input);
+	//fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
 	//ボスが死んだらエンドシーンに移行
@@ -786,10 +790,12 @@ bool GameScene::Update()
 		gameEndFlag = true;
 		if (boss->hp <= 0)
 		{
+			winJudeg = true;
 			return true;
 		}
 		else
 		{
+			winJudeg = false;
 			return false;
 		}
 	}

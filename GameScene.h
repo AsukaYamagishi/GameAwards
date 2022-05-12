@@ -17,7 +17,6 @@
 #include "mCollision.h"
 class CollisionManager;
 class FbxCollisionManager;
-#include"Player2.h"
 #include"Weapon.h"
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -57,11 +56,12 @@ private: //メンバ変数
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
 
+	//コリジョンマネージャーに送ってどのパーツ、対象が当たっているのかを保存する
 	bool hit[20] = { false };
-
+	//ゲームシーンに存在するアタックする奴らのアタックフラグを全部入れる
+	bool attackFlag[10] = { false };
 	//プレイヤー
 	Player *player;	
-	Player2* player2 = nullptr;
 	//武器
 	//OBJObject *weapon;
 	Weapon* weapon = nullptr;
@@ -97,7 +97,7 @@ private: //メンバ変数
 public:
 	//ゲームシーン終了用
 	bool gameEndFlag = false;
-
+	bool winJudeg = false;
 #pragma endregion
 
 #pragma region 静的メンバ関数

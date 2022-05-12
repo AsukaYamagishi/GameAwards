@@ -1,6 +1,7 @@
 #pragma once
 
 #include<forward_list>
+#include"KeyboardInput.h"
 
 class BaseCollider;
 
@@ -22,14 +23,14 @@ public://メンバ関数
 	///コライダーの削除
 	///</summary>
 	///<param name="collider">コライダー</param>
-	inline void RemoveCollider(BaseCollider* collider){
+	inline void RemoveCollider(BaseCollider* collider) {
 		colliders.remove(collider);
-		}
+	}
 
 	///<summary>
 	///全ての衝突をチェック
 	///</summary>
-	void CheckAllCollision(bool hit[]);
+	void CheckAllCollision(bool hit[], const bool attackFlag[],const KeyboardInput &input);
 	~CollisionManager();
 
 	void Finalize();

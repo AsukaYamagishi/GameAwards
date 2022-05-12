@@ -161,6 +161,7 @@
     <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimitive.h" />
+    <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
@@ -181,7 +182,6 @@
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="OBJObject.h" />
     <ClInclude Include="ParticleManager.h" />
-    <ClInclude Include="Player2.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Sprite.h" />
@@ -221,7 +221,6 @@
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="OBJObject.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
-    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
