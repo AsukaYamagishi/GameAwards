@@ -48,15 +48,17 @@ void GameScene::Finalize()
 	fbxcollisionManager->Finalize();
 }
 
-void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio)
 {
 #pragma region nullptrチェック/代入
 	assert(dxCommon);
-	assert(input);
+	assert(keyInput);
+	assert(padInput);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	this->keyInput = keyInput;
+	this->padInput = padInput;
 	this->audio = audio;
 #pragma endregion
 
@@ -65,7 +67,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	camera->Initialize({ 0,30,130 });
 	camera = Camera::GetCam();
 	camera->target = { 0 ,50 ,0 };
-#pragma endregion
 
 #pragma region デバッグテキスト読み込み
 	// デバッグテキスト用テクスチャ読み込み
@@ -79,7 +80,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 #pragma endregion
 
 #pragma region Sprite初期設定
-	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
+	// テクスチャ読み込み
 	if (!Sprite::LoadTexture(2, L"Resources/sprite/redHP.png")) {
 		assert(0);
 		return;
@@ -113,6 +114,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	FbxDraw::CreateGraphicsPipeline();
 
 #pragma region 3DモデルCreate・初期設定
+
 	//モデルを指定して読み込み
 	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
 	//3Dオブジェクト生成とモデルのセット
@@ -141,11 +143,43 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	testsphereObject->SetCollider(new FbxSphereCollider(XMVECTOR({ 0, 0, 0.0 }), 100));
 	testsphereObject->collider->tag = CollisionTag::TagPlayer;
 
+	//拾える武器用の矢印
+	for (int i = 0; i < 5; i++)
+	{
+		arrow[i] = ModelDraw::Create();
+		arrow[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::arrow));
+		arrow[i]->SetRotation({90, 90, -90});
+		arrow[i]->SetScale({7,7,7});
+		DrawFlag[i] = false;
+		frame = 0;
+		downTimer[i] = 0;
+	}
+
+	//プレイヤーなど生成
+	player = new Player();
+	player->Initialize(dxCommon, keyInput,padInput, audio);
+
+	boss = new Boss();
+	boss->Initialize(dxCommon, keyInput, audio, player->player);
+	boss->boss->SetPos(Vector3(0, 5, 0));
+	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
+
+	stage = new OBJObject();
+	stage->Initialize(dxCommon, keyInput, audio, ModelManager::Stage);
+	stage->model->SetScale({ 30,30,30 });
+	skydome = new OBJObject();
+	skydome->Initialize(dxCommon, keyInput, audio, ModelManager::Skydome);
+
+	weapon = new Weapon();
+	weapon->Initialize(dxCommon, keyInput, audio);
+
+	//プレイヤーに追従
+	weapon->weapon->SetParent(player->player);
+
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
 	particleMan->Update();
 #pragma endregion
-
 
 #pragma region 音楽リソース初期設定
 
@@ -164,26 +198,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 #pragma endregion
 
-	player = new Player();
-	player->Initialize(dxCommon, input, audio);
-
-	boss = new Boss();
-	boss->Initialize(dxCommon, input, audio, player->player);
-	boss->boss->SetPos(Vector3(0, 5, 0));
-	boss->boss->SetRotation(Vector3(0.0f, 90.0f, 0.0f));
-
-	stage = new OBJObject();
-	stage->Initialize(dxCommon, input, audio, ModelManager::Stage);
-	stage->model->SetScale({ 30,30,30 });
-	skydome = new OBJObject();
-	skydome->Initialize(dxCommon, input, audio, ModelManager::Skydome);
-
-	weapon = new Weapon();
-	weapon->Initialize(dxCommon, input, audio);
-	//プレイヤーに追従
-	weapon->weapon->SetParent(player->player);
-
-
 	gameEndFlag = false;
 
 	//コリジョンマネージャーの生成
@@ -194,17 +208,19 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 bool GameScene::Update()
 {
 
-
-	if (input->PressKey(DIK_RIGHT)) {
-		camera->matrot *= XMMatrixRotationY(0.1f);
+	//カメラ操作
+	if (keyInput->PressKey(DIK_RIGHT)) {
+		camera->matRot *= XMMatrixRotationY(0.1f);
 	}
-	else if (input->PressKey(DIK_LEFT)) {
-		camera->matrot *= XMMatrixRotationY(-0.1f);
+	else if (keyInput->PressKey(DIK_LEFT)) {
+		camera->matRot *= XMMatrixRotationY(-0.1f);
 	}
+	//コントローラによるカメラ操作
+	camera->matRot *= XMMatrixRotationY(0.08f * padInput->IsPadStick(INPUT_AXIS_RX, 0.01f) / 1000);
 
+
+	//パーティクルマネージャ
 	particleMan->Update();
-
-
 
 #pragma region 当たり判定
 	//Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
@@ -337,8 +353,6 @@ bool GameScene::Update()
 			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
 		}*/
 
-
-		//メッシュとの
 #pragma region メッシュとの
 			//頭
 		if (hit[Ghead] && boss->parthp[head] > 0)
@@ -410,6 +424,15 @@ bool GameScene::Update()
 		}
 	}
 
+	//矢印の座標
+	arrowPos[0] = boss->head->GetPos();
+	arrowPos[1] = boss->rightarm->GetPos();
+	arrowPos[2] = boss->leftarm->GetPos();
+	arrowPos[3] = boss->rightleg->GetPos();
+	arrowPos[4] = boss->leftleg->GetPos();
+
+	frame++;
+
 	//パーツ落下処理
 	if (boss->parthp[head] <= 0)
 	{
@@ -419,6 +442,19 @@ bool GameScene::Update()
 		}
 		if (boss->head->GetParent() == nullptr) {
 			boss->Fall(head);
+			DrawFlag[0] = true;
+			arrow[0]->SetRotation({ 90, 90, -90 + frame });
+
+			downTimer[0]++;
+
+			if (downTimer[0] >= 50)
+			{
+				arrow[0]->SetPos({ arrowPos[0].x, arrowPos[0].y + 70 - (downTimer[0] / 10), arrowPos[0].z - 10 });
+				downTimer[0] = 0;
+			}
+			else {
+				arrow[0]->SetPos({ arrowPos[0].x, arrowPos[0].y + 65 + (downTimer[0] / 10), arrowPos[0].z - 10 });
+			}
 		}
 	}
 	if (boss->parthp[body] <= 0)
@@ -432,6 +468,19 @@ bool GameScene::Update()
 	{
 		if (boss->rightarm->GetParent() == nullptr) {
 			boss->Fall(rightarm);
+			arrow[1]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[1] = true;
+
+			downTimer[1]++;
+
+			if (downTimer[1] >= 50)
+			{
+				arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 40 - (downTimer[1] / 10), arrowPos[1].z - 50 });
+				downTimer[1] = 0;
+			}
+			else {
+				arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 35 + (downTimer[1] / 10), arrowPos[1].z - 50 });
+			}
 		}
 		if (boss->rightarm->GetParent() == boss->boss) {
 			boss->rightarm->SetParent(nullptr);
@@ -441,6 +490,20 @@ bool GameScene::Update()
 	{
 		if (boss->leftarm->GetParent() == nullptr) {
 			boss->Fall(leftarm);
+			
+			arrow[2]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[2] = true;
+
+			downTimer[2]++;
+
+			if (downTimer[2] >= 50)
+			{
+				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 40 - (downTimer[2] / 10), arrowPos[2].z + 10});
+				downTimer[2] = 0;
+			}
+			else {
+				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 70, arrowPos[2].z + 10 });
+			}
 		}
 		if (boss->leftarm->GetParent() == boss->boss) {
 			boss->leftarm->SetParent(nullptr);
@@ -451,6 +514,19 @@ bool GameScene::Update()
 	{
 		if (boss->rightleg->GetParent() == nullptr) {
 			boss->Fall(rightleg);
+			arrow[3]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[3] = true;
+
+			downTimer[3]++;
+
+			if (downTimer[3] >= 50)
+			{
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40 - (downTimer[3] / 10), arrowPos[3].z});
+				downTimer[3] = 0;
+			}
+			else {
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z});
+			}
 		}
 		if (boss->rightleg->GetParent() == boss->boss) {
 			boss->rightleg->SetParent(nullptr);
@@ -462,6 +538,19 @@ bool GameScene::Update()
 	{
 		if (boss->leftleg->GetParent() == nullptr) {
 			boss->Fall(leftleg);
+			arrow[4]->SetRotation({ 90, 90, -90 + frame });
+			DrawFlag[4] = true;
+
+			downTimer[4]++;
+
+			if (downTimer[4] >= 50)
+			{
+				arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 40 - (downTimer[4] / 10), arrowPos[4].z });
+				downTimer[4] = 0;
+			}
+			else {
+				arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 35 + (downTimer[4] / 10), arrowPos[4].z });
+			}
 		}
 		if (boss->leftleg->GetParent() == boss->boss) {
 			boss->leftleg->SetParent(nullptr);
@@ -471,20 +560,20 @@ bool GameScene::Update()
 	}
 
 	//デバッグ用にパーツに直接ダメージ
-	if (input->PressKeyTrigger(DIK_1))
+	if (keyInput->PressKeyTrigger(DIK_1))
 	{
 		boss->parthp[rightarm]--;
 	}
-	if (input->PressKeyTrigger(DIK_2))
+	if (keyInput->PressKeyTrigger(DIK_2))
 	{
 		boss->parthp[leftarm]--;
 		particleMan->HitParticle();
 	}
-	if (input->PressKeyTrigger(DIK_3))
+	if (keyInput->PressKeyTrigger(DIK_3))
 	{
 		boss->parthp[rightleg]--;
 	}
-	if (input->PressKeyTrigger(DIK_4))
+	if (keyInput->PressKeyTrigger(DIK_4))
 	{
 		boss->parthp[leftleg]--;
 	}
@@ -508,7 +597,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 部位の取得
-	if (input->PressKey(DIK_R)) {
+	if (keyInput->PressKey(DIK_R) || padInput->IsPadButtonTrigger(XBOX_INPUT_Y)) {
 
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
@@ -555,12 +644,16 @@ bool GameScene::Update()
 			boss->leftleg->SetRotation(Vector3(0, 0, 190));
 			player->enemyWepon = true;
 		}
+
+		for (int i = 0; i < 5; i++)
+		{
+			DrawFlag[i] = false;
+		}
 	}
-
-
 #pragma endregion
+
 #pragma region 武器にした部位を落とす
-	if (input->PressKey(DIK_G))
+	else if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_X) && player->enemyWepon))
 	{
 		//boss->head->SetParent(nullptr);
 		//boss->body->SetParent(nullptr);
@@ -630,7 +723,7 @@ bool GameScene::Update()
 #pragma endregion
 
 
-	if (input->PressKeyTrigger(DIK_P)) {
+	if (keyInput->PressKeyTrigger(DIK_P)) {
 		audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
 		if (soundNo < 1) {
 			soundNo++;
@@ -641,7 +734,7 @@ bool GameScene::Update()
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 	}
 
-	if (input->PressKeyTrigger(DIK_L)) {
+	if (keyInput->PressKeyTrigger(DIK_L)) {
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
 		if (seNo < 6) {
 			seNo++;
@@ -651,7 +744,7 @@ bool GameScene::Update()
 		}
 	}
 
-	if (input->PressKeyTrigger(DIK_K)) {
+	if (keyInput->PressKeyTrigger(DIK_K)) {
 		player->KnockBack();
 	}
 
@@ -666,8 +759,7 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	testObject->Update();
-
+	//testObject->Update();
 	//testObject->Update();
 	//カメラの設定
 	//camera->eye = player->player->GetPos() + meye;
@@ -675,14 +767,13 @@ bool GameScene::Update()
 	//camera->eye.z -= 15.0f;
 	//camera->target = player->player->GetPos() + mtarget;
 	//camera->target.y = 10.0f;
-
 	//testObject->Update();
 
 	XMFLOAT3 rote = player->GetNoAttackRotation();
 	XMFLOAT3 pos = player->player->GetPos();
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rote.y));
-	movement = XMVector3TransformNormal(movement, camera->matrot);
+	movement = XMVector3TransformNormal(movement, camera->matRot);
 
 	movement *= XMVECTOR{ -1, -1, -1 };
 	if (player->attack == false)
@@ -701,10 +792,15 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	testObject->Update();
+	//testObject->Update();
 	camera->SetCam(camera);
 	camera->Update();
 	boss->Update();
+	for (int i = 0; i < 5; i++)
+	{
+		arrow[i]->Update();
+	}
+	
 
 
 
@@ -735,12 +831,12 @@ bool GameScene::Update()
 	attackFlag[BossPress] = boss->attackType;
 	attackFlag[BossBeam] = boss->attackType;
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit, attackFlag, *input);
+	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
 	//fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
 	//ボスが死んだらエンドシーンに移行
-	if (input->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
+	if (keyInput->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
 	{
 		gameEndFlag = true;
 		if (boss->hp <= 0)
@@ -777,15 +873,22 @@ void GameScene::Draw()
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	//Object3D::PreDraw(cmdList);
+	ModelDraw::PreDraw(cmdList);
 
 
 	// 3Dオブクジェクトの描画
-	//object3d->Draw();
+	for (int i = 0; i < 5; i++)
+	{
+		if (DrawFlag[i] == true)
+		{
+			arrow[i]->Draw();
+		}
+	}
+	
 
 
 	// 3Dオブジェクト描画後処理
-	//Object3D::PostDraw();
+	ModelDraw::PostDraw();
 
 #pragma endregion
 

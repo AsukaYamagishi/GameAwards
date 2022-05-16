@@ -7,6 +7,7 @@
 #include "DebugText.h"
 #include "Audio.h"
 #include "KeyboardInput.h"
+#include "ControllerInput.h"
 #include "ModelDraw.h"
 
 using namespace Microsoft::WRL;
@@ -21,7 +22,8 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
+	KeyboardInput* keyInput = nullptr;
+	ControllerInput* padInput = nullptr;
 	Audio* audio = nullptr;
 	DebugText debugText;
 
@@ -39,7 +41,7 @@ public: //メンバ関数
 	//デストラクタ
 	~EndGame();
 	//初期化
-	void Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
+	void Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInput* padInput, Audio* audio);
 	//毎フレーム更新処理
 	void Update();
 	//描画

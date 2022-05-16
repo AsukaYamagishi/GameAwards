@@ -6,6 +6,7 @@
 #include "DebugText.h"
 #include "Audio.h"
 #include "KeyboardInput.h"
+#include "ControllerInput.h"
 #include <vector>
 #include "Player.h"
 #include "Collision.h"
@@ -31,7 +32,8 @@ private: //静的メンバ変数
 
 private: //メンバ変数
 	DirectXCommon *dxCommon = nullptr;
-	KeyboardInput *input = nullptr;
+	KeyboardInput *keyInput = nullptr;
+	ControllerInput* padInput = nullptr;
 	Audio *audio = nullptr;
 	Camera *camera = nullptr;
 	DebugText debugText;
@@ -47,6 +49,12 @@ private: //メンバ変数
 	int playerMaxHp = 10;
 	Sprite* playerHP = nullptr;
 	Sprite* control = nullptr;
+	//拾える武器用矢印
+	ModelDraw* arrow[5];
+	bool DrawFlag[5];
+	XMFLOAT3 arrowPos[5];
+	float frame;
+	float downTimer[5];
 	//音楽
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
@@ -118,7 +126,7 @@ public: //メンバ関数
 	void Finalize();
 
 	//初期化
-	void Init(DirectXCommon *dxCommon, KeyboardInput *input, Audio *audio);
+	void Init(DirectXCommon *dxCommon, KeyboardInput *keyInput, ControllerInput *padInput, Audio *audio);
 	//毎フレーム更新処理
 	bool Update();
 	//描画
