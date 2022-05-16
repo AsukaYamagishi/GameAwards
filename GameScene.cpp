@@ -143,7 +143,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	testsphereObject->SetCollider(new FbxSphereCollider(XMVECTOR({ 0, 0, 0.0 }), 100));
 	testsphereObject->collider->tag = CollisionTag::TagPlayer;
 
-<<<<<<< HEAD
 	//拾える武器用の矢印
 	for (int i = 0; i < 5; i++)
 	{
@@ -155,7 +154,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 		frame = 0;
 		downTimer[i] = 0;
 	}
-=======
+
 	//プレイヤーなど生成
 	player = new Player();
 	player->Initialize(dxCommon, keyInput,padInput, audio);
@@ -176,8 +175,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 	//プレイヤーに追従
 	weapon->weapon->SetParent(player->player);
-
->>>>>>> engine_ya
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -600,7 +597,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 部位の取得
-	if (keyInput->PressKey(DIK_R) || padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && !player->enemyWepon) {
+	if (keyInput->PressKey(DIK_R) || padInput->IsPadButtonTrigger(XBOX_INPUT_Y)) {
 
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
@@ -656,7 +653,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 武器にした部位を落とす
-	else if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon))
+	else if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_X) && player->enemyWepon))
 	{
 		//boss->head->SetParent(nullptr);
 		//boss->body->SetParent(nullptr);
@@ -834,7 +831,7 @@ bool GameScene::Update()
 	attackFlag[BossPress] = boss->attackType;
 	attackFlag[BossBeam] = boss->attackType;
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit, attackFlag, *input);
+	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
 	//fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
