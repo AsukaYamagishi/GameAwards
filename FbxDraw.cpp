@@ -56,6 +56,16 @@ void FbxDraw::Update()
 	matWorld *= matRot;
 	matWorld *= matTrans;
 
+	//OBJの親オブジェクトがあれば
+	if (objParent != nullptr) {
+		matWorld *= objParent->GetMatWorld();
+	}
+
+	//FBXの親オブジェクトがあれば
+	if (fbxParent != nullptr) {
+		matWorld *= fbxParent->GetMatWorld();
+	}
+
 	//ビュープロジェクション行列
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	//モデルのメッシュトランスフォーム

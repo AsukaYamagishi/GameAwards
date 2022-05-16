@@ -9,6 +9,7 @@
 #include "FbxModel.h"
 #include "FbxInput.h"
 #include "Camera.h"
+#include "ModelDraw.h"
 
 class FbxBaseCollider;
 
@@ -61,6 +62,8 @@ public: //メンバ関数
 	void SetScale(Vector3 nextScale) { scale = nextScale; }
 	void SetPosition(Vector3 nextPos) { position = nextPos; }
 	void SetRotation(Vector3 nextRotate) { rotation = nextRotate; }
+	void SetOBJParent(ModelDraw* nextParent) { objParent = nextParent; }
+	void SetFBXParent(FbxDraw* nextParent) { fbxParent = nextParent; }
 
 	void SetCollider(FbxBaseCollider* collider);
 	//ワールド行列を取得する関数
@@ -114,6 +117,10 @@ private: //静的メンバ変数
 	bool isPlay = false;
 	//アニメーションループ再生
 	bool isLoop = false;
+	//objの親オブジェクト
+	ModelDraw* objParent = nullptr;
+	//fbxの親オブジェクト
+	FbxDraw* fbxParent = nullptr;
 
 public:
 	//コライダー
