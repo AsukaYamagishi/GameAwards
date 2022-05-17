@@ -124,6 +124,12 @@ void SceneManager::Update()
 	if (game->gameFlag == true && sceneNo == gameScene)
 	{
 		end->Init(dxCommon, keyInput, padInput, audio);
+		sceneNo = endScene;
+	}
+
+	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == endScene)
+	{
+		title->Init(dxCommon, keyInput, padInput, audio);
 		gameEndFlag = true;
 	}
 
@@ -133,16 +139,29 @@ void SceneManager::Update()
 
 		if (alpha >= 1)
 		{
-			gameEndFlag = false;
-			sceneNo = endScene;
-			alpha = 0;
-		}
-	}
+			//アニメーション
+			enemyTimer++;
+			if (enemyTimer >= enemyMaxTimer)
+			{
+				i++;
+				count++;
+				enemyTimer = 0;
 
-	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == endScene)
-	{
-		title->Init(dxCommon, keyInput, padInput, audio);
-		sceneNo = titleScene;
+				if (i >= 6)
+				{
+					i = 0;
+				}
+
+				if (count >= 12)
+				{
+					sceneNo = titleScene;
+					alpha = 0;
+					gameEndFlag = false;
+					i = 0;
+					count = 0;
+				}
+			}
+		}
 	}
 
 	//ゲームシーンデバッグ用
@@ -188,13 +207,12 @@ void SceneManager::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//前景スプライト描画
-	if (titleGameFlag == true)
+	if (titleGameFlag == true || gameEndFlag == true)
 	{
 		black->Draw();
+		enemy_White->Draw();
+		enemy->Draw();
 	}
-
-	enemy_White->Draw();
-	enemy->Draw();
 
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);
