@@ -38,12 +38,12 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 	}
 	// ”wŒiƒXƒvƒ‰ƒCƒg¶¬
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
-
 	spriteBG->SetSize({ 1280, 720 });
+	spriteBG->Update();
 
 	background = Sprite::CreateSprite(3, { 0.0f,0.0f });
-
 	background->SetSize({ 1280, 720 });
+	background->Update();
 #pragma endregion
 
 

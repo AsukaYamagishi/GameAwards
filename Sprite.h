@@ -105,6 +105,8 @@ public: //メンバ関数
 	Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlopY);
 	//初期化
 	bool Init();
+	//更新
+	void Update();
 	//描画
 	void Draw();
 	//角度の設定
@@ -123,6 +125,8 @@ public: //メンバ関数
 	void SetIsFlipY(bool isFlipY);
 	//テクスチャ範囲設定
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
+	//カラー変更
+	void SetColor(XMFLOAT4 color);
 
 private: //メンバ関数
 	//頂点データ転送

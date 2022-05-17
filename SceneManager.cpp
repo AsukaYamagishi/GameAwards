@@ -32,10 +32,30 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 	title->Init(dxCommon, keyInput, padInput, audio);
 	//ゲーム開始シーンの設定
 	sceneNo = titleScene;
+
+#pragma region Sprite初期設定
+	// テクスチャ読み込み
+	if (!Sprite::LoadTexture(10, L"Resources/sprite/black.png")) {
+		assert(0);
+		return;
+	}
+	//// スプライト生成
+	black = Sprite::CreateSprite(10, { 0.0f,0.0f });
+	
+#pragma endregion
+
+	//シーン遷移変数
+	sceneFlag = true;
+	alpha = 0;
 }
 
 void SceneManager::Update()
 {
+	//シーン遷移
+	
+	black->SetColor({ 1,0,0,0.5 });
+	black->Update();
+
 	//シーン切り替え
 	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene)
 	{		
@@ -79,6 +99,8 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
 	//選択シーン描画
 	if (sceneNo == titleScene) {
 		title->Draw();
@@ -90,4 +112,16 @@ void SceneManager::Draw()
 	else if (sceneNo == endScene) {
 		end->Draw(game->winJudeg);
 	}
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(cmdList);
+	//前景スプライト描画
+	black->Draw();
+
+	// デバッグテキストの描画
+	//debugText.DrawAll(cmdList);
+	// スプライト描画後処理
+	Sprite::PostDraw();
+#pragma endregion
 }

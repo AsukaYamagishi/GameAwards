@@ -15,6 +15,10 @@ private: //ƒƒ“ƒo•Ï”
 	Title* title = nullptr;
 	EndGame* end = nullptr;
 
+	Sprite* black = nullptr;
+	float alpha;
+	bool sceneFlag;
+
 	//ƒV[ƒ“‘JˆÚ”Ô†
 	enum SceneNo {
 		titleScene,

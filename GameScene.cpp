@@ -800,6 +800,11 @@ bool GameScene::Update()
 	{
 		arrow[i]->Update();
 	}
+	//スプライト更新
+	boss1HP_Red->Update();
+	boss1HP_Black->Update();
+	playerHP->Update();
+	control->Update();
 	
 
 

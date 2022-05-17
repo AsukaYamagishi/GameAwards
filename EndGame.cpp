@@ -37,9 +37,11 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 	//// ”wŒiƒXƒvƒ‰ƒCƒg¶¬
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 	spriteBG->SetSize({ 1280, 720 });
+	spriteBG->Update();
 
 	sprite1 = Sprite::CreateSprite(3, { 0.0f,0.0f });
 	sprite1->SetSize({ 1280, 720 });
+	sprite1->Update();
 #pragma endregion
 }
 
