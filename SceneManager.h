@@ -16,8 +16,8 @@ private: //メンバ変数
 	EndGame* end = nullptr;
 
 	Sprite* black = nullptr;
-	float alpha;
-	bool sceneFlag;
+	Sprite* enemy = nullptr;
+	Sprite* enemy_White = nullptr;
 
 	//シーン遷移番号
 	enum SceneNo {
@@ -54,5 +54,14 @@ public: //メンバ関数
 #pragma endregion
 private:
 	bool result=false;
+	float alpha;
+	bool titleGameFlag;
+	bool gameEndFlag;
+
+	//アニメーション
+	float enemyTimer;
+	float enemyMaxTimer;
+	float i;
+	float count;
 };
 

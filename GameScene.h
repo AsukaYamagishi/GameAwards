@@ -99,7 +99,7 @@ private: //メンバ変数
 
 public:
 	//ゲームシーン終了用
-	bool gameEndFlag = false;
+	bool gameFlag = false;
 	bool winJudeg = false;
 #pragma endregion
 

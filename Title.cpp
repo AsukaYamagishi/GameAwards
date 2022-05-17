@@ -28,20 +28,20 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 
 #pragma region Sprite初期設定
 	// テクスチャ読み込み(１番にするとよくわからんエラー起こる)
-	if (!Sprite::LoadTexture(2, L"Resources/sprite/title.png")) {
+	if (!Sprite::LoadTexture(11, L"Resources/sprite/title.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(3, L"Resources/sprite/title_back.png")) {
+	if (!Sprite::LoadTexture(12, L"Resources/sprite/title_back.png")) {
 		assert(0);
 		return;
 	}
 	// 背景スプライト生成
-	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
+	spriteBG = Sprite::CreateSprite(11, { 0.0f,0.0f });
 	spriteBG->SetSize({ 1280, 720 });
 	spriteBG->Update();
 
-	background = Sprite::CreateSprite(3, { 0.0f,0.0f });
+	background = Sprite::CreateSprite(12, { 0.0f,0.0f });
 	background->SetSize({ 1280, 720 });
 	background->Update();
 #pragma endregion

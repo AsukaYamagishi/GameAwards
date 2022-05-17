@@ -35,40 +35,111 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 
 #pragma region Sprite初期設定
 	// テクスチャ読み込み
-	if (!Sprite::LoadTexture(10, L"Resources/sprite/black.png")) {
+	if (!Sprite::LoadTexture(20, L"Resources/sprite/black.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(21, L"Resources/sprite/enemy.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(22, L"Resources/sprite/enemy_White.png")) {
 		assert(0);
 		return;
 	}
 	//// スプライト生成
-	black = Sprite::CreateSprite(10, { 0.0f,0.0f });
-	
+	black = Sprite::CreateSprite(20, { 0.0f,0.0f });
+	enemy = Sprite::CreateSprite(21, { 0,0 });
+	enemy_White = Sprite::CreateSprite(22, { 0,0 });
 #pragma endregion
 
 	//シーン遷移変数
-	sceneFlag = true;
+	titleGameFlag = false;
+	gameEndFlag = false;
 	alpha = 0;
+	enemyTimer = 0;
+	enemyMaxTimer = 5;
+	i = 0;
+	count = 0;
 }
 
 void SceneManager::Update()
 {
 	//シーン遷移
-	
-	black->SetColor({ 1,0,0,0.5 });
+	black->SetColor({ 0,0,0,alpha });
 	black->Update();
+
+	enemy->SetSize({ 128, 128 });
+	enemy->SetPosition({ 1100, 580 });
+	enemy->SetTextureRect({128 * i, 0}, {128, 128});
+	enemy->Update();
+
+	enemy_White->SetSize({ 160, 140 });
+	enemy_White->SetPosition({ 1055, 565 });
+	enemy_White->SetTextureRect({ 128 * i, 0 }, { 128, 128 });
+	enemy_White->Update();
 
 	//シーン切り替え
 	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene)
 	{		
 		game->Finalize();
 		game->Init(dxCommon, keyInput, padInput, audio);
-		sceneNo = gameScene;
+		titleGameFlag = true;
+		
 	}
-	else if (game->gameEndFlag == true && sceneNo == gameScene)
+
+	if (titleGameFlag == true)
+	{
+		alpha += 0.05;
+
+		if (alpha >= 1)
+		{
+			//アニメーション
+			enemyTimer++;
+			if (enemyTimer >= enemyMaxTimer)
+			{
+				i++;
+				count++;
+				enemyTimer = 0;
+
+				if (i >= 6)
+				{
+					i = 0;
+				}
+
+				if (count >= 12)
+				{
+					sceneNo = gameScene;
+					alpha = 0;
+					titleGameFlag = false;
+					i = 0;
+					count = 0;
+				}
+			}
+		}
+	}
+
+	if (game->gameFlag == true && sceneNo == gameScene)
 	{
 		end->Init(dxCommon, keyInput, padInput, audio);
-		sceneNo = endScene;
+		gameEndFlag = true;
 	}
-	else if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == endScene)
+
+	if (gameEndFlag == true)
+	{
+		alpha += 0.05;
+
+		if (alpha >= 1)
+		{
+			gameEndFlag = false;
+			sceneNo = endScene;
+			alpha = 0;
+		}
+	}
+
+	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == endScene)
 	{
 		title->Init(dxCommon, keyInput, padInput, audio);
 		sceneNo = titleScene;
@@ -117,7 +188,13 @@ void SceneManager::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//前景スプライト描画
-	black->Draw();
+	if (titleGameFlag == true)
+	{
+		black->Draw();
+	}
+
+	enemy_White->Draw();
+	enemy->Draw();
 
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);

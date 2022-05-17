@@ -198,7 +198,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 #pragma endregion
 
-	gameEndFlag = false;
+	gameFlag = false;
 
 	//コリジョンマネージャーの生成
 	collisionManager = CollisionManager::GetInstance();
@@ -843,7 +843,7 @@ bool GameScene::Update()
 	//ボスが死んだらエンドシーンに移行
 	if (keyInput->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
 	{
-		gameEndFlag = true;
+		gameFlag = true;
 		if (boss->hp <= 0)
 		{
 			winJudeg = true;
