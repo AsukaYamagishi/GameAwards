@@ -132,7 +132,7 @@ void Boss::Update()
 			Direction();
 		}
 		//çUåÇ
-		if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() != nullptr && attackType == NONE) {
+		if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() == boss && attackType == NONE) {
 			attackType = BEAM;
 		}
 		else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
