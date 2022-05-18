@@ -207,14 +207,16 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 bool GameScene::Update()
 {
-
-	//カメラ操作
-	if (keyInput->PressKey(DIK_RIGHT)) {
-		camera->matRot *= XMMatrixRotationY(0.1f);
+	if (cameraFlag == false) {
+		//カメラ操作
+		if (keyInput->PressKey(DIK_RIGHT)) {
+			camera->matRot *= XMMatrixRotationY(0.1f);
+		}
+		else if (keyInput->PressKey(DIK_LEFT)) {
+			camera->matRot *= XMMatrixRotationY(-0.1f);
+		}
 	}
-	else if (keyInput->PressKey(DIK_LEFT)) {
-		camera->matRot *= XMMatrixRotationY(-0.1f);
-	}
+	
 	//コントローラによるカメラ操作
 	camera->matRot *= XMMatrixRotationY(0.08f * padInput->IsPadStick(INPUT_AXIS_RX, 0.01f) / 1000);
 
@@ -748,6 +750,11 @@ bool GameScene::Update()
 		player->KnockBack();
 	}
 
+	if (keyInput->PressKeyTrigger(DIK_H)) {
+		cameraNumber += 1;
+	}
+
+
 	//debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
 	//debugText.PrintDebugText("SHIFT:JUMP", 25, 45, 1.5f);
 	//debugText.PrintDebugText("SPACE:ATTACK", 25, 75, 1.5f);
@@ -755,7 +762,7 @@ bool GameScene::Update()
 	//debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
 	//debugText.PrintDebugText(":DROP", 25, 135, 1.5f);
 	//debugText.PrintDebugText("M:RESET", 25, 135, 1.5f);
-	player->Update(*camera);
+	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
@@ -780,7 +787,6 @@ bool GameScene::Update()
 	{
 		matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
 	}
-
 	camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
 	camera->eye.y = 20;
 	camera->target = player->player->GetPos();
@@ -788,7 +794,70 @@ bool GameScene::Update()
 	camera->target.y = player->graundheight;
 
 
-	player->Update(*camera);
+	if (cameraNumber == 0) {
+		cameraFlag = false;
+	}
+	else if (cameraNumber == 1) {
+		cameraFlag = true;
+		Vector3 dir = boss->head->GetPos() - player->player->GetPos();
+		dir.Normalize();
+		dir = dir * Vector3( -1, -1, -1 );
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		camera->target = boss->boss->GetPos();
+		camera->target.y = player->graundheight;
+	}
+	else if (cameraNumber == 2) {
+		cameraFlag = true;
+		Vector3 dir = boss->leftarm->GetPos() - player->player->GetPos();
+		dir.Normalize();
+		dir = dir * Vector3(-1, -1, -1);
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		camera->target = boss->leftarm->GetPos();
+		camera->target.y = player->graundheight;
+	}
+	else if (cameraNumber == 3) {
+		cameraFlag = true;
+		Vector3 dir = boss->rightarm->GetPos() - player->player->GetPos();
+		dir.Normalize();
+		dir = dir * Vector3(-1, -1, -1);
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		camera->target = boss->rightarm->GetPos();
+		camera->target.y = player->graundheight;
+	}
+	else if (cameraNumber == 4) {
+		cameraFlag = true;
+		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
+		dir.Normalize();
+		dir = dir * Vector3(-1, -1, -1);
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		camera->target = boss->body->GetPos();
+		camera->target.y = player->graundheight;
+	}
+	else if (cameraNumber == 5) {
+		cameraFlag = true;
+		Vector3 dir = boss->leftleg->GetPos() - player->player->GetPos();
+		dir.Normalize();
+		dir = dir * Vector3(-1, -1, -1);
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		camera->target = boss->leftleg->GetPos();
+		camera->target.y = player->graundheight;
+	}
+	else if (cameraNumber == 6) {
+		cameraFlag = true;
+		Vector3 dir = boss->rightleg->GetPos() - player->player->GetPos();
+		dir.Normalize();
+		dir = dir * Vector3(-1, -1, -1);
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		camera->target = boss->rightleg->GetPos();
+		camera->target.y = player->graundheight;
+	}
+	else if (cameraNumber == 7) {
+		cameraNumber = 0;
+		cameraFlag = false;
+	}
+
+
+	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
 	stage->Update();
 	skydome->Update();
 	weapon->Update();

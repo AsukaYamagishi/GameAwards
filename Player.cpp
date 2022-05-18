@@ -1,5 +1,6 @@
 ﻿#include "Player.h"
 #include "Camera.h"
+#include "Boss.h"
 #include <time.h>
 #include <cassert>
 #include "SphereCollider.h"
@@ -49,7 +50,7 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 	bullet->collider->tag = CollisionTag::TagPlayerBullet;
 }
 
-void Player::Update(Camera camera)
+void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 {
 	oldattack = attack;
 #pragma region	移動処理
@@ -146,6 +147,31 @@ void Player::Update(Camera camera)
 			isinput = true;
 		}
 	}
+
+	if (cameraFlag == true) {
+		float angle = atan2f(bossPos.z - player->GetPos().z, bossPos.x - player->GetPos().x);
+		if (keyInput->PressKey(DIK_W)) {
+			angle;
+			Vector3 Vec = Vector3 (cosf(angle), 0, sinf(angle));
+			player->SetPos(player->GetPos() + Vec * XMVECTOR{ 2, 2, 2});
+		}
+		else if (keyInput->PressKey(DIK_S)) {
+			angle *= -1;
+			Vector3 Vec = Vector3(cosf(angle), 0, sinf(angle));
+			player->SetPos(player->GetPos() + Vec * XMVECTOR{ 2, 2, 2 });
+		}
+		else if (keyInput->PressKey(DIK_A)) {
+			angle -= XM_PI / 2.0f;
+			Vector3 Vec = Vector3(cosf(angle), 0, sinf(angle));
+			player->SetPos(player->GetPos() +  Vec * XMVECTOR{ 2, 2, 2 });
+		}
+		else if (keyInput->PressKey(DIK_D)) {
+			angle += XM_PI / 2.0f;
+			Vector3 Vec = Vector3(cosf(angle), 0, sinf(angle));
+			player->SetPos(player->GetPos() + Vec *  XMVECTOR{ 2, 2, 2 });
+		}
+	}
+
 
 
 	XMVECTOR playermatrot = { forvardvec };

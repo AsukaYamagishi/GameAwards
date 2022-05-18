@@ -97,6 +97,10 @@ private: //メンバ変数
 	int soundNo = 0;
 	int seNo = 0;
 
+
+	float cameraNumber = 0;
+	bool cameraFlag = false;
+
 public:
 	//ゲームシーン終了用
 	bool gameFlag = false;

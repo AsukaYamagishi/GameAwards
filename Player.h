@@ -6,7 +6,6 @@
 #include "Audio.h"
 #include "ModelDraw.h"
 #include "ModelManager.h"
-
 #include <DirectXMath.h>
 class Player {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -23,7 +22,7 @@ public:
 	/// <summary>
 	/// ���t���[������
 	/// </summary>
-	void Update(Camera camera);
+	void Update(Camera camera, Vector3 bossPos, bool cameraFlag);
 
 	/// <summary>
 	/// �`��
