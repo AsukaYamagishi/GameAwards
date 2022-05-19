@@ -35,7 +35,7 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 	this->audio = audio;
 
 	player->SetScale(Vector3(1, 1, 1));
-	player->SetPos(Vector3(0, 5, 0));
+	player->SetPos(Vector3(0, 5, -100));
 	bullet->SetScale(Vector3(10, 10, 10));
 	bullet->SetPos(Vector3(10, -100, 10));
 
@@ -149,7 +149,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 	}
 
 	if (cameraFlag == true) {
-		float angle = atan2f(bossPos.z - player->GetPos().z, bossPos.x - player->GetPos().x);
+		float angle = atan2f(bossPos.x - player->GetPos().x, bossPos.z - player->GetPos().z);
 		if (keyInput->PressKey(DIK_W)) {
 			angle;
 			Vector3 Vec = Vector3 (cosf(angle), 0, sinf(angle));

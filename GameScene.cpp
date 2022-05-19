@@ -22,6 +22,15 @@ enum mesh
 	headToPlayer = 7,
 };
 
+enum targetParts {
+	Thead = 1,
+	Tleftarm,
+	Trightarm,
+	Tbody,
+	Tleftleg,
+	Trightleg,
+};
+
 GameScene::GameScene()
 {
 
@@ -112,7 +121,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	FbxDraw::SetCamera(camera);
 	//グラフィックスパイプライン生成
 	FbxDraw::CreateGraphicsPipeline();
-
+	cameraNumber = 0;
 #pragma region 3DモデルCreate・初期設定
 
 	//モデルを指定して読み込み
@@ -753,6 +762,21 @@ bool GameScene::Update()
 	if (keyInput->PressKeyTrigger(DIK_H)) {
 		cameraNumber += 1;
 	}
+	if (boss->head->GetParent() != boss->boss && cameraNumber == Thead) {
+		cameraNumber += 1;
+	}
+	if (boss->rightarm->GetParent() != boss->boss && cameraNumber == Tleftarm) {
+		cameraNumber += 1;
+	}
+	if (boss->leftarm->GetParent() != boss->boss && cameraNumber == Trightarm) {
+		cameraNumber += 1;
+	}
+	if (boss->leftleg->GetParent() != boss->boss && cameraNumber == Tleftleg) {
+		cameraNumber += 1;
+	}
+	if (boss->rightleg->GetParent() != boss->boss && cameraNumber == Trightleg) {
+		cameraNumber += 1;
+	}
 
 
 	//debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
@@ -797,16 +821,16 @@ bool GameScene::Update()
 	if (cameraNumber == 0) {
 		cameraFlag = false;
 	}
-	else if (cameraNumber == 1) {
+	else if (cameraNumber == Thead) {
 		cameraFlag = true;
-		Vector3 dir = boss->head->GetPos() - player->player->GetPos();
+		Vector3 dir = boss->boss->GetPos() - player->player->GetPos();
 		dir.Normalize();
 		dir = dir * Vector3( -1, -1, -1 );
 		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
 		camera->target = boss->boss->GetPos();
 		camera->target.y = player->graundheight;
 	}
-	else if (cameraNumber == 2) {
+	else if (cameraNumber == Tleftarm) {
 		cameraFlag = true;
 		Vector3 dir = boss->leftarm->GetPos() - player->player->GetPos();
 		dir.Normalize();
@@ -815,7 +839,7 @@ bool GameScene::Update()
 		camera->target = boss->leftarm->GetPos();
 		camera->target.y = player->graundheight;
 	}
-	else if (cameraNumber == 3) {
+	else if (cameraNumber == Trightarm) {
 		cameraFlag = true;
 		Vector3 dir = boss->rightarm->GetPos() - player->player->GetPos();
 		dir.Normalize();
@@ -824,7 +848,7 @@ bool GameScene::Update()
 		camera->target = boss->rightarm->GetPos();
 		camera->target.y = player->graundheight;
 	}
-	else if (cameraNumber == 4) {
+	else if (cameraNumber == Tbody) {
 		cameraFlag = true;
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
 		dir.Normalize();
@@ -833,7 +857,7 @@ bool GameScene::Update()
 		camera->target = boss->body->GetPos();
 		camera->target.y = player->graundheight;
 	}
-	else if (cameraNumber == 5) {
+	else if (cameraNumber == Tleftleg) {
 		cameraFlag = true;
 		Vector3 dir = boss->leftleg->GetPos() - player->player->GetPos();
 		dir.Normalize();
@@ -842,7 +866,7 @@ bool GameScene::Update()
 		camera->target = boss->leftleg->GetPos();
 		camera->target.y = player->graundheight;
 	}
-	else if (cameraNumber == 6) {
+	else if (cameraNumber == Trightleg) {
 		cameraFlag = true;
 		Vector3 dir = boss->rightleg->GetPos() - player->player->GetPos();
 		dir.Normalize();
