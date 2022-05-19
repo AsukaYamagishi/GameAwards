@@ -26,6 +26,7 @@ void ModelManager::Initialize()
 	LoadModel(Plane, "plane");
 	LoadModel(Bullet, "Bullet");
 	LoadModel(arrow, "arrow");
+	LoadModel(rubble, "rubble");
 	//LoadModel(TestDunut, "donut");
 }
 
