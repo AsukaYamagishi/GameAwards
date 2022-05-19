@@ -102,7 +102,7 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 void Title::Update()
 {
 	
-	if ((keyInput->PressKeyTrigger(DIK_RETURN)))
+	if ((keyInput->PressKeyTrigger(DIK_A)))
 	{
 		weaponFlag = true;
 		timer = 0;
