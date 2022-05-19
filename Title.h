@@ -33,10 +33,8 @@ private: //ƒƒ“ƒo•Ï”
 
 	ModelDraw* weapon;
 	ModelDraw* rubble[6][6];
-	bool weaponFlag;
 	float speed[6][6];
 	float rand_number[6][6];
-	float timer;
 	float weaponTimer;
 	float rotZ;
 	float posY;
@@ -45,6 +43,8 @@ private: //ƒƒ“ƒo•Ï”
 	Audio::SoundData soundData;
 
 public:
+	float timer;
+	bool weaponFlag;
 	bool breakFlag;
 #pragma endregion
 

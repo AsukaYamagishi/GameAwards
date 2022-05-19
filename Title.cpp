@@ -102,9 +102,14 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 void Title::Update()
 {
 	
-	if ((keyInput->PressKeyTrigger(DIK_A)))
+	/*if ((keyInput->PressKeyTrigger(DIK_RETURN)))
 	{
 		weaponFlag = true;
+		
+	}*/
+
+	if (weaponFlag == true)
+	{
 		timer = 0;
 		for (int y = 0; y < 6; y++)
 		{
@@ -114,10 +119,6 @@ void Title::Update()
 				speed[x][y] = 0;
 			}
 		}
-	}
-
-	if (weaponFlag == true)
-	{
 		weaponTimer++;
 		rotZ -= weaponTimer * 2;
 		posY += weaponTimer * 2;
@@ -147,7 +148,7 @@ void Title::Update()
 		}
 	}
 
-	if (timer >= 100)
+	if (timer >= 110)
 	{
 		breakFlag = false;
 		weaponTimer = 0;
