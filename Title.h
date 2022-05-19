@@ -6,6 +6,7 @@
 #include "KeyboardInput.h"
 #include "ControllerInput.h"
 #include "Sprite.h"
+#include "OBJObject.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -26,6 +27,8 @@ private: //メンバ変数
 	//ゲームシーン用
 	Sprite* spriteBG = nullptr;
 	Sprite* background = nullptr;
+
+	OBJObject* weapon;
 
 	//音楽
 	Audio::SoundData soundData;

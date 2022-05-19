@@ -48,6 +48,8 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 
 
 #pragma region 3DモデルCreate・初期設定
+	weapon = new OBJObject();
+	weapon->Initialize(dxCommon, keyInput, audio, ModelManager::Weapon);
 #pragma endregion
 	
 #pragma region 音楽リソース初期設定
@@ -61,7 +63,7 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 
 void Title::Update()
 {
-
+	weapon->Update();
 }
 
 void Title::Draw()
@@ -90,12 +92,12 @@ void Title::Draw()
 	// 3Dオブクジェクトの描画
 	//object3d->Draw();
 
-	// 3Dオブジェクト描画後処理
-	//Object3D::PostDraw();
 #pragma endregion
 
 #pragma region 3Dモデル描画
-	
+	weapon->Draw();
+	// 3Dオブジェクト描画後処理
+	ModelDraw::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
