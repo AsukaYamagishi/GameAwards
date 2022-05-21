@@ -73,6 +73,10 @@ public:
 
 	//プレス攻撃
 	void PressAttack();
+
+	//ダメージ処理
+	int damage(float weaponATK);
+
 	bool GetAttackFlag() { return attackFlag; }
 	int GetAttackTime() { return attackTime; }
 	int GetAttackType() { return attackType;}
