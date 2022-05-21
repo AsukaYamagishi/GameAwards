@@ -125,7 +125,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 #pragma region 3DモデルCreate・初期設定
 
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_foot_walk");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
@@ -885,7 +885,7 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	//testObject->Update();
+	testObject->Update();
 	camera->SetCam(camera);
 	camera->Update();
 	boss->Update();
@@ -991,7 +991,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dモデル描画
-	//testObject->Draw(cmdList);
+	testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();

@@ -275,7 +275,7 @@ void Boss::Direction() {
 	////ƒ{ƒX‚Ì³–Ê‚©‚ç­‚µ‘O‚ð‹‚ß‚é
 	//XMVECTOR movement = { 0, 0, 1.0f, 0 };
 	//XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y - 90.0f)));
-	//movement = XMVector3TransformNormal(movement, matRot);
+	//movement = XMVector3TransformNormal(movement, matRot);a
 	//matRot = XMMatrixRotationY((XMConvertToRadians(boss->GetRotation().y)));
 
 	//movement *= XMVECTOR{ -1, -1, -1 };
@@ -432,4 +432,13 @@ void Boss::PressAttack() {
 		attackFlag = false;
 		timer = 0;
 	}
+}
+
+int Boss::damage(float weaponATK) {
+	float partsDEF = 0.8f;
+
+	int damage = 0;
+	damage = weaponATK * partsDEF;
+
+	return damage;
 }
