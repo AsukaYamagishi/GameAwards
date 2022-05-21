@@ -722,6 +722,10 @@ bool GameScene::Update()
 
 		}
 	}
+
+	if (keyInput->PressKeyTrigger(DIK_L)) {
+		testObject->StopAnimation();
+	}
 #pragma endregion
 
 
