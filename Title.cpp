@@ -148,7 +148,7 @@ void Title::Update()
 		}
 	}
 
-	if (timer >= 110)
+	if (timer >= 200)
 	{
 		breakFlag = false;
 		weaponTimer = 0;

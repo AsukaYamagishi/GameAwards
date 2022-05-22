@@ -103,7 +103,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	//// スプライト生成
 	boss1HP_Red = Sprite::CreateSprite(2, { 310.0f,10.0f });
 	boss1HP_Black = Sprite::CreateSprite(3, { 310.0f,10.0f });
-	playerHP = Sprite::CreateSprite(4, { 10, 582 });
+	playerHP = Sprite::CreateSprite(4, { 1070, 542 });
 	control = Sprite::CreateSprite(5, { 20, 10 });
 #pragma endregion
 	//デバイスをセット
@@ -594,7 +594,7 @@ bool GameScene::Update()
 
 	/*-------------プレイヤー-------------*/
 	playerHP->SetSize({ playerHPX, playerHPY });
-	playerHP->SetTextureRect({ playerHPX * (playerMaxHp - player->hp),0 }, { 128, 128 });
+	playerHP->SetTextureRect({ 128.0f * (playerMaxHp - player->hp),0 }, { 128, 128 });
 
 #pragma endregion
 
@@ -967,7 +967,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dモデル描画
-	testObject->Draw(cmdList);
+	//testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();
@@ -986,7 +986,7 @@ void GameScene::Draw()
 	boss1HP_Black->Draw();
 	boss1HP_Red->Draw();
 	playerHP->Draw();
-	control->Draw();
+	//control->Draw();
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理

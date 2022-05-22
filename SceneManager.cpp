@@ -87,8 +87,6 @@ void SceneManager::Update()
 		game->Finalize();
 		game->Init(dxCommon, keyInput, padInput, audio);
 		title->weaponFlag = true;
-		
-		
 	}
 
 	if (title->weaponFlag == false && title->breakFlag == false && title->timer >= 100)
