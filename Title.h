@@ -7,6 +7,8 @@
 #include "ControllerInput.h"
 #include "Sprite.h"
 #include "OBJObject.h"
+#include "ModelDraw.h"
+#include "ModelManager.h"
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -27,12 +29,23 @@ private: //メンバ変数
 	//ゲームシーン用
 	Sprite* spriteBG = nullptr;
 	Sprite* background = nullptr;
+	Sprite* break_background = nullptr;
 
-	OBJObject* weapon;
+	ModelDraw* weapon;
+	ModelDraw* rubble[6][6];
+	float speed[6][6];
+	float rand_number[6][6];
+	float weaponTimer;
+	float rotZ;
+	float posY;
 
 	//音楽
 	Audio::SoundData soundData;
 
+public:
+	float timer;
+	bool weaponFlag;
+	bool breakFlag;
 #pragma endregion
 
 #pragma region 静的メンバ関数

@@ -36,6 +36,11 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 		assert(0);
 		return;
 	}
+
+	if (!Sprite::LoadTexture(13, L"Resources/sprite/title_break.png")) {
+		assert(0);
+		return;
+	}
 	// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(11, { 0.0f,0.0f });
 	spriteBG->SetSize({ 1280, 720 });
@@ -44,12 +49,30 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 	background = Sprite::CreateSprite(12, { 0.0f,0.0f });
 	background->SetSize({ 1280, 720 });
 	background->Update();
+
+	break_background = Sprite::CreateSprite(13, { 0.0f,0.0f });
+	break_background->SetSize({ 1280, 720 });
+	break_background->Update();
 #pragma endregion
 
 
 #pragma region 3DモデルCreate・初期設定
-	weapon = new OBJObject();
-	weapon->Initialize(dxCommon, keyInput, audio, ModelManager::Weapon);
+	weapon = ModelDraw::Create();
+	weapon->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Weapon));
+	weapon->SetPos({ 0,posY,0 });
+	weapon->SetScale({ 50,50,50 });
+	weapon->SetRotation({ 0,90,rotZ });
+
+	for (int y = 0; y < 6; y++)
+	{
+		for (int x = 0; x < 6; x++)
+		{
+			rubble[x][y] = ModelDraw::Create();
+			rubble[x][y]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::rubble));
+			rubble[x][y]->SetPos({x * 10.0f - 30, 3.0f * y - 40, 0});
+			rubble[x][y]->SetScale({10,10,10});
+		}
+	}
 #pragma endregion
 	
 #pragma region 音楽リソース初期設定
@@ -59,11 +82,90 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);
 
 #pragma endregion
+	weaponFlag = false;
+	breakFlag = false;
+	timer = 0;
+	weaponTimer = 0;
+	rotZ = 180;
+	posY = -280;
+	for (int y = 0; y < 6; y++)
+	{
+		for (int x = 0; x < 6; x++)
+		{
+			speed[x][y] = 0;
+			rand_number[x][y] = 0;
+		}
+	}
+
 }
 
 void Title::Update()
 {
+	
+	/*if ((keyInput->PressKeyTrigger(DIK_RETURN)))
+	{
+		weaponFlag = true;
+		
+	}*/
+
+	if (weaponFlag == true)
+	{
+		timer = 0;
+		for (int y = 0; y < 6; y++)
+		{
+			for (int x = 0; x < 6; x++)
+			{
+				rand_number[x][y] = 0;
+				speed[x][y] = 0;
+			}
+		}
+		weaponTimer++;
+		rotZ -= weaponTimer * 2;
+		posY += weaponTimer * 2;
+		weapon->SetRotation({ 0, 90, rotZ });
+		weapon->SetPos({ 0,posY,0 });
+		if (rotZ <= 0 && posY <= -80)
+		{
+			weaponFlag = false;
+			breakFlag = true;
+		}
+	}
+	
+	if (breakFlag == true)
+	{
+		timer++;
+
+		for (int y = 0; y < 6; y++)
+		{
+			for (int x = 0; x < 6; x++)
+			{
+				rand_number[x][y] = rand() % 5 + 1;
+				speed[x][y] += rand_number[x][y];
+				rubble[x][y]->SetPos({ x * (20.0f + speed[x][y]) - (50 + speed[x][y]), (13.0f + speed[x][y]) * y - (30 + speed[x][y]), -speed[x][y] + 60});
+				rubble[x][y]->SetRotation({ speed[x][y] * 2, speed[x][y] * 2, 0});
+
+			}
+		}
+	}
+
+	if (timer >= 200)
+	{
+		breakFlag = false;
+		weaponTimer = 0;
+		rotZ = 180;
+		posY = -280;
+
+	}
+	
+	for (int y = 0; y < 6; y++)
+	{
+		for (int x = 0; x < 6; x++)
+		{
+			rubble[x][y]->Update();
+		}
+	}
 	weapon->Update();
+	
 }
 
 void Title::Draw()
@@ -76,7 +178,6 @@ void Title::Draw()
 	Sprite::PreDraw(cmdList);
 
 	// 背景スプライト描画
-	background->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -95,7 +196,17 @@ void Title::Draw()
 #pragma endregion
 
 #pragma region 3Dモデル描画
+	ModelDraw::PreDraw(cmdList);
+
 	weapon->Draw();
+	for (int y = 0; y < 6; y++)
+	{
+		for (int x = 0; x < 6; x++)
+		{
+			rubble[x][y]->Draw();
+		}
+	}
+	
 	// 3Dオブジェクト描画後処理
 	ModelDraw::PostDraw();
 #pragma endregion
@@ -105,12 +216,36 @@ void Title::Draw()
 	Sprite::PreDraw(cmdList);
 
 	// 背景スプライト描画
-	spriteBG->Draw();
+	if (breakFlag == true)
+	{
+		break_background->Draw();
+	}
+	else
+	{
+		background->Draw();
+		spriteBG->Draw();
+	}
+	
+	
 
 	// デバッグテキストの描画
 //debugText.DrawAll(cmdList);
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
+
+	// 深度バッファクリア
+	dxCommon->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dモデル描画
+	ModelDraw::PreDraw(cmdList);
+
+	
+	weapon->Draw();
+	
+	
+	// 3Dオブジェクト描画後処理
+	ModelDraw::PostDraw();
 #pragma endregion
 }
