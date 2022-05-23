@@ -125,11 +125,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 #pragma region 3DモデルCreate・初期設定
 
 	//モデルを指定して読み込み
-<<<<<<< HEAD
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm");
-=======
 	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_foot_walk");
->>>>>>> master
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
