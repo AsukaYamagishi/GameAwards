@@ -127,7 +127,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	//// スプライト生成
 	boss1HP_Red = Sprite::CreateSprite(2, { 310.0f,10.0f });
 	boss1HP_Black = Sprite::CreateSprite(3, { 310.0f,10.0f });
-	playerHP = Sprite::CreateSprite(4, { 1070, 542 });
+	playerHP = Sprite::CreateSprite(4, { 1070, 522 });
 	controler_rule = Sprite::CreateSprite(5, { 0,0 });
 	ketboard_rule = Sprite::CreateSprite(6, { 0,0 });
 	pose= Sprite::CreateSprite(7, { 1130,0 });
