@@ -110,6 +110,7 @@ void Title::Update()
 
 	if (weaponFlag == true)
 	{
+		breakFlag = false;
 		timer = 0;
 		for (int y = 0; y < 6; y++)
 		{

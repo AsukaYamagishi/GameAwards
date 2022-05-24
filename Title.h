@@ -35,7 +35,6 @@ private: //ƒƒ“ƒo•Ï”
 	ModelDraw* rubble[6][6];
 	float speed[6][6];
 	float rand_number[6][6];
-	float weaponTimer;
 	float rotZ;
 	float posY;
 
@@ -44,6 +43,7 @@ private: //ƒƒ“ƒo•Ï”
 
 public:
 	float timer;
+	float weaponTimer;
 	bool weaponFlag;
 	bool breakFlag;
 #pragma endregion

@@ -48,7 +48,11 @@ private: //ƒƒ“ƒo•Ï”
 	float playerHPY = 200;
 	int playerMaxHp = 10;
 	Sprite* playerHP = nullptr;
-	Sprite* control = nullptr;
+	Sprite* controler_rule = nullptr;
+	Sprite* ketboard_rule = nullptr;
+	Sprite* pose = nullptr;
+	Sprite* pose_key = nullptr;
+	bool poseFlag;
 	//E‚¦‚é•Ší—p–îˆó
 	ModelDraw* arrow[5];
 	bool DrawFlag[5];

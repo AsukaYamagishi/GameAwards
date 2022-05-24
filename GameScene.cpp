@@ -105,7 +105,22 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 		return;
 	}
 
-	if (!Sprite::LoadTexture(5, L"Resources/sprite/control.png")) {
+	if (!Sprite::LoadTexture(5, L"Resources/sprite/rule.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(6, L"Resources/sprite/rule_keyboard.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(7, L"Resources/sprite/pose.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(8, L"Resources/sprite/pose_key.png")) {
 		assert(0);
 		return;
 	}
@@ -113,7 +128,10 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	boss1HP_Red = Sprite::CreateSprite(2, { 310.0f,10.0f });
 	boss1HP_Black = Sprite::CreateSprite(3, { 310.0f,10.0f });
 	playerHP = Sprite::CreateSprite(4, { 1070, 542 });
-	control = Sprite::CreateSprite(5, { 20, 10 });
+	controler_rule = Sprite::CreateSprite(5, { 0,0 });
+	ketboard_rule = Sprite::CreateSprite(6, { 0,0 });
+	pose= Sprite::CreateSprite(7, { 1130,0 });
+	pose_key= Sprite::CreateSprite(8, { 1070,0 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -208,6 +226,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 #pragma endregion
 
 	gameFlag = false;
+	poseFlag = false;
 
 	//コリジョンマネージャーの生成
 	collisionManager = CollisionManager::GetInstance();
@@ -885,6 +904,17 @@ bool GameScene::Update()
 	}
 
 
+#pragma region ポーズ
+	if (keyInput->PressKey(DIK_ESCAPE) || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == false))
+	{
+		poseFlag = true;
+	}
+	else if (keyInput->PressKey(DIK_ESCAPE) || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == true))
+	{
+		poseFlag = false;
+	}
+#pragma endregion
+
 	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
 	stage->Update();
 	skydome->Update();
@@ -901,7 +931,10 @@ bool GameScene::Update()
 	boss1HP_Red->Update();
 	boss1HP_Black->Update();
 	playerHP->Update();
-	control->Update();
+	controler_rule->Update();
+	ketboard_rule->Update();
+	pose->Update();
+	pose_key->Update();
 	
 
 
@@ -1014,7 +1047,17 @@ void GameScene::Draw()
 	boss1HP_Black->Draw();
 	boss1HP_Red->Draw();
 	playerHP->Draw();
-	//control->Draw();
+	if (poseFlag == true)
+	{
+		controler_rule->Draw();
+		//ketboard_rule->Draw();
+	}
+	else {
+		pose->Draw();
+		//pose_key->Draw();
+	}
+	
+	
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理
