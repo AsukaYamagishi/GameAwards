@@ -134,7 +134,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	testObject->SetScale({ 0.1,0.1,0.1 });
 	testObject->SetRotation({ 0,0,0 });
 	testObject->SetPosition({ 0,5,3 });
-	testObject->PlayAnimation(true);
+	//testObject->PlayAnimation(true);
 	FbxMeshCollider* testcollider = new FbxMeshCollider;
 	testObject->SetCollider(testcollider);
 	testcollider->ConstrucTriangles(testObject->GetModel());
@@ -794,7 +794,7 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	testObject->Update();
+	//testObject->Update();
 	//testObject->Update();
 	//ƒJƒƒ‰‚ÌÝ’è
 	//camera->eye = player->player->GetPos() + meye;
@@ -889,7 +889,7 @@ bool GameScene::Update()
 	stage->Update();
 	skydome->Update();
 	weapon->Update();
-	testObject->Update();
+	//testObject->Update();
 	camera->SetCam(camera);
 	camera->Update();
 	boss->Update();
@@ -995,7 +995,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dƒ‚ƒfƒ‹•`‰æ
-	testObject->Draw(cmdList);
+	//testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();

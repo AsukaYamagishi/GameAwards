@@ -101,6 +101,9 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	bullet->SetPos(Vector3(0, 0, 0));
 	bullet->SetScale(Vector3(20, 20, 20));
 
+	noneArm = false;
+	noneLeg = false;
+
 	soundSE[Charge] = audio->SoundLoadWave("Resources/Sound/SE/Charge.wav");
 	soundSE[Shot] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 }
@@ -145,6 +148,8 @@ void Boss::Update()
 		else if (attackType == PRESS) {
 			PressAttack();
 		}
+
+		PosCorrection();
 	}
 
 	boss->Update();
@@ -337,9 +342,11 @@ void Boss::BeamAttack() {
 	//à–¾•Ï”
 	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
-	const float initCharge = 30.0f;
+	const float initCharge = 40.0f;
 	const float initAttack = 80.0f;
 	const float initCoolTime = 80.0f;
+	const Vector3 initScale = { 0.5f, 0.5f, 0.5f };
+	const Vector3 maxScale = { 15.0f, 15.0f, 15.0f };
 
 	//UŒ‚—pƒƒ“ƒo•Ï”
 	if (attackFlag == false) {
@@ -347,6 +354,7 @@ void Boss::BeamAttack() {
 		oldPlayerPos = player->GetPos();
 		chargeTime = initCharge;
 		attackTime = initAttack;
+		bulletScale = initScale;
 	}
 	attackFlag = true;
 
@@ -371,7 +379,11 @@ void Boss::BeamAttack() {
 		}
 		chargeTime -= 1.0f;
 		bulletPos = bossFront;
+		if (bulletScale.x < maxScale.x) {
+			bulletScale += initScale;
+		}
 		bullet->SetPos(bulletPos);
+		bullet->SetScale(bulletScale);
 		shakePosX = oldBossPos.x + rand() % 4 - 2;
 		shakePosZ = oldBossPos.z + rand() % 4 - 2;
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
@@ -441,4 +453,26 @@ int Boss::damage(float weaponATK) {
 	damage = weaponATK * partsDEF;
 
 	return damage;
+}
+
+void Boss::PosCorrection() {
+	//¶‹r‚Æ‰E‹r‚ªŽæ‚ê‚Ä‚¢‚é‚Æ‚«
+	if (leftleg->GetParent() != boss && rightleg->GetParent() != boss) {
+		
+		noneLeg = true;
+
+		if (correctionPos.y > -0.5f) {
+			correctionPos.y -= 0.5f;
+		}
+		if (attackFlag == false && attackType != PRESS) {
+			boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
+		}
+	}
+	else {
+		correctionPos = boss->GetPos();
+	}
+
+	if (noneLeg == true && leftarm->GetParent() != boss && rightarm->GetParent() != boss) {
+
+	}
 }
