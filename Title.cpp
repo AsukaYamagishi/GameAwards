@@ -211,10 +211,8 @@ void Title::Draw()
 #pragma region 3Dƒ‚ƒfƒ‹•`‰æ
 	ModelDraw::PreDraw(cmdList);
 
-	if (breakFlag != false)
-	{
-		weapon->Draw();
-	}
+	
+	weapon->Draw();
 	
 	for (int y = 0; y < 6; y++)
 	{
