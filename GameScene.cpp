@@ -131,7 +131,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	controler_rule = Sprite::CreateSprite(5, { 0,0 });
 	ketboard_rule = Sprite::CreateSprite(6, { 0,0 });
 	pose= Sprite::CreateSprite(7, { 1130,0 });
-	pose_key= Sprite::CreateSprite(8, { 1070,0 });
+	pose_key= Sprite::CreateSprite(8, { 1130,-10 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
