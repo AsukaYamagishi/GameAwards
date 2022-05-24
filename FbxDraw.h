@@ -57,7 +57,6 @@ public: //メンバ関数
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
-
 	//ゲッター・セッター
 	void SetScale(Vector3 nextScale) { scale = nextScale; }
 	void SetPosition(Vector3 nextPos) { position = nextPos; }
@@ -69,6 +68,9 @@ public: //メンバ関数
 	//ワールド行列を取得する関数
 	const XMMATRIX& GetMatWorld() { return matWorld; }
 	FbxModel* GetModel() { return model; }
+
+	//アニメーション停止
+	void StopAnimation() { isPlay = false; }
 
 public: //静的メンバ関数
 	//セッター
