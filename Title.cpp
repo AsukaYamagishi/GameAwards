@@ -210,11 +210,6 @@ void Title::Draw()
 
 #pragma region 3Dモデル描画
 	ModelDraw::PreDraw(cmdList);
-
-	if (weaponFlag == true && breakFlag == false || weaponFlag == false && breakFlag == true)
-	{
-		weapon->Draw();
-	}
 	
 	for (int y = 0; y < 6; y++)
 	{
@@ -260,8 +255,10 @@ void Title::Draw()
 #pragma region 3Dモデル描画
 	ModelDraw::PreDraw(cmdList);
 
-	
-	weapon->Draw();
+	if (weaponFlag == true || breakFlag == true)
+	{
+		weapon->Draw();
+	}
 	
 	
 	// 3Dオブジェクト描画後処理
