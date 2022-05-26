@@ -457,7 +457,7 @@ int Boss::damage(float weaponATK) {
 
 void Boss::PosCorrection() {
 	//¶‹r‚Æ‰E‹r‚ªŽæ‚ê‚Ä‚¢‚é‚Æ‚«
-	if (leftleg->GetParent() != boss && rightleg->GetParent() != boss) {
+	if (leftleg->GetParent() != boss && rightleg->GetParent() != boss && noneArm != true) {
 		
 		noneLeg = true;
 
@@ -474,5 +474,17 @@ void Boss::PosCorrection() {
 
 	if (noneLeg == true && leftarm->GetParent() != boss && rightarm->GetParent() != boss) {
 
+		noneArm = true;
+
+		if (correctionPos.y > -3.0f) {
+			correctionPos.y -= 0.5f;
+		}
+
+		if (head->GetParent() == boss) {
+			head->SetPos(Vector3(35.0f, 25.0f, 0.0f));
+			head->SetRotation(Vector3(head->GetRotation().x, head->GetRotation().y, 75.0f));
+		}
+		boss->SetRotation(Vector3(boss->GetRotation().x, boss->GetRotation().y, -75.0f));
+		boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
 	}
 }
