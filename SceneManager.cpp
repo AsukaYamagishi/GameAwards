@@ -85,6 +85,7 @@ void SceneManager::Update()
 	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene && title->weaponFlag == false && title->breakFlag == false)
 	{		
 		game->Finalize();
+		game->Init(dxCommon, keyInput, padInput, audio);
 		title->weaponFlag = true;
 	}
 
@@ -96,7 +97,6 @@ void SceneManager::Update()
 
 	if (titleGameFlag == true)
 	{
-		game->Init(dxCommon, keyInput, padInput, audio);
 		alpha += 0.05;
 
 		if (alpha >= 1)
