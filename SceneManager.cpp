@@ -82,14 +82,14 @@ void SceneManager::Update()
 	enemy_White->Update();
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
-	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene)
+	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene && title->weaponFlag == false && title->breakFlag == false)
 	{		
 		game->Finalize();
 		game->Init(dxCommon, keyInput, padInput, audio);
 		title->weaponFlag = true;
 	}
 
-	if (title->weaponFlag == false && title->breakFlag == false && title->timer >= 100)
+	if (title->timer >= 100)
 	{
 		titleGameFlag = true;
 		title->timer = 0;
