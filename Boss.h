@@ -77,6 +77,9 @@ public:
 	//ダメージ処理
 	int damage(float weaponATK);
 
+	//位置補正
+	void PosCorrection();
+
 	bool GetAttackFlag() { return attackFlag; }
 	int GetAttackTime() { return attackTime; }
 	int GetAttackType() { return attackType;}
@@ -112,13 +115,17 @@ private:
 	//共通変数
 	Vector3 oldBossPos = { 0, 0, 0 };
 	Vector3 oldPlayerPos = { 0, 0, 0 };
+	Vector3 correctionPos = { 0, 0, 0 };
 	float coolTime = 100.0f;
 	float chargeTime = 30.0f;
 	bool attackFlag = false;
 	float shakePosX = 0.0f;
 	float shakePosZ = 0.0f;
+	bool noneLeg = false;
+	bool noneArm = false;
 	//ビーム攻撃用変数
 	Vector3 bulletPos = { 0, 0, 0 };
+	Vector3 bulletScale = { 0, 0, 0 };
 	float attackTime = 100.0f;
 	//プレス攻撃用変数
 	Vector3 pressPos = { 0, 0, 0 };
