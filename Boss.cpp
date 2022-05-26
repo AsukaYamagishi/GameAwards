@@ -101,6 +101,9 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	bullet->SetPos(Vector3(0, 0, 0));
 	bullet->SetScale(Vector3(20, 20, 20));
 
+	noneArm = false;
+	noneLeg = false;
+
 	soundSE[Charge] = audio->SoundLoadWave("Resources/Sound/SE/Charge.wav");
 	soundSE[Shot] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 }
@@ -120,6 +123,7 @@ void Boss::Update()
 			stopFlag = false;
 		}
 	}
+
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
@@ -145,6 +149,8 @@ void Boss::Update()
 		else if (attackType == PRESS) {
 			PressAttack();
 		}
+
+		PosCorrection();
 	}
 
 	boss->Update();
@@ -337,9 +343,11 @@ void Boss::BeamAttack() {
 	//説明変数
 	const float shotSpeed = 10.0f;
 	const float timeOver = 0.0f;
-	const float initCharge = 30.0f;
+	const float initCharge = 40.0f;
 	const float initAttack = 80.0f;
 	const float initCoolTime = 80.0f;
+	const Vector3 initScale = { 0.5f, 0.5f, 0.5f };
+	const Vector3 maxScale = { 15.0f, 15.0f, 15.0f };
 
 	//攻撃用メンバ変数
 	if (attackFlag == false) {
@@ -347,6 +355,7 @@ void Boss::BeamAttack() {
 		oldPlayerPos = player->GetPos();
 		chargeTime = initCharge;
 		attackTime = initAttack;
+		bulletScale = initScale;
 	}
 	attackFlag = true;
 
@@ -371,7 +380,11 @@ void Boss::BeamAttack() {
 		}
 		chargeTime -= 1.0f;
 		bulletPos = bossFront;
+		if (bulletScale.x < maxScale.x) {
+			bulletScale += initScale;
+		}
 		bullet->SetPos(bulletPos);
+		bullet->SetScale(bulletScale);
 		shakePosX = oldBossPos.x + rand() % 4 - 2;
 		shakePosZ = oldBossPos.z + rand() % 4 - 2;
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
@@ -441,4 +454,38 @@ int Boss::damage(float weaponATK) {
 	damage = weaponATK * partsDEF;
 
 	return damage;
+}
+
+void Boss::PosCorrection() {
+	//左脚と右脚が取れているとき
+	if (leftleg->GetParent() != boss && rightleg->GetParent() != boss && noneArm != true) {
+		
+		noneLeg = true;
+
+		if (correctionPos.y > -0.5f) {
+			correctionPos.y -= 0.5f;
+		}
+		if (attackFlag == false && attackType != PRESS) {
+			boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
+		}
+	}
+	else {
+		correctionPos = boss->GetPos();
+	}
+
+	if (noneLeg == true && leftarm->GetParent() != boss && rightarm->GetParent() != boss) {
+
+		noneArm = true;
+
+		if (correctionPos.y > -3.0f) {
+			correctionPos.y -= 0.5f;
+		}
+
+		if (head->GetParent() == boss) {
+			head->SetPos(Vector3(35.0f, 25.0f, 0.0f));
+			head->SetRotation(Vector3(head->GetRotation().x, head->GetRotation().y, 75.0f));
+		}
+		boss->SetRotation(Vector3(boss->GetRotation().x, boss->GetRotation().y, -75.0f));
+		boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
+	}
 }

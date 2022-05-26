@@ -52,7 +52,7 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* ketboard_rule = nullptr;
 	Sprite* pose = nullptr;
 	Sprite* pose_key = nullptr;
-	bool poseFlag;
+	bool poseFlag = false;
 	//E‚¦‚é•Ší—p–îˆó
 	ModelDraw* arrow[5];
 	bool DrawFlag[5];
