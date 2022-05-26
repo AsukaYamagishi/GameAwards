@@ -59,6 +59,8 @@ private: //ƒƒ“ƒo•Ï”
 	XMFLOAT3 arrowPos[5];
 	float frame;
 	float downTimer[5];
+	bool isKeyBoard = false;
+	bool isGamePad = true;
 	//‰¹Šy
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];

@@ -236,7 +236,12 @@ void Title::Draw()
 	{
 		background->Draw();
 		spriteBG->Draw();
-		press_B->Draw();
+		if (isGamePad) {
+			press_B->Draw();
+		}
+		if (isKeyboard) {
+			press_Enter->Draw();
+		}
 		//press_Enter->Draw();
 	}
 	

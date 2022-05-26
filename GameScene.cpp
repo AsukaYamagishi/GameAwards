@@ -235,6 +235,20 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 bool GameScene::Update()
 {
+	for (int i = 0; i < 256; i++) {
+		if (keyInput->PressKey(i)) {
+			isKeyBoard = true;
+			isGamePad = false;
+		}
+	}
+
+	for (int i = 0; i < 32; i++) {
+		if (padInput->IsPadButton(i) || padInput->IsPadStick(i + 1, 0.01f)) {
+			isGamePad = true;
+			isKeyBoard = false;
+		}
+	}
+
 	if (cameraFlag == false) {
 		//ƒJƒƒ‰‘€ì
 		if (keyInput->PressKey(DIK_RIGHT)) {
@@ -1047,12 +1061,20 @@ void GameScene::Draw()
 	playerHP->Draw();
 	if (poseFlag == true)
 	{
-		controler_rule->Draw();
-		//ketboard_rule->Draw();
+		if (isGamePad) {
+			controler_rule->Draw();
+		}
+		if (isKeyBoard) {
+			ketboard_rule->Draw();
+		}
 	}
 	else {
-		pose->Draw();
-		//pose_key->Draw();
+		if (isGamePad) {
+			pose->Draw();
+		}
+		if (isKeyBoard) {
+			pose_key->Draw();
+		}
 	}
 	
 	
