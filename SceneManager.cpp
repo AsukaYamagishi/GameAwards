@@ -140,7 +140,6 @@ void SceneManager::Update()
 
 	if (gameEndFlag == true)
 	{
-		game->Init(dxCommon, keyInput, padInput, audio);
 		alpha += 0.05;
 
 		if (alpha >= 1)
