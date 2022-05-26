@@ -123,6 +123,7 @@ void Boss::Update()
 			stopFlag = false;
 		}
 	}
+
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する

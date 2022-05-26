@@ -249,9 +249,6 @@ bool GameScene::Update()
 	camera->matRot *= XMMatrixRotationY(0.08f * padInput->IsPadStick(INPUT_AXIS_RX, 0.01f) / 1000);
 
 
-	//パーティクルマネージャ
-	particleMan->Update();
-
 #pragma region 当たり判定
 	//Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
 	////体の各部位のカプセル
@@ -809,10 +806,10 @@ bool GameScene::Update()
 	//debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
 	//debugText.PrintDebugText(":DROP", 25, 135, 1.5f);
 	//debugText.PrintDebugText("M:RESET", 25, 135, 1.5f);
-	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
+	/*player->Update(*camera, boss->boss->GetPos(), cameraFlag);
 	stage->Update();
 	skydome->Update();
-	weapon->Update();
+	weapon->Update();*/
 	//testObject->Update();
 	//testObject->Update();
 	//カメラの設定
@@ -905,40 +902,41 @@ bool GameScene::Update()
 
 
 #pragma region ポーズ
-	if (keyInput->PressKey(DIK_ESCAPE) || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == false))
+	if (keyInput->PressKeyTrigger(DIK_ESCAPE) && poseFlag == false || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == false))
 	{
 		poseFlag = true;
 	}
-	else if (keyInput->PressKey(DIK_ESCAPE) || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == true))
+	else if (keyInput->PressKeyTrigger(DIK_ESCAPE) && poseFlag == true || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == true))
 	{
 		poseFlag = false;
 	}
 #pragma endregion
 
-	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
-	stage->Update();
-	skydome->Update();
-	weapon->Update();
-	//testObject->Update();
-	camera->SetCam(camera);
-	camera->Update();
-	boss->Update();
-	for (int i = 0; i < 5; i++)
-	{
-		arrow[i]->Update();
+	if (poseFlag == false) {
+		player->Update(*camera, boss->boss->GetPos(), cameraFlag);
+		stage->Update();
+		skydome->Update();
+		weapon->Update();
+		//testObject->Update();
+		camera->SetCam(camera);
+		camera->Update();
+		boss->Update();
+		//パーティクルマネージャ
+		particleMan->Update();
+		for (int i = 0; i < 5; i++)
+		{
+			arrow[i]->Update();
+		}
+		//スプライト更新
+		boss1HP_Red->Update();
+		boss1HP_Black->Update();
+		playerHP->Update();
+		controler_rule->Update();
+		ketboard_rule->Update();
+		pose->Update();
+		pose_key->Update();
 	}
-	//スプライト更新
-	boss1HP_Red->Update();
-	boss1HP_Black->Update();
-	playerHP->Update();
-	controler_rule->Update();
-	ketboard_rule->Update();
-	pose->Update();
-	pose_key->Update();
 	
-
-
-
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
 	std::ostringstream oss;
