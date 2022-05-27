@@ -89,7 +89,7 @@ void SceneManager::Update()
 	}
 
 	for (int i = 0; i < 32; i++) {
-		if (padInput->IsPadButton(i) || padInput->IsPadStick(i + 1, 0.01f)) {
+		if (padInput->IsPadButton(i) || padInput->IsPadStick(i + 1, 0.1f)) {
 			title->isGamePad = true;
 			title->isKeyboard = false;
 		}

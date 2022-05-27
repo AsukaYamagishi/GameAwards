@@ -27,7 +27,8 @@ enum Sound
 enum AttackType {
 	NONE,
 	BEAM,
-	PRESS
+	PRESS,
+	RUSH
 };
 
 class Boss {
@@ -74,6 +75,9 @@ public:
 	//プレス攻撃
 	void PressAttack();
 
+	//突進攻撃
+	void Rush();
+
 	//ダメージ処理
 	int damage(float weaponATK);
 
@@ -108,6 +112,7 @@ private:
 	Audio *audio = nullptr;
 	ModelDraw *player = nullptr;
 	ModelDraw *bullet = nullptr;
+	ModelDraw* shockWave = nullptr;
 	//プレイヤーへの移動速度の割合
 	float move = 128.0f;
 
@@ -129,7 +134,14 @@ private:
 	float attackTime = 100.0f;
 	//プレス攻撃用変数
 	Vector3 pressPos = { 0, 0, 0 };
+	Vector3 shockPos = { 0, 0, 0 };
+	Vector3 shockScale = { 0, 0, 0 };
 	float pressPower = 0.0f;
+	float pressWaitTime = 10.0f;
+	bool shockFlag = false;
+	bool pressWaitFlag = false;
+	//突進攻撃用変数
+	int rushCount = 0;
 	
 	//SE用変数
 	Audio::SoundData soundSE[2];

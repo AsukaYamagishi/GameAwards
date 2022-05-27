@@ -23,6 +23,8 @@ Boss::Boss()
 	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
 	bullet = ModelDraw::Create();
 	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
+	shockWave = ModelDraw::Create();
+	shockWave->SetModel(ModelManager::GetIns()->GetModel(ModelManager::ShockWave));
 
 	//コライダーの追加
 	MeshCollider* headcollider = new MeshCollider;
@@ -35,7 +37,7 @@ Boss::Boss()
 	float radius = 0.0f;
 	float radius2 = 10.0f;
 	//球の当たり判定
-	bullet->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));	
+	bullet->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));
 
 
 	head->SetCollider(headcollider);
@@ -66,7 +68,7 @@ Boss::Boss()
 	leftarmcollider->tag = CollisionTag::TagLeftArm;
 	rightlegcollider->tag = CollisionTag::TagRightLeg;
 	leftlegcollider->tag = CollisionTag::TagLeftLeg;
-	bullet->collider->tag= CollisionTag::TagBullet;
+	bullet->collider->tag = CollisionTag::TagBullet;
 }
 
 Boss::~Boss()
@@ -94,7 +96,7 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	rightleg->SetParent(boss);
 	leftleg->SetParent(boss);
 
-	rightarm->SetPos(Vector3(0, 11, 32));	
+	rightarm->SetPos(Vector3(0, 11, 32));
 	leftarm->SetPos(Vector3(13, -18, 7));
 	rightleg->SetPos(Vector3(0, 0, 0));
 	leftleg->SetPos(Vector3(0, 0, 0));
@@ -128,7 +130,7 @@ void Boss::Update()
 	coolTime -= 1.0f;
 	//プレイヤーの一定距離まで移動する
 	if (hp > 0) {
-		if (RangeJudge(moveRange) && stopFlag == false && attackFlag == false) {
+		if (RangeJudge(moveRange) && stopFlag == false && attackFlag == false && noneArm == false) {
 			Move();
 		}
 		//プレイヤーの方を見続ける
@@ -136,11 +138,24 @@ void Boss::Update()
 			Direction();
 		}
 		//攻撃
-		if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() == boss && attackType == NONE) {
-			attackType = BEAM;
+		if (noneArm != true) {
+			if (coolTime <= 0 && RangeJudge(beamRange) && stopFlag == false && head->GetParent() == boss && attackType == NONE) {
+				attackType = BEAM;
+			}
+			else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
+				attackType = PRESS;
+			}
 		}
-		else if (coolTime <= 0 && RangeJudge(pressRange) && stopFlag == false && attackType == NONE) {
-			attackType = PRESS;
+		else {
+			if (coolTime <= 0 && rushCount != 3 && stopFlag == false && attackType == NONE && head->GetParent() == boss) {
+				attackType = RUSH;
+			}
+			else if (coolTime <= 0 && rushCount == 3 && stopFlag == false && attackType == NONE && head->GetParent() == boss) {
+				attackType = BEAM;
+			}
+			else if (coolTime <= 0 && stopFlag == false && attackType == NONE) {
+				attackType = RUSH;
+			}
 		}
 
 		if (attackType == BEAM) {
@@ -148,6 +163,9 @@ void Boss::Update()
 		}
 		else if (attackType == PRESS) {
 			PressAttack();
+		}
+		else if (attackType == RUSH) {
+			Rush();
 		}
 
 		PosCorrection();
@@ -161,6 +179,7 @@ void Boss::Update()
 	rightleg->Update();
 	leftleg->Update();
 	bullet->Update();
+	shockWave->Update();
 }
 
 void Boss::Draw()
@@ -177,6 +196,9 @@ void Boss::Draw()
 	leftleg->Draw();
 	if (attackType == BEAM) {
 		bullet->Draw();
+	}
+	if (shockFlag == true) {
+		shockWave->Draw();
 	}
 	ModelDraw::PostDraw();
 }
@@ -345,6 +367,7 @@ void Boss::BeamAttack() {
 	const float timeOver = 0.0f;
 	const float initCharge = 40.0f;
 	const float initAttack = 80.0f;
+	const int initRushCount = 0;
 	const float initCoolTime = 80.0f;
 	const Vector3 initScale = { 0.5f, 0.5f, 0.5f };
 	const Vector3 maxScale = { 15.0f, 15.0f, 15.0f };
@@ -398,6 +421,9 @@ void Boss::BeamAttack() {
 		bullet->SetPos(bulletPos);
 	}
 	if (attackTime <= timeOver) {
+		if (rushCount == 3) {
+			rushCount = initRushCount;
+		}
 		chargeTime = initCharge;
 		coolTime = initAttack;
 		boss->SetPos(oldBossPos);
@@ -413,6 +439,9 @@ void Boss::PressAttack() {
 	const float initCharge = 20.0f;
 	const float initAttack = 20.0f;
 	const float initCoolTime = 80.0f;
+	const float maxShockScale = 100.0f;
+	const float initPressWaitTime = 10.0f;
+	const Vector3 initShockScale = { 0.0f, 0.0f, 0.0f };
 
 	//攻撃用メンバ変数
 	if (attackFlag == false) {
@@ -429,20 +458,44 @@ void Boss::PressAttack() {
 		chargeTime -= 1.0f;
 		shakePosX = oldBossPos.x + rand() % 4 - 2;
 		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		shockPos = boss->GetPos();
+		shockPos.y = shockPos.y - 4.0f;
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
+		shockWave->SetPos(shockPos);
 	}
 	if (chargeTime <= timeOver) {
 		pressPower -= 0.5f;
 		pressPos.y += pressPower;
-		boss->SetPos(pressPos);
+		if (shockFlag == false) {
+			boss->SetPos(pressPos);
+		}
 	}
-	if (boss->GetPos().y <= oldBossPos.y && pressPower <= 0) {
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+	if (boss->GetPos().y <= oldBossPos.y && pressPower <= 0 && pressWaitFlag == false) {
+		if (shockFlag == false) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+			shockFlag = true;
+		}
+		shockScale.x += 5.0f;
+		shockScale.z += 5.0f;
+		shockWave->SetScale(shockScale);
+	}
+	if (shockScale.x >= maxShockScale && pressWaitFlag == false) {
+		shockScale = initShockScale;
+		shockWave->SetScale(shockScale);
+		pressWaitFlag = true;
+	}
+	if (pressWaitFlag == true) {
+		pressWaitTime -= 0.1f;
+	}
+	if (pressWaitTime <= timeOver) {
 		chargeTime = initCharge;
 		coolTime = initCoolTime;
+		pressWaitTime = initPressWaitTime;
+		pressWaitFlag = false;
 		boss->SetPos(oldBossPos);
 		attackType = NONE;
 		attackFlag = false;
+		shockFlag = false;
 		timer = 0;
 	}
 }
@@ -459,7 +512,7 @@ int Boss::damage(float weaponATK) {
 void Boss::PosCorrection() {
 	//左脚と右脚が取れているとき
 	if (leftleg->GetParent() != boss && rightleg->GetParent() != boss && noneArm != true) {
-		
+
 		noneLeg = true;
 
 		if (correctionPos.y > -0.5f) {
@@ -487,5 +540,62 @@ void Boss::PosCorrection() {
 		}
 		boss->SetRotation(Vector3(boss->GetRotation().x, boss->GetRotation().y, -75.0f));
 		boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
+	}
+}
+
+void Boss::Rush() {
+	float posX = boss->GetPos().x;
+	float posY = boss->GetPos().y;
+	float posZ = boss->GetPos().z;
+	float playerPosX = player->GetPos().x;
+	float playerPosZ = player->GetPos().z;
+
+	const float rushSpeed = 8.0f;
+	const float initCharge = 25.0f;
+	const float initAttack = 80.0f;
+	const float initCoolTime = 50.0f;
+	const float timeOver = 0.0f;
+
+	float distanceX = 0;
+	float distanceZ = 0;
+
+	//攻撃用メンバ変数
+	if (attackFlag == false) {
+		oldBossPos = boss->GetPos();
+		oldPlayerPos = player->GetPos();
+		chargeTime = initCharge;
+		attackTime = initAttack;
+	}
+	attackFlag = true;
+
+	if (chargeTime >= timeOver) {
+		chargeTime -= 1.0f;
+		shakePosX = oldBossPos.x + rand() % 4 - 2;
+		shakePosZ = oldBossPos.z + rand() % 4 - 2;
+		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
+	}
+	if (chargeTime <= timeOver && attackTime >= timeOver) {
+		if (attackTime == initAttack) {
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[Shot], Audio::not, 0.5f);
+		}
+		attackTime -= 1.0f;
+
+		distanceX = posX - oldPlayerPos.x;
+		distanceZ = posZ - oldPlayerPos.z;
+
+		posX -= distanceX / rushSpeed;
+		posZ -= distanceZ / rushSpeed;
+
+		boss->SetPos(Vector3(posX, posY, posZ));
+	}
+	if (attackTime <= timeOver) {
+		if (rushCount <= 3) {
+			rushCount++;
+		}
+		chargeTime = initCharge;
+		coolTime = initAttack;
+		attackTime = initAttack;
+		attackType = NONE;
+		attackFlag = false;
 	}
 }
