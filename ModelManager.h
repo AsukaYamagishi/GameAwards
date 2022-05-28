@@ -25,7 +25,9 @@ public:
 		Plane,
 		Bullet,
 		playerBullet,
-		arrow
+		arrow,
+		rubble,
+		ShockWave
 	};
 
 public:

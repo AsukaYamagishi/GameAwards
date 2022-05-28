@@ -45,17 +45,23 @@ private: //ƒƒ“ƒo•Ï”
 	float boss1HP_SizeY = 32;
 	Sprite* boss1HP_Red = nullptr;
 	Sprite* boss1HP_Black = nullptr;
-	float playerHPX = 128;
-	float playerHPY = 128;
+	float playerHPX = 200;
+	float playerHPY = 200;
 	int playerMaxHp = 10;
 	Sprite* playerHP = nullptr;
-	Sprite* control = nullptr;
+	Sprite* controler_rule = nullptr;
+	Sprite* ketboard_rule = nullptr;
+	Sprite* pose = nullptr;
+	Sprite* pose_key = nullptr;
+	bool poseFlag = false;
 	//E‚¦‚é•Ší—p–îˆó
 	ModelDraw* arrow[5];
 	bool DrawFlag[5];
 	XMFLOAT3 arrowPos[5];
 	float frame;
 	float downTimer[5];
+	bool isKeyBoard = false;
+	bool isGamePad = true;
 	//‰¹Šy
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];

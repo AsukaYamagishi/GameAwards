@@ -81,13 +81,32 @@ void SceneManager::Update()
 	enemy_White->SetTextureRect({ 128 * i, 0 }, { 128, 128 });
 	enemy_White->Update();
 
+	for (int i = 0; i < 256; i++) {
+		if (keyInput->PressKey(i)) {
+			title->isKeyboard = true;
+			title->isGamePad = false;
+		}
+	}
+
+	for (int i = 0; i < 32; i++) {
+		if (padInput->IsPadButton(i) || padInput->IsPadStick(i + 1, 0.1f)) {
+			title->isGamePad = true;
+			title->isKeyboard = false;
+		}
+	}
+
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
-	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene)
+	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene && title->weaponFlag == false && title->breakFlag == false)
 	{		
 		game->Finalize();
 		game->Init(dxCommon, keyInput, padInput, audio);
+		title->weaponFlag = true;
+	}
+
+	if (title->timer >= 100)
+	{
 		titleGameFlag = true;
-		
+		title->timer = 0;
 	}
 
 	if (titleGameFlag == true)

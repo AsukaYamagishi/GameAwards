@@ -105,15 +105,33 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 		return;
 	}
 
-	if (!Sprite::LoadTexture(5, L"Resources/sprite/control.png")) {
+	if (!Sprite::LoadTexture(5, L"Resources/sprite/rule.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(6, L"Resources/sprite/rule_keyboard.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(7, L"Resources/sprite/pose.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(8, L"Resources/sprite/pose_key.png")) {
 		assert(0);
 		return;
 	}
 	//// スプライト生成
 	boss1HP_Red = Sprite::CreateSprite(2, { 310.0f,10.0f });
 	boss1HP_Black = Sprite::CreateSprite(3, { 310.0f,10.0f });
-	playerHP = Sprite::CreateSprite(4, { 10, 582 });
-	control = Sprite::CreateSprite(5, { 20, 10 });
+	playerHP = Sprite::CreateSprite(4, { 1070, 522 });
+	controler_rule = Sprite::CreateSprite(5, { 0,0 });
+	ketboard_rule = Sprite::CreateSprite(6, { 0,0 });
+	pose= Sprite::CreateSprite(7, { 1130,0 });
+	pose_key= Sprite::CreateSprite(8, { 1130,-10 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -125,7 +143,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 #pragma region 3DモデルCreate・初期設定
 
 	//モデルを指定して読み込み
-	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm");
+	testModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm_walk");
 	//3Dオブジェクト生成とモデルのセット
 	testObject = new FbxDraw();
 	testObject->Init();
@@ -211,6 +229,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 #pragma endregion
 
 	gameFlag = false;
+	poseFlag = false;
 
 	//コリジョンマネージャーの生成
 	collisionManager = CollisionManager::GetInstance();
@@ -219,6 +238,20 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 bool GameScene::Update()
 {
+	for (int i = 0; i < 256; i++) {
+		if (keyInput->PressKey(i)) {
+			isKeyBoard = true;
+			isGamePad = false;
+		}
+	}
+
+	for (int i = 0; i < 32; i++) {
+		if (padInput->IsPadButton(i) || padInput->IsPadStick(i + 1, 0.1f)) {
+			isGamePad = true;
+			isKeyBoard = false;
+		}
+	}
+
 	if (cameraFlag == false) {
 		//カメラ操作
 		if (keyInput->PressKey(DIK_RIGHT)) {
@@ -232,9 +265,6 @@ bool GameScene::Update()
 	//コントローラによるカメラ操作
 	camera->matRot *= XMMatrixRotationY(0.08f * padInput->IsPadStick(INPUT_AXIS_RX, 0.01f) / 1000);
 
-
-	//パーティクルマネージャ
-	particleMan->Update();
 
 #pragma region 当たり判定
 	//Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
@@ -606,7 +636,7 @@ bool GameScene::Update()
 
 	/*-------------プレイヤー-------------*/
 	playerHP->SetSize({ playerHPX, playerHPY });
-	playerHP->SetTextureRect({ playerHPX * (playerMaxHp - player->hp),0 }, { 128, 128 });
+	playerHP->SetTextureRect({ 128.0f * (playerMaxHp - player->hp),0 }, { 128, 128 });
 
 #pragma endregion
 
@@ -734,6 +764,10 @@ bool GameScene::Update()
 
 		}
 	}
+
+	if (keyInput->PressKeyTrigger(DIK_L)) {
+		testObject->StopAnimation();
+	}
 #pragma endregion
 
 
@@ -789,11 +823,11 @@ bool GameScene::Update()
 	//debugText.PrintDebugText("G:DROP", 25, 135, 1.5f);
 	//debugText.PrintDebugText(":DROP", 25, 135, 1.5f);
 	//debugText.PrintDebugText("M:RESET", 25, 135, 1.5f);
-	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
+	/*player->Update(*camera, boss->boss->GetPos(), cameraFlag);
 	stage->Update();
 	skydome->Update();
-	weapon->Update();
-	//testObject->Update();
+	weapon->Update();*/
+	testObject->Update();
 	//testObject->Update();
 	//カメラの設定
 	//camera->eye = player->player->GetPos() + meye;
@@ -884,27 +918,43 @@ bool GameScene::Update()
 	}
 
 
-	player->Update(*camera, boss->boss->GetPos(), cameraFlag);
-	stage->Update();
-	skydome->Update();
-	weapon->Update();
-	//testObject->Update();
-	camera->SetCam(camera);
-	camera->Update();
-	boss->Update();
-	for (int i = 0; i < 5; i++)
+#pragma region ポーズ
+	if (keyInput->PressKeyTrigger(DIK_ESCAPE) && poseFlag == false || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == false))
 	{
-		arrow[i]->Update();
+		poseFlag = true;
 	}
-	//スプライト更新
-	boss1HP_Red->Update();
-	boss1HP_Black->Update();
-	playerHP->Update();
-	control->Update();
-	effects->Update(dxCommon, camera, player);
+	else if (keyInput->PressKeyTrigger(DIK_ESCAPE) && poseFlag == true || (padInput->IsPadButtonTrigger(XBOX_INPUT_START) && poseFlag == true))
+	{
+		poseFlag = false;
+	}
+#pragma endregion
 
-
-
+	if (poseFlag == false) {
+		player->Update(*camera, boss->boss->GetPos(), cameraFlag);
+		stage->Update();
+		skydome->Update();
+		weapon->Update();
+		//testObject->Update();
+		camera->SetCam(camera);
+		camera->Update();
+		boss->Update();
+		//パーティクルマネージャ
+		particleMan->Update();
+		for (int i = 0; i < 5; i++)
+		{
+			arrow[i]->Update();
+		}
+		//スプライト更新
+		boss1HP_Red->Update();
+		boss1HP_Black->Update();
+		playerHP->Update();
+		controler_rule->Update();
+		ketboard_rule->Update();
+		pose->Update();
+		pose_key->Update();
+		effects->Update(dxCommon, camera, player);
+	}
+	
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
 	std::ostringstream oss;
@@ -992,7 +1042,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dモデル描画
-	//testObject->Draw(cmdList);
+	testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();
@@ -1001,7 +1051,7 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	effects->Draw(dxCommon);
+	//effects->Draw(dxCommon);
 
 #pragma endregion
 
@@ -1012,7 +1062,25 @@ void GameScene::Draw()
 	boss1HP_Black->Draw();
 	boss1HP_Red->Draw();
 	playerHP->Draw();
-	control->Draw();
+	if (poseFlag == true)
+	{
+		if (isGamePad) {
+			controler_rule->Draw();
+		}
+		if (isKeyBoard) {
+			ketboard_rule->Draw();
+		}
+	}
+	else {
+		if (isGamePad) {
+			pose->Draw();
+		}
+		if (isKeyBoard) {
+			pose_key->Draw();
+		}
+	}
+	
+	
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理

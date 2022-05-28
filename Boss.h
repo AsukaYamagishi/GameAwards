@@ -27,7 +27,8 @@ enum Sound
 enum AttackType {
 	NONE,
 	BEAM,
-	PRESS
+	PRESS,
+	RUSH
 };
 
 class Boss {
@@ -73,6 +74,16 @@ public:
 
 	//プレス攻撃
 	void PressAttack();
+
+	//突進攻撃
+	void Rush();
+
+	//ダメージ処理
+	int damage(float weaponATK);
+
+	//位置補正
+	void PosCorrection();
+
 	bool GetAttackFlag() { return attackFlag; }
 	int GetAttackTime() { return attackTime; }
 	int GetAttackType() { return attackType;}
@@ -101,6 +112,7 @@ private:
 	Audio *audio = nullptr;
 	ModelDraw *player = nullptr;
 	ModelDraw *bullet = nullptr;
+	ModelDraw* shockWave = nullptr;
 	//プレイヤーへの移動速度の割合
 	float move = 128.0f;
 
@@ -108,17 +120,28 @@ private:
 	//共通変数
 	Vector3 oldBossPos = { 0, 0, 0 };
 	Vector3 oldPlayerPos = { 0, 0, 0 };
+	Vector3 correctionPos = { 0, 0, 0 };
 	float coolTime = 100.0f;
 	float chargeTime = 30.0f;
 	bool attackFlag = false;
 	float shakePosX = 0.0f;
 	float shakePosZ = 0.0f;
+	bool noneLeg = false;
+	bool noneArm = false;
 	//ビーム攻撃用変数
 	Vector3 bulletPos = { 0, 0, 0 };
+	Vector3 bulletScale = { 0, 0, 0 };
 	float attackTime = 100.0f;
 	//プレス攻撃用変数
 	Vector3 pressPos = { 0, 0, 0 };
+	Vector3 shockPos = { 0, 0, 0 };
+	Vector3 shockScale = { 0, 0, 0 };
 	float pressPower = 0.0f;
+	float pressWaitTime = 10.0f;
+	bool shockFlag = false;
+	bool pressWaitFlag = false;
+	//突進攻撃用変数
+	int rushCount = 0;
 	
 	//SE用変数
 	Audio::SoundData soundSE[2];

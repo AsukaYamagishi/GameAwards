@@ -25,9 +25,9 @@ void Weapon::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	this->input = input;
 	this->audio = audio;
 
-	weapon->SetScale(Vector3(1, 1, 1));
+	weapon->SetScale(Vector3(2, 2, 2));
 	weapon->SetPos(Vector3(-3.0f, -2, 1.7f));
-	weapon->SetRotation(Vector3(0, 45, 0));
+	weapon->SetRotation(Vector3(90, 0, 90));
 
 	//コライダーの追加
 	float radius = 0.0f;
