@@ -182,6 +182,9 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	weapon = new Weapon();
 	weapon->Initialize(dxCommon, keyInput, audio);
 
+	effects = std::make_unique<Effects>();
+	effects->Initialize(dxCommon, camera);
+
 	//プレイヤーに追従
 	weapon->weapon->SetParent(player->player);
 
@@ -225,7 +228,7 @@ bool GameScene::Update()
 			camera->matRot *= XMMatrixRotationY(-0.1f);
 		}
 	}
-	
+
 	//コントローラによるカメラ操作
 	camera->matRot *= XMMatrixRotationY(0.08f * padInput->IsPadStick(INPUT_AXIS_RX, 0.01f) / 1000);
 
@@ -898,7 +901,7 @@ bool GameScene::Update()
 	boss1HP_Black->Update();
 	playerHP->Update();
 	control->Update();
-	
+	effects->Update(dxCommon, camera, player);
 
 
 
@@ -982,8 +985,6 @@ void GameScene::Draw()
 			arrow[i]->Draw();
 		}
 	}
-	
-
 
 	// 3Dオブジェクト描画後処理
 	ModelDraw::PostDraw();
@@ -1000,6 +1001,7 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
+	effects->Draw(dxCommon);
 
 #pragma endregion
 

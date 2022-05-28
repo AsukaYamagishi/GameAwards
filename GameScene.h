@@ -16,6 +16,7 @@
 #include "ParticleManager.h"
 #include"Primitive.h"
 #include "mCollision.h"
+#include"Effects.h"
 class CollisionManager;
 class FbxCollisionManager;
 #include"Weapon.h"
@@ -87,6 +88,8 @@ private: //メンバ変数
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 
+	std::unique_ptr<Effects> effects = nullptr;
+	Effects* effect = nullptr;
 
 	//敵
 	//vector<Enemy*> enemys;
