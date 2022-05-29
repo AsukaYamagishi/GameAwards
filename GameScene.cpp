@@ -139,7 +139,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	FbxDraw::SetCamera(camera);
 	//グラフィックスパイプライン生成
 	FbxDraw::CreateGraphicsPipeline();
-	cameraNumber = 0;
+	LockFlag = false;
 #pragma region 3DモデルCreate・初期設定
 
 	//モデルを指定して読み込み
@@ -697,7 +697,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 武器にした部位を落とす
-	else if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_X) && player->enemyWepon))
+	else if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon))
 	{
 		//boss->head->SetParent(nullptr);
 		//boss->body->SetParent(nullptr);
@@ -796,23 +796,12 @@ bool GameScene::Update()
 		player->KnockBack();
 	}
 
-	if (keyInput->PressKeyTrigger(DIK_H)) {
-		cameraNumber += 1;
+	if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == false) {
+		LockFlag = true;
 	}
-	if (boss->head->GetParent() != boss->boss && cameraNumber == Thead) {
-		cameraNumber += 1;
-	}
-	if (boss->rightarm->GetParent() != boss->boss && cameraNumber == Tleftarm) {
-		cameraNumber += 1;
-	}
-	if (boss->leftarm->GetParent() != boss->boss && cameraNumber == Trightarm) {
-		cameraNumber += 1;
-	}
-	if (boss->leftleg->GetParent() != boss->boss && cameraNumber == Tleftleg) {
-		cameraNumber += 1;
-	}
-	if (boss->rightleg->GetParent() != boss->boss && cameraNumber == Trightleg) {
-		cameraNumber += 1;
+	else if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == true || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == true)
+	{
+		LockFlag = false;
 	}
 
 
@@ -854,67 +843,15 @@ bool GameScene::Update()
 	//プレイヤーがジャンプした時視点だけ上に向くのを防止するための処理
 	camera->target.y = player->graundheight;
 
-
-	if (cameraNumber == 0) {
-		cameraFlag = false;
-	}
-	else if (cameraNumber == Thead) {
-		cameraFlag = true;
-		Vector3 dir = boss->boss->GetPos() - player->player->GetPos();
-		dir.Normalize();
-		dir = dir * Vector3( -1, -1, -1 );
-		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
-		camera->target = boss->boss->GetPos();
-		camera->target.y = player->graundheight;
-	}
-	else if (cameraNumber == Tleftarm) {
-		cameraFlag = true;
-		Vector3 dir = boss->leftarm->GetPos() - player->player->GetPos();
-		dir.Normalize();
-		dir = dir * Vector3(-1, -1, -1);
-		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
-		camera->target = boss->leftarm->GetPos();
-		camera->target.y = player->graundheight;
-	}
-	else if (cameraNumber == Trightarm) {
-		cameraFlag = true;
-		Vector3 dir = boss->rightarm->GetPos() - player->player->GetPos();
-		dir.Normalize();
-		dir = dir * Vector3(-1, -1, -1);
-		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
-		camera->target = boss->rightarm->GetPos();
-		camera->target.y = player->graundheight;
-	}
-	else if (cameraNumber == Tbody) {
+	if (LockFlag == true) {
 		cameraFlag = true;
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
 		dir.Normalize();
 		dir = dir * Vector3(-1, -1, -1);
 		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
-		camera->target = boss->body->GetPos();
-		camera->target.y = player->graundheight;
-	}
-	else if (cameraNumber == Tleftleg) {
-		cameraFlag = true;
-		Vector3 dir = boss->leftleg->GetPos() - player->player->GetPos();
-		dir.Normalize();
-		dir = dir * Vector3(-1, -1, -1);
-		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
-		camera->target = boss->leftleg->GetPos();
-		camera->target.y = player->graundheight;
-	}
-	else if (cameraNumber == Trightleg) {
-		cameraFlag = true;
-		Vector3 dir = boss->rightleg->GetPos() - player->player->GetPos();
-		dir.Normalize();
-		dir = dir * Vector3(-1, -1, -1);
-		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
-		camera->target = boss->rightleg->GetPos();
-		camera->target.y = player->graundheight;
-	}
-	else if (cameraNumber == 7) {
-		cameraNumber = 0;
-		cameraFlag = false;
+		camera->eye.y = player->graundheight;
+		camera->target.x = boss->body->GetPos().x;
+		camera->target.z = boss->body->GetPos().z;
 	}
 
 

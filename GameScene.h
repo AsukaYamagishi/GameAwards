@@ -107,7 +107,7 @@ private: //ƒƒ“ƒo•Ï”
 	int seNo = 0;
 
 
-	float cameraNumber = 0;
+	bool LockFlag = false;
 	bool cameraFlag = false;
 
 public:
