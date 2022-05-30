@@ -58,11 +58,16 @@ public: //メンバ関数
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	//ゲッター・セッター
+	Vector3 GetScale() { return scale; }
+	Vector3 GetPosition() { return position; }
+	Vector3 GetRotation() { return rotation; }
 	void SetScale(Vector3 nextScale) { scale = nextScale; }
 	void SetPosition(Vector3 nextPos) { position = nextPos; }
 	void SetRotation(Vector3 nextRotate) { rotation = nextRotate; }
 	void SetOBJParent(ModelDraw* nextParent) { objParent = nextParent; }
 	void SetFBXParent(FbxDraw* nextParent) { fbxParent = nextParent; }
+	FbxDraw *GetParent() {return fbxParent; }
+	ModelDraw* GetObjParent() { return objParent; }
 
 	void SetCollider(FbxBaseCollider* collider);
 	//ワールド行列を取得する関数

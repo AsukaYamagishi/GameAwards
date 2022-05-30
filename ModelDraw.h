@@ -101,12 +101,14 @@ public:		//メンバ関数
 	void SetPos(Vector3 nextPos) { position = nextPos; }
 	void SetScale(Vector3 nextScale) { scale = nextScale; }
 	void SetRotation(Vector3 nextRotation) { rotation = nextRotation; }
-	void SetParent(ModelDraw* nextParent) { parent = nextParent; }
+	void SetOBJParent(ModelDraw* nextParent) { objParent = nextParent; }
+	void SetFBXParent(ModelDraw* nextParent) { fbxParent = nextParent; }
 	void SetBillboard(bool isBillboard) { ModelDraw::isBillboard = isBillboard; }
 	Vector3 GetPos() { return position; }
 	Vector3 GetScale() { return scale; }
 	Vector3 GetRotation() { return rotation; }
-	ModelDraw* GetParent() { return parent; }
+	ModelDraw* GetOBJParent() { return objParent; }
+	ModelDraw* GetFBXParent() { return fbxParent; }
 	
 /// <summary>
 /// コライダーのセット
@@ -146,5 +148,6 @@ private:	//メンバ変数
 	ComPtr<ID3D12Resource> constBuffB1;		//定数バッファ
 	XMMATRIX matWorld;						//ワールド変換行列
 	UINT texNumber = 0;						//テクスチャ番号
-	ModelDraw *parent = nullptr;			//親オブジェクトへのポインタ
+	ModelDraw* objParent = nullptr;			//親オブジェクトへのポインタ
+	ModelDraw* fbxParent = nullptr;			//親オブジェクトへのポインタ
 };

@@ -291,10 +291,14 @@ void ModelDraw::Update()
 	matWorld *= matRot;
 	matWorld *= matTrans;
 
-	//親オブジェクトがあれば
-	if (parent != nullptr) {
-		//親オブジェクトのワールド行列をかける
-		matWorld *= parent->matWorld;
+	//OBJの親オブジェクトがあれば
+	if (objParent != nullptr) {
+		matWorld *= objParent->GetMatWorld();
+	}
+
+	//FBXの親オブジェクトがあれば
+	if (fbxParent != nullptr) {
+		matWorld *= fbxParent->GetMatWorld();
 	}
 
 	//定数バッファへデータ転送

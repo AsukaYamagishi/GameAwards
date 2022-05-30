@@ -207,6 +207,7 @@ void FbxInput::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
     //FBXメッシュの頂点座標配列を取得
     FbxVector4* pCoord = fbxMesh->GetControlPoints();
     int indexCount = 0;
+    controlPointsData.clear();
     controlPointsData.resize(fbxMesh->GetControlPointsCount());
 
     //面ごとの情報読み込み

@@ -190,6 +190,14 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 
 	Vector3 move = { forvardvec.m128_f32[0] * speed,forvardvec.m128_f32[1] * speed,forvardvec.m128_f32[2] * speed };
 
+	//プレイヤーがエリア外に出ないようにする
+	Vector3 genten = { 0.0f, 0.0f, 0.0f };
+	float distance = 0.0f;
+	float distanceX = genten.x - (player->GetPos().x + move.x);
+	float distanceZ = genten.z - (player->GetPos().z + move.z);
+	distance = sqrtf((distanceX* distanceX) + (distanceZ * distanceZ));
+	//if (distance > 960.0f) { move = { 0.0f,0.0f,0.0f }; }
+
 	player->SetPos(player->GetPos() + move);
 	if (isinput) {
 		float buff = atan2f(playermatrot.m128_f32[0], playermatrot.m128_f32[2]);
