@@ -204,7 +204,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	effects->Initialize(dxCommon, camera);
 
 	//プレイヤーに追従
-	weapon->weapon->SetParent(player->player);
+	weapon->weapon->SetOBJParent(player->player);
 
 	//パーティクルの生成
 	particleMan = ParticleManager::Create();
@@ -480,11 +480,11 @@ bool GameScene::Update()
 	//パーツ落下処理
 	if (boss->parthp[head] <= 0)
 	{
-		if (boss->head->GetParent() == boss->boss) {
-			boss->head->SetParent(nullptr);
+		if (boss->head->GetOBJParent() == boss->boss) {
+			boss->head->SetOBJParent(nullptr);
 			boss->head->SetPos(boss->boss->GetPos());
 		}
-		if (boss->head->GetParent() == nullptr) {
+		if (boss->head->GetOBJParent() == nullptr) {
 			boss->Fall(head);
 			DrawFlag[0] = true;
 			arrow[0]->SetRotation({ 90, 90, -90 + frame });
@@ -510,7 +510,7 @@ bool GameScene::Update()
 	}
 	if (boss->parthp[rightarm] <= 0)
 	{
-		if (boss->rightarm->GetParent() == nullptr) {
+		if (boss->rightarm->GetOBJParent() == nullptr) {
 			boss->Fall(rightarm);
 			arrow[1]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[1] = true;
@@ -526,13 +526,13 @@ bool GameScene::Update()
 				arrow[1]->SetPos({ arrowPos[1].x, arrowPos[1].y + 35 + (downTimer[1] / 10), arrowPos[1].z - 50 });
 			}
 		}
-		if (boss->rightarm->GetParent() == boss->boss) {
-			boss->rightarm->SetParent(nullptr);
+		if (boss->rightarm->GetOBJParent() == boss->boss) {
+			boss->rightarm->SetOBJParent(nullptr);
 		}
 	}
 	if (boss->parthp[leftarm] <= 0)
 	{
-		if (boss->leftarm->GetParent() == nullptr) {
+		if (boss->leftarm->GetOBJParent() == nullptr) {
 			boss->Fall(leftarm);
 			
 			arrow[2]->SetRotation({ 90, 90, -90 + frame });
@@ -549,14 +549,14 @@ bool GameScene::Update()
 				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 70, arrowPos[2].z + 10 });
 			}
 		}
-		if (boss->leftarm->GetParent() == boss->boss) {
-			boss->leftarm->SetParent(nullptr);
+		if (boss->leftarm->GetOBJParent() == boss->boss) {
+			boss->leftarm->SetOBJParent(nullptr);
 			boss->leftarm->SetPos(boss->boss->GetPos());
 		}
 	}
 	if (boss->parthp[rightleg] <= 0)
 	{
-		if (boss->rightleg->GetParent() == nullptr) {
+		if (boss->rightleg->GetOBJParent() == nullptr) {
 			boss->Fall(rightleg);
 			arrow[3]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[3] = true;
@@ -572,15 +572,15 @@ bool GameScene::Update()
 				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z});
 			}
 		}
-		if (boss->rightleg->GetParent() == boss->boss) {
-			boss->rightleg->SetParent(nullptr);
+		if (boss->rightleg->GetOBJParent() == boss->boss) {
+			boss->rightleg->SetOBJParent(nullptr);
 			boss->rightleg->SetPos(boss->boss->GetPos());
 		}
 
 	}
 	if (boss->parthp[leftleg] <= 0)
 	{
-		if (boss->leftleg->GetParent() == nullptr) {
+		if (boss->leftleg->GetOBJParent() == nullptr) {
 			boss->Fall(leftleg);
 			arrow[4]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[4] = true;
@@ -596,8 +596,8 @@ bool GameScene::Update()
 				arrow[4]->SetPos({ arrowPos[4].x - 10, arrowPos[4].y + 35 + (downTimer[4] / 10), arrowPos[4].z });
 			}
 		}
-		if (boss->leftleg->GetParent() == boss->boss) {
-			boss->leftleg->SetParent(nullptr);
+		if (boss->leftleg->GetOBJParent() == boss->boss) {
+			boss->leftleg->SetOBJParent(nullptr);
 			boss->leftleg->SetPos(boss->boss->GetPos());
 		}
 
@@ -646,44 +646,44 @@ bool GameScene::Update()
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
 		}
-		if (hit[WwaponToHead] && boss->parthp[head] <= 0 && boss->head->GetParent() == nullptr) {
+		if (hit[WwaponToHead] && boss->parthp[head] <= 0 && boss->head->GetOBJParent() == nullptr) {
 			boss->head->SetPos(Vector3(0, 0, 0));
 			boss->head->SetRotation(Vector3(0, 0, 0));
-			boss->head->SetParent(player->player);
+			boss->head->SetOBJParent(player->player);
 			boss->head->SetPos(Vector3(5, -35, 0));
 			boss->head->SetRotation(Vector3(20, -90, 0));
 			player->enemyWepon = true;
 			//球を拾ったフラグ
 			player->headFlag = true;
 		}
-		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetParent() == nullptr) {
+		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetOBJParent() == nullptr) {
 			boss->rightarm->SetPos(Vector3(0, 0, 0));
 			boss->rightarm->SetRotation(Vector3(0, 0, 0));
-			boss->rightarm->SetParent(player->player);
+			boss->rightarm->SetOBJParent(player->player);
 			boss->rightarm->SetPos(Vector3(-12, 19, 51));
 			boss->rightarm->SetRotation(Vector3(0, 0, 190));
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0 && boss->leftarm->GetParent() == nullptr) {
+		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0 && boss->leftarm->GetOBJParent() == nullptr) {
 			boss->leftarm->SetPos(Vector3(0, 0, 0));
 			boss->leftarm->SetRotation(Vector3(0, 0, 0));
-			boss->leftarm->SetParent(player->player);
+			boss->leftarm->SetOBJParent(player->player);
 			boss->leftarm->SetPos(Vector3(-30, 45, -7));
 			boss->leftarm->SetRotation(Vector3(0, 0, -170));
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0 && boss->rightleg->GetParent() == nullptr) {
+		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0 && boss->rightleg->GetOBJParent() == nullptr) {
 			boss->rightleg->SetPos(Vector3(0, 0, 0));
 			boss->rightleg->SetRotation(Vector3(0, 0, 0));
-			boss->rightleg->SetParent(player->player);
+			boss->rightleg->SetOBJParent(player->player);
 			boss->rightleg->SetPos(Vector3(-16, 5, 10));
 			boss->rightleg->SetRotation(Vector3(0, 0, 200));
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0 && boss->leftleg->GetParent() == nullptr) {
+		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0 && boss->leftleg->GetOBJParent() == nullptr) {
 			boss->leftleg->SetPos(Vector3(0, 0, 0));
 			boss->leftleg->SetRotation(Vector3(0, 0, 0));
-			boss->leftleg->SetParent(player->player);
+			boss->leftleg->SetOBJParent(player->player);
 			boss->leftleg->SetPos(Vector3(-15, 7, -3));
 			boss->leftleg->SetRotation(Vector3(0, 0, 190));
 			player->enemyWepon = true;
@@ -719,26 +719,26 @@ bool GameScene::Update()
 		//パーツ落下処理
 		if (boss->parthp[head] <= 0)
 		{
-			if (boss->head->GetParent() == player->player) {
+			if (boss->head->GetOBJParent() == player->player) {
 				boss->head->SetPos(Vector3(0, 0, 0));
-				boss->head->SetParent(nullptr);
+				boss->head->SetOBJParent(nullptr);
 				boss->head->SetPos(player->player->GetPos());
 			}
 			//boss->Fall(head);
 		}
 		if (boss->parthp[rightarm] <= 0)
 		{
-			if (boss->rightarm->GetParent() == player->player) {
+			if (boss->rightarm->GetOBJParent() == player->player) {
 				boss->rightarm->SetPos(Vector3(0, 0, 0));
-				boss->rightarm->SetParent(nullptr);
+				boss->rightarm->SetOBJParent(nullptr);
 				boss->rightarm->SetPos(player->player->GetPos());
 			}
 			//boss->Fall(rightarm);
 		}
 		if (boss->parthp[leftarm] <= 0)
 		{
-			if (boss->leftarm->GetParent() == player->player) {
-				boss->leftarm->SetParent(nullptr);
+			if (boss->leftarm->GetOBJParent() == player->player) {
+				boss->leftarm->SetOBJParent(nullptr);
 				boss->leftarm->SetPos(player->player->GetPos() + Vector3(0.0f, 20.0f, 0.0f));
 				boss->leftarm->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 			}
@@ -747,8 +747,8 @@ bool GameScene::Update()
 		if (boss->parthp[rightleg] <= 0)
 		{
 			///boss->Fall(rightleg);
-			if (boss->rightleg->GetParent() == player->player) {
-				boss->rightleg->SetParent(nullptr);
+			if (boss->rightleg->GetOBJParent() == player->player) {
+				boss->rightleg->SetOBJParent(nullptr);
 				boss->rightleg->SetPos(player->player->GetPos());
 				boss->rightleg->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 			}
@@ -757,8 +757,8 @@ bool GameScene::Update()
 		if (boss->parthp[leftleg] <= 0)
 		{
 			//boss->Fall(leftleg);
-			if (boss->leftleg->GetParent() == player->player) {
-				boss->leftleg->SetParent(nullptr);
+			if (boss->leftleg->GetOBJParent() == player->player) {
+				boss->leftleg->SetOBJParent(nullptr);
 				boss->leftleg->SetPos(player->player->GetPos());
 			}
 
@@ -799,19 +799,19 @@ bool GameScene::Update()
 	if (keyInput->PressKeyTrigger(DIK_H)) {
 		cameraNumber += 1;
 	}
-	if (boss->head->GetParent() != boss->boss && cameraNumber == Thead) {
+	if (boss->head->GetOBJParent() != boss->boss && cameraNumber == Thead) {
 		cameraNumber += 1;
 	}
-	if (boss->rightarm->GetParent() != boss->boss && cameraNumber == Tleftarm) {
+	if (boss->rightarm->GetOBJParent() != boss->boss && cameraNumber == Tleftarm) {
 		cameraNumber += 1;
 	}
-	if (boss->leftarm->GetParent() != boss->boss && cameraNumber == Trightarm) {
+	if (boss->leftarm->GetOBJParent() != boss->boss && cameraNumber == Trightarm) {
 		cameraNumber += 1;
 	}
-	if (boss->leftleg->GetParent() != boss->boss && cameraNumber == Tleftleg) {
+	if (boss->leftleg->GetOBJParent() != boss->boss && cameraNumber == Tleftleg) {
 		cameraNumber += 1;
 	}
-	if (boss->rightleg->GetParent() != boss->boss && cameraNumber == Trightleg) {
+	if (boss->rightleg->GetOBJParent() != boss->boss && cameraNumber == Trightleg) {
 		cameraNumber += 1;
 	}
 
