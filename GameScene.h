@@ -16,6 +16,7 @@
 #include "ParticleManager.h"
 #include"Primitive.h"
 #include "mCollision.h"
+#include"Effects.h"
 class CollisionManager;
 class FbxCollisionManager;
 #include"Weapon.h"
@@ -52,13 +53,15 @@ private: //メンバ変数
 	Sprite* ketboard_rule = nullptr;
 	Sprite* pose = nullptr;
 	Sprite* pose_key = nullptr;
-	bool poseFlag;
+	bool poseFlag = false;
 	//拾える武器用矢印
 	ModelDraw* arrow[5];
 	bool DrawFlag[5];
 	XMFLOAT3 arrowPos[5];
 	float frame;
 	float downTimer[5];
+	bool isKeyBoard = false;
+	bool isGamePad = true;
 	//音楽
 	Audio::SoundData soundData[2];
 	Audio::SoundData soundSE[7];
@@ -91,6 +94,8 @@ private: //メンバ変数
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 
+	std::unique_ptr<Effects> effects = nullptr;
+	Effects* effect = nullptr;
 
 	//敵
 	//vector<Enemy*> enemys;

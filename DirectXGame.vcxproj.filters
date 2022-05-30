@@ -49,6 +49,8 @@
     <ClCompile Include="EndGame.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WindowsAPI.cpp" />
+    <ClCompile Include="mEffekseer.cpp" />
+    <ClCompile Include="Effects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
@@ -91,6 +93,8 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WindowsAPI.h" />
+    <ClInclude Include="mEffekseer.h" />
+    <ClInclude Include="Effects.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli" />

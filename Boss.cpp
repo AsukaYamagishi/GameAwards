@@ -23,8 +23,8 @@ Boss::Boss()
 	leftleg->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Rightleg));
 	bullet = ModelDraw::Create();
 	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
-	//shockWave = ModelDraw::Create();
-	//shockWave->SetModel(ModelManager::GetIns()->GetModel(ModelManager::ShockWave));
+	shockWave = ModelDraw::Create();
+	shockWave->SetModel(ModelManager::GetIns()->GetModel(ModelManager::ShockWave));
 
 	//コライダーの追加
 	MeshCollider* headcollider = new MeshCollider;
@@ -264,7 +264,7 @@ void Boss::Update()
 	rightleg->Update();
 	leftleg->Update();
 	bullet->Update();
-	//shockWave->Update();
+	shockWave->Update();
 }
 
 void Boss::Draw()
@@ -552,7 +552,7 @@ void Boss::PressAttack() {
 		shockPos = boss->GetPos();
 		shockPos.y = shockPos.y - 4.0f;
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
-		//shockWave->SetPos(shockPos);
+		shockWave->SetPos(shockPos);
 	}
 	if (chargeTime <= timeOver) {
 		pressPower -= 0.5f;
@@ -568,11 +568,11 @@ void Boss::PressAttack() {
 		}
 		shockScale.x += 5.0f;
 		shockScale.z += 5.0f;
-		//shockWave->SetScale(shockScale);
+		shockWave->SetScale(shockScale);
 	}
 	if (shockScale.x >= maxShockScale && pressWaitFlag == false) {
 		shockScale = initShockScale;
-		//shockWave->SetScale(shockScale);
+		shockWave->SetScale(shockScale);
 		pressWaitFlag = true;
 	}
 	if (pressWaitFlag == true) {

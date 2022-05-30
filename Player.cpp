@@ -139,10 +139,10 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			isinput = true;
 		}
 
-		if (padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) != 0 || padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) != 0)
+		if (padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 || padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) != 0)
 		{
-			forvardvec.m128_f32[0] += 1.0f * (padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) / 1000);
-			forvardvec.m128_f32[2] += 1.0f * -(padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) / 1000);
+			forvardvec.m128_f32[0] += 1.0f * (padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) / 1000);
+			forvardvec.m128_f32[2] += 1.0f * -(padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) / 1000);
 
 			isinput = true;
 		}
@@ -230,8 +230,8 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			attacktorota += Vector3(0.0f, 5.0f, 0.0f);
 			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
 				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D) ||
-				padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) != 0 || 
-				padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) != 0) {
+				padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 || 
+				padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) != 0) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
 			else {
@@ -246,8 +246,8 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			attacktorota += Vector3(0.0f, -5.0f, 0.0f);
 			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
 				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D) ||
-				padInput->IsPadStick(INPUT_AXIS_LX, 0.01f) != 0 || 
-				padInput->IsPadStick(INPUT_AXIS_LY, 0.01f) != 0) {
+				padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 || 
+				padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) != 0) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
 			else {

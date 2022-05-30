@@ -26,7 +26,8 @@ public:
 		Bullet,
 		playerBullet,
 		arrow,
-		rubble
+		rubble,
+		ShockWave
 	};
 
 public:

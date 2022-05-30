@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.CommonUtils.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.DDSTextureLoader.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.IndexBufferBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.ModelRendererBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.PngTextureLoader.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RenderStateBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer_Impl.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RibbonRendererBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RingRendererBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.SpriteRendererBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TGATextureLoader.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TrackRendererBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.VertexBufferBase.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\ModelLoader.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\TextureLoader.cpp">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Renderer.cpp">
+      <Filter>EffekseerRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\DirectX12\EffekseerMaterialCompilerDX12.cpp">
+      <Filter>..\EffekseerMaterialCompiler\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\Common.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.DeviceObject.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.IndexBuffer.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.MaterialLoader.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.ModelRenderer.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.RenderState.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.Renderer.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.Shader.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.VertexBuffer.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\GraphicsDevice.cpp">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.CommonUtils.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.DDSTextureLoader.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.IndexBufferBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.ModelRendererBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.PngTextureLoader.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RenderStateBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer_Impl.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RibbonRendererBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RingRendererBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.ShaderBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.SpriteRendererBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.StandardRenderer.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TGATextureLoader.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TrackRendererBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.VertexBufferBase.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\ModelLoader.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererCommon\TextureLoader.h">
+      <Filter>EffekseerRendererCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Base.Pre.h">
+      <Filter>EffekseerRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Base.h">
+      <Filter>EffekseerRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Renderer.h">
+      <Filter>EffekseerRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_distortion_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_lit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_unlit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_sprite_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_sprite_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_sprite_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_distortion_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_lit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_unlit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\sprite_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\sprite_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\sprite_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRendererDX12.h" />
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\DirectX12\EffekseerMaterialCompilerDX12.h">
+      <Filter>..\EffekseerMaterialCompiler\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\Common.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.Base.Pre.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.Base.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.DeviceObject.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.IndexBuffer.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.MaterialLoader.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.ModelRenderer.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.RenderState.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.Renderer.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.RendererImplemented.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.Shader.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\EffekseerRendererLLGI.VertexBuffer.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererLLGI\GraphicsDevice.h">
+      <Filter>EffekseerRendererLLGI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\笹野裕大\sasanoha\Effekseer\Dev\Cpp\EffekseerRendererDX12\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{74E3B5B0-F38B-3963-8E84-6D2D275F241E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\EffekseerMaterialCompiler">
+      <UniqueIdentifier>{458A3AE0-DFF3-395E-A7A2-49F4D386F07C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\EffekseerMaterialCompiler\DirectX12">
+      <UniqueIdentifier>{EE89F9BB-8AB5-3ACB-9E17-832C95A19BAC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffekseerRenderer">
+      <UniqueIdentifier>{27B45964-C502-3782-A6F4-50FB49EFF655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffekseerRendererCommon">
+      <UniqueIdentifier>{13498B5D-BE43-3320-820D-B175242872AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffekseerRendererLLGI">
+      <UniqueIdentifier>{55B20097-240B-3E69-8AB0-4A61D941B8A5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffekseerRenderer\ShaderHeader">
+      <UniqueIdentifier>{74228028-0114-3B9E-B4EA-71851C259B43}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

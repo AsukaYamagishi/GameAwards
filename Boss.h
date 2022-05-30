@@ -132,11 +132,11 @@ public:
 
 	int timer = 0;
 private:
-	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
-	Audio* audio = nullptr;
-	ModelDraw* player = nullptr;
-	ModelDraw* bullet = nullptr;
+	DirectXCommon *dxCommon = nullptr;
+	KeyboardInput *input = nullptr;
+	Audio *audio = nullptr;
+	ModelDraw *player = nullptr;
+	ModelDraw *bullet = nullptr;
 	ModelDraw* shockWave = nullptr;
 	//プレイヤーへの移動速度の割合
 	float move = 128.0f;
@@ -167,7 +167,7 @@ private:
 	bool pressWaitFlag = false;
 	//突進攻撃用変数
 	int rushCount = 0;
-
+	
 	//SE用変数
 	Audio::SoundData soundSE[2];
 };

@@ -27,6 +27,7 @@ void ModelManager::Initialize()
 	LoadModel(Bullet, "Bullet");
 	LoadModel(arrow, "arrow");
 	LoadModel(rubble, "rubble");
+	LoadModel(ShockWave, "shock_wave");
 	//LoadModel(TestDunut, "donut");
 }
 

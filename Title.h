@@ -48,6 +48,8 @@ public:
 	float weaponTimer;
 	bool weaponFlag;
 	bool breakFlag;
+	bool isKeyboard = false;
+	bool isGamePad = true;
 #pragma endregion
 
 #pragma region Ã“Iƒƒ“ƒoŠÖ”

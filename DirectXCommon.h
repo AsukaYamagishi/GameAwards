@@ -55,6 +55,8 @@ public: //メンバ関数
 	//描画コマンドリストの取得
 	ID3D12GraphicsCommandList* GetCommandList() { return cmdList.Get(); }
 
+	ID3D12CommandQueue* GetcmdQue() { return cmdQueue.Get(); };
+
 private: //成否判定
 	//DXGIデバイス初期化
 	bool InitDXGIDevice();
