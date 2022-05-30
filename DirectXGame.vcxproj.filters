@@ -51,6 +51,7 @@
     <ClCompile Include="WindowsAPI.cpp" />
     <ClCompile Include="mEffekseer.cpp" />
     <ClCompile Include="Effects.cpp" />
+    <ClCompile Include="FPSLock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
@@ -95,6 +96,7 @@
     <ClInclude Include="WindowsAPI.h" />
     <ClInclude Include="mEffekseer.h" />
     <ClInclude Include="Effects.h" />
+    <ClInclude Include="FPSLock.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli" />
