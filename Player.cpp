@@ -148,7 +148,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 		}
 	}
 
-	if (cameraFlag == true) {
+	/*if (cameraFlag == true) {
 		float angle = atan2f(bossPos.x - player->GetPos().x, bossPos.z - player->GetPos().z);
 		if (keyInput->PressKey(DIK_W)) {
 			angle;
@@ -170,7 +170,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			Vector3 Vec = Vector3(cosf(angle), 0, sinf(angle));
 			player->SetPos(player->GetPos() + Vec *  XMVECTOR{ 2, 2, 2 });
 		}
-	}
+	}*/
 
 
 

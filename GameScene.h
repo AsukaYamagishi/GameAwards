@@ -107,8 +107,9 @@ private: //メンバ変数
 	int seNo = 0;
 
 
-	float cameraNumber = 0;
+	bool LockFlag = false;
 	bool cameraFlag = false;
+	float cameraAngle;
 
 public:
 	//ゲームシーン終了用
