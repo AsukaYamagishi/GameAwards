@@ -140,6 +140,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	//グラフィックスパイプライン生成
 	FbxDraw::CreateGraphicsPipeline();
 	LockFlag = false;
+	cameraAngle = 0.1f;
 #pragma region 3DモデルCreate・初期設定
 
 	//モデルを指定して読み込み
@@ -255,10 +256,10 @@ bool GameScene::Update()
 	if (cameraFlag == false) {
 		//カメラ操作
 		if (keyInput->PressKey(DIK_RIGHT)) {
-			camera->matRot *= XMMatrixRotationY(0.1f);
+			camera->matRot *= XMMatrixRotationY(cameraAngle);
 		}
 		else if (keyInput->PressKey(DIK_LEFT)) {
-			camera->matRot *= XMMatrixRotationY(-0.1f);
+			camera->matRot *= XMMatrixRotationY(cameraAngle);
 		}
 	}
 
@@ -845,6 +846,7 @@ bool GameScene::Update()
 
 	if (LockFlag == true) {
 		cameraFlag = true;
+		cameraAngle = 0;
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
 		dir.Normalize();
 		dir = dir * Vector3(-1, -1, -1);

@@ -109,6 +109,7 @@ private: //メンバ変数
 
 	bool LockFlag = false;
 	bool cameraFlag = false;
+	float cameraAngle;
 
 public:
 	//ゲームシーン終了用
