@@ -528,6 +528,7 @@ bool GameScene::Update()
 		}
 		if (boss->rightarm->GetOBJParent() == boss->boss) {
 			boss->rightarm->SetOBJParent(nullptr);
+			boss->rightarm->SetPos(boss->boss->GetPos());
 		}
 	}
 	if (boss->parthp[leftarm] <= 0)

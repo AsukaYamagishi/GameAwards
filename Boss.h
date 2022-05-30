@@ -107,6 +107,10 @@ public:
 	FbxDraw* fbxLeftArm = nullptr;
 	FbxDraw* fbxLeftLeg = nullptr;
 	FbxDraw* fbxRightLeg = nullptr;
+	FbxDraw* fbxLeftArmWalk = nullptr;
+	FbxDraw* fbxRightArmWalk = nullptr;
+	FbxDraw* fbxLeftArmPress = nullptr;
+	FbxDraw* fbxRightArmPress = nullptr;
 
 	//std::unique_ptr<FbxModel> headModel;
 	//std::unique_ptr<FbxModel> bodyModel;
