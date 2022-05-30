@@ -259,7 +259,7 @@ bool GameScene::Update()
 			camera->matRot *= XMMatrixRotationY(cameraAngle);
 		}
 		else if (keyInput->PressKey(DIK_LEFT)) {
-			camera->matRot *= XMMatrixRotationY(cameraAngle);
+			camera->matRot *= XMMatrixRotationY(-cameraAngle);
 		}
 	}
 
@@ -846,10 +846,9 @@ bool GameScene::Update()
 
 	if (LockFlag == true) {
 		cameraFlag = true;
-		cameraAngle = 0;
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
 		dir.Normalize();
-		dir = dir * Vector3(-1, -1, -1);
+		dir = dir * Vector3(1, -1, -1);
 		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
 		camera->eye.y = player->graundheight;
 		camera->target.x = boss->body->GetPos().x;
