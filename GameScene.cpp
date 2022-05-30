@@ -800,26 +800,10 @@ bool GameScene::Update()
 	if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == false) {
 		LockFlag = true;
 	}
-<<<<<<< HEAD
-	if (boss->head->GetOBJParent() != boss->boss && cameraNumber == Thead) {
-		cameraNumber += 1;
-	}
-	if (boss->rightarm->GetOBJParent() != boss->boss && cameraNumber == Tleftarm) {
-		cameraNumber += 1;
-	}
-	if (boss->leftarm->GetOBJParent() != boss->boss && cameraNumber == Trightarm) {
-		cameraNumber += 1;
-	}
-	if (boss->leftleg->GetOBJParent() != boss->boss && cameraNumber == Tleftleg) {
-		cameraNumber += 1;
-	}
-	if (boss->rightleg->GetOBJParent() != boss->boss && cameraNumber == Trightleg) {
-		cameraNumber += 1;
-=======
+
 	else if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == true || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == true)
 	{
 		LockFlag = false;
->>>>>>> 作業
 	}
 
 
