@@ -244,9 +244,17 @@ void Boss::Update()
 		}
 
 		if (attackType == BEAM) {
+			fbxLeftArm->StopAnimation();
+			fbxRightArm->StopAnimation();
+			fbxLeftLeg->StopAnimation();
+			fbxRightLeg->StopAnimation();
 			BeamAttack();
 		}
 		else if (attackType == PRESS) {
+			fbxLeftArm->StopAnimation();
+			fbxRightArm->StopAnimation();
+			fbxLeftLeg->StopAnimation();
+			fbxRightLeg->StopAnimation();
 			PressAttack();
 		}
 		else if (attackType == RUSH) {
@@ -283,7 +291,7 @@ void Boss::Draw()
 		bullet->Draw();
 	}
 	if (shockFlag == true) {
-		//shockWave->Draw();
+		shockWave->Draw();
 	}
 	
 	fbxRightArm->Draw(cmdList);
@@ -519,6 +527,10 @@ void Boss::BeamAttack() {
 		coolTime = initAttack;
 		boss->SetPos(oldBossPos);
 		attackTime = initAttack;
+		fbxLeftArm->PlayAnimation();
+		fbxRightArm->PlayAnimation();
+		fbxLeftLeg->PlayAnimation();
+		fbxRightLeg->PlayAnimation();
 		attackType = NONE;
 		attackFlag = false;
 	}
@@ -584,6 +596,10 @@ void Boss::PressAttack() {
 		pressWaitTime = initPressWaitTime;
 		pressWaitFlag = false;
 		boss->SetPos(oldBossPos);
+		fbxLeftArm->PlayAnimation();
+		fbxRightArm->PlayAnimation();
+		fbxLeftLeg->PlayAnimation();
+		fbxRightLeg->PlayAnimation();
 		attackType = NONE;
 		attackFlag = false;
 		shockFlag = false;
