@@ -109,8 +109,12 @@ private: //メンバ変数
 	int soundNo = 0;
 	int seNo = 0;
 
+	int pressTimer = 0;
+	float pressRadius = 0;
 	bool fireFlag = false;
 	float fireTimer = 0;
+
+	bool fallFlag[6] = { 0 };
 
 	bool fallFlag[6] = { 0 };
 
@@ -118,6 +122,7 @@ private: //メンバ変数
 	bool cameraFlag = false;
 	float cameraAngle;
 
+	bool bgmflag = false;
 public:
 	//ゲームシーン終了用
 	bool gameFlag = false;

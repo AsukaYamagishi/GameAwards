@@ -6,6 +6,7 @@
 #include "Audio.h"
 #include "ModelDraw.h"
 #include "ModelManager.h"
+#include "FbxDraw.h"
 #include <DirectXMath.h>
 class Player {
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -37,10 +38,10 @@ public:
 	float GetPosZ() { Vector3 pos = player->GetPos(); return pos.z; }
 
 	//ダメージ処理
-	void HitDamege();
+	void HitDamege(Vector3 bossPos);
 
 	//ノックバック処理
-	void KnockBack();
+	void KnockBack(Vector3 bossPos);
 
 	//プレイヤーが撃つ球
 	ModelDraw* bullet = nullptr;
@@ -48,6 +49,8 @@ public:
 
 public:
 	ModelDraw* player = nullptr;
+	FbxDraw* playerWalk = nullptr;
+	std::unique_ptr<FbxModel> playerWalkModel;
 	int attacktime = 0;
 	bool attack = false;
 	bool oldattack = false;
@@ -58,6 +61,7 @@ public:
 	bool knockBackFlag = false;
 	float graundheight = 5.0f;//地面の高さ
 	bool headFlag = false;
+	bool isWalk = false;
 private:
 	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* keyInput = nullptr;
