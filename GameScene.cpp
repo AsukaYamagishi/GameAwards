@@ -848,13 +848,24 @@ bool GameScene::Update()
 
 	if (LockFlag == true) {
 		cameraFlag = true;
+		camera->matRot = XMMatrixIdentity();
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
-		dir.Normalize();
-		dir = dir * Vector3(1, -1, -1);
-		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
+		float length = sqrtf(powf(dir.x, 2.0f) + powf(dir.y, 2.0f) + powf(dir.z, 2.0f));
+		Vector3 target = Vector3(dir.x / length, dir.y / length, dir.z / length);
+		/*dir.Normalize();
+		dir = dir * Vector3(1, 1, -1);*/
 		camera->eye.y = player->graundheight;
 		camera->target.x = boss->body->GetPos().x;
-		camera->target.z = boss->body->GetPos().z;
+		camera->target.z = boss->body->GetPos().z + target.z;
+
+		if (camera->eye.z > 0)
+		{
+			camera->matRot = XMMatrixRotationY(160);
+			camera->eye = Vector3(player->player->GetPos().x, player->player->GetPos().y - target.y, player->player->GetPos().z + 100);
+		}
+		else {
+			camera->eye = Vector3(player->player->GetPos().x, player->player->GetPos().y - target.y, player->player->GetPos().z - 100);
+		}
 	}
 
 
