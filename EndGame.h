@@ -31,6 +31,8 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* spriteBG = nullptr;
 	Sprite* sprite1 = nullptr;
 	Sprite* number = nullptr;
+	Sprite* lank = nullptr;
+	Sprite* comma = nullptr;
 
 	//Audio::SoundData soundData[2];
 #pragma endregion
