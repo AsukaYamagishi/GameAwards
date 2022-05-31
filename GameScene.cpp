@@ -313,7 +313,7 @@ bool GameScene::Update()
 	{
 		if (hit[BossAttackToPlayer])
 		{
-			player->HitDamege();
+			player->HitDamege(boss->boss->GetPos());
 		}
 	}
 
@@ -337,28 +337,28 @@ bool GameScene::Update()
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
-		if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
+		else if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
 			boss->HitDamage(rightarm, damage);
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
-		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
+		else if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
 			boss->HitDamage(leftarm, damage);
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
-		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
+		else if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
 			boss->HitDamage(rightleg, damage);
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
-		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
+		else if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
 			boss->HitDamage(leftleg, damage);
 			player->attack = false;
 			//particleMan->HitParticle();
@@ -392,7 +392,7 @@ bool GameScene::Update()
 
 		if (!player->oldattack) {
 			//audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
-		}
+		}*/
 
 	}
 #pragma endregion
