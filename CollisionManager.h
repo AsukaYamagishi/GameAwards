@@ -2,6 +2,10 @@
 
 #include<forward_list>
 #include"KeyboardInput.h"
+#include "Player.h"
+#include "Camera.h"
+#include "DirectXCommon.h"
+#include "Effects.h"
 
 class BaseCollider;
 
@@ -30,7 +34,7 @@ public://メンバ関数
 	///<summary>
 	///全ての衝突をチェック
 	///</summary>
-	void CheckAllCollision(bool hit[], const bool attackFlag[],const KeyboardInput &input);
+	void CheckAllCollision(bool hit[], const bool attackFlag[], KeyboardInput *input, Player* player, DirectXCommon* dxCommon, Camera* camera, Effects* effects);
 	~CollisionManager();
 
 	void Finalize();

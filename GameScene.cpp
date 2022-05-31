@@ -202,8 +202,12 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	weapon = new Weapon();
 	weapon->Initialize(dxCommon, keyInput, audio);
 
-	effects = std::make_unique<Effects>();
-	effects->Initialize(dxCommon, camera);
+	effects = new Effects/*std::make_unique<Effects>()*/;
+	effects->FwInit(dxCommon, camera);
+
+	effects_2 = new Effects;
+	effects_2->Elinit(dxCommon, camera);
+
 
 	//プレイヤーに追従
 	weapon->weapon->SetOBJParent(player->player);
@@ -236,6 +240,11 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	//コリジョンマネージャーの生成
 	collisionManager = CollisionManager::GetInstance();
 	fbxcollisionManager = FbxCollisionManager::GetInstance();
+
+	for (int i = 0; i < 6; i++)
+	{
+		fallFlag[i] = false;
+	}
 }
 
 bool GameScene::Update()
@@ -289,7 +298,7 @@ bool GameScene::Update()
 	if (boss->GetAttackType() == AttackType::BEAM)
 	{
 		if (hit[BulletToPlayer]) {
-			player->HitDamege();
+			player->HitDamege(boss->boss->GetPos());
 			debugText.PrintDebugText("hit", 0, 0);
 		}
 	}
@@ -297,7 +306,7 @@ bool GameScene::Update()
 	{
 		if (hit[BossAttackToPlayer])
 		{
-			player->HitDamege();
+			player->HitDamege(boss->boss->GetPos());
 		}
 	}
 	if (boss->GetAttackType() == AttackType::RUSH)
@@ -317,15 +326,50 @@ bool GameScene::Update()
 		if (hit[WwaponToHead] && boss->parthp[head] > 0) {
 			boss->HitDamage(head,boss->damage(damage));
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 		else if (hit[WwaponToBody]) {
 			boss->HitDamage(body, boss->damage(damage));
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
-		else if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
-			boss->HitDamage(rightarm, boss->damage(damage));
+		if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
+			boss->HitDamage(rightarm, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
+		}
+		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
+			boss->HitDamage(leftarm, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
+		}
+		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
+			boss->HitDamage(rightleg, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
+		}
+		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
+			boss->HitDamage(leftleg, damage);
+			player->attack = false;
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
+		}
+
+		/*if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
+		{
+			debugText.PrintDebugText("head", 0, 0);
+			boss->HitDamage(head, damage);
 			player->attack = false;
 			particleMan->HitParticle();
 		}
@@ -379,8 +423,10 @@ bool GameScene::Update()
 	{
 		if (fallFlag[0] == false)
 		{
-			//落ちた直後の処理
+			//落下した瞬間の処理を書く場所
 			fallFlag[0] = true;
+			isexplosion = true;
+			effects_2->ElLoad(isexplosion);
 		}
 
 		if (boss->head->GetOBJParent() == boss->boss) {
@@ -415,8 +461,10 @@ bool GameScene::Update()
 	{
 		if (fallFlag[2] == false)
 		{
-			//落ちた直後の処理
+			//落下した瞬間の処理を書く場所
 			fallFlag[2] = true;
+			isexplosion = true;
+			effects_2->ElLoad(isexplosion);
 		}
 
 		if (boss->rightarm->GetOBJParent() == nullptr) {
@@ -444,8 +492,10 @@ bool GameScene::Update()
 	{
 		if (fallFlag[3] == false)
 		{
-			//落ちた直後の処理
+			//落下した瞬間の処理を書く場所
 			fallFlag[3] = true;
+			isexplosion = true;
+			effects_2->ElLoad(isexplosion);
 		}
 
 		if (boss->leftarm->GetOBJParent() == nullptr) {
@@ -474,8 +524,10 @@ bool GameScene::Update()
 	{
 		if (fallFlag[4] == false)
 		{
-			//落ちた直後の処理
+			//落下した瞬間の処理を書く場所
 			fallFlag[4] = true;
+			isexplosion = true;
+			effects_2->ElLoad(isexplosion);
 		}
 
 		if (boss->rightleg->GetOBJParent() == nullptr) {
@@ -504,8 +556,10 @@ bool GameScene::Update()
 	{
 		if (fallFlag[5] == false)
 		{
-			//落ちた直後の処理
+			//落下した瞬間の処理を書く場所
 			fallFlag[5] = true;
+			isexplosion = true;
+			effects_2->ElLoad(isexplosion);
 		}
 
 		if (boss->leftleg->GetOBJParent() == nullptr) {
@@ -601,8 +655,8 @@ bool GameScene::Update()
 			boss->head->SetPos(Vector3(0, 0, 0));
 			boss->head->SetRotation(Vector3(0, 0, 0));
 			boss->head->SetOBJParent(player->player);
-			boss->head->SetPos(Vector3(5, -35, 0));
-			boss->head->SetRotation(Vector3(20, -90, 0));
+			boss->head->SetPos(Vector3(0, -34, -5));
+			boss->head->SetRotation(Vector3(0, -90, 0));
 			player->enemyWepon = true;
 			//球を拾ったフラグ
 			player->headFlag = true;
@@ -747,9 +801,9 @@ bool GameScene::Update()
 		}
 	}
 
-	if (keyInput->PressKeyTrigger(DIK_K)) {
-		player->KnockBack();
-	}
+	//if (keyInput->PressKeyTrigger(DIK_K)) {
+	//	player->KnockBack();
+	//}
 
 	/*if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == false) {
 		LockFlag = true;
@@ -859,8 +913,11 @@ bool GameScene::Update()
 		ketboard_rule->Update();
 		pose->Update();
 		pose_key->Update();
-		effects->Update(dxCommon, camera, player);
+		effects->FwUpdate(dxCommon, camera, player, keyInput);
+		effects_2->ElUpdate(dxCommon, camera, player, keyInput);
 	}
+
+
 
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
@@ -868,14 +925,14 @@ bool GameScene::Update()
 	std::ostringstream ass;
 	std::ostringstream iss;
 	std::ostringstream uss;
-	oss << boss->hp;
-	debugText.PrintDebugText(oss.str(), 500, 0);
-	ass << boss->angle;
-	debugText.PrintDebugText(ass.str(), 700, 0);
-	iss << player->knockBackFlag;
-	debugText.PrintDebugText(iss.str(), 900, 0);
-	uss << boss->watchB;
-	debugText.PrintDebugText(uss.str(), 900, 100);
+	//oss << boss->hp;
+	//debugText.PrintDebugText(oss.str(), 500, 0);
+	//ass << boss->angle;
+	//debugText.PrintDebugText(ass.str(), 700, 0);
+	//iss << player->knockBackFlag;
+	//debugText.PrintDebugText(iss.str(), 900, 0);
+	//uss << boss->watchB;
+	//debugText.PrintDebugText(uss.str(), 900, 100);
 
 
 #pragma endregion
@@ -890,7 +947,7 @@ bool GameScene::Update()
 	attackFlag[BossBeam] = boss->attackType == AttackType::BEAM;
 	attackFlag[BossRush] = boss->attackType == AttackType::RUSH;
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
+	collisionManager->CheckAllCollision(hit, attackFlag, keyInput,player, dxCommon, camera, effects);
 
 
 
@@ -988,14 +1045,18 @@ void GameScene::Draw()
 #pragma region 3Dモデル描画
 	//testObject->Draw(cmdList);
 	player->Draw();
-	weapon->Draw();
+	if (player->enemyWepon == false) {
+		weapon->Draw();
+	}
 	boss->Draw();
 	stage->Draw();
 	skydome->Draw();
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	//effects->Draw(dxCommon);
+	effects->FwDraw(dxCommon);
+	effects_2->ElDraw(dxCommon);
+
 
 #pragma endregion
 
