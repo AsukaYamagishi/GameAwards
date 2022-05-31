@@ -41,7 +41,7 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 
 	//コライダーの追加
 	float radius = 0.0f;
-	float radius2 = 5.0f;
+	float radius2 = 10.0f;
 	//球の当たり判定
 	player->SetCollider(new SphereCollider(XMVECTOR({ 0, radius, 0.0 }), radius2));
 	player->collider->tag = CollisionTag::TagPlayer;
@@ -196,7 +196,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 	float distanceX = genten.x - (player->GetPos().x + move.x);
 	float distanceZ = genten.z - (player->GetPos().z + move.z);
 	distance = sqrtf((distanceX* distanceX) + (distanceZ * distanceZ));
-	//if (distance > 960.0f) { move = { 0.0f,0.0f,0.0f }; }
+	if (distance > 960.0f) { move = { 0.0f,0.0f,0.0f }; }
 
 	player->SetPos(player->GetPos() + move);
 	if (isinput) {
