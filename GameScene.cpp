@@ -776,30 +776,30 @@ bool GameScene::Update()
 #pragma endregion
 
 
-	if (keyInput->PressKeyTrigger(DIK_P)) {
-		audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
-		if (soundNo < 1) {
-			soundNo++;
-		}
-		else {
-			soundNo = 0;
-		}
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
-	}
-	if (bgmflag == false)
-	{
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
-		bgmflag = true;
-	}
-	if (keyInput->PressKeyTrigger(DIK_L)) {
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
-		if (seNo < 6) {
-			seNo++;
-		}
-		else {
-			seNo = 0;
-		}
-	}
+	//if (keyInput->PressKeyTrigger(DIK_P)) {
+	//	audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
+	//	if (soundNo < 1) {
+	//		soundNo++;
+	//	}
+	//	else {
+	//		soundNo = 0;
+	//	}
+	//	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	//}
+	//if (bgmflag == false)
+	//{
+	//	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	//	bgmflag = true;
+	//}
+	//if (keyInput->PressKeyTrigger(DIK_L)) {
+	//	audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
+	//	if (seNo < 6) {
+	//		seNo++;
+	//	}
+	//	else {
+	//		seNo = 0;
+	//	}
+	//}
 
 	//if (keyInput->PressKeyTrigger(DIK_K)) {
 	//	player->KnockBack();

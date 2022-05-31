@@ -14,6 +14,8 @@ private: //ƒƒ“ƒo•Ï”
 	GameScene* game = nullptr;
 	Title* title = nullptr;
 	EndGame* end = nullptr;
+	Audio::SoundData soundData;
+
 
 	Sprite* black = nullptr;
 	Sprite* enemy = nullptr;

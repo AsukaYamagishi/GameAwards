@@ -22,6 +22,9 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 	this->audio = audio;
 #pragma endregion
 
+	soundData = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);
+
 	//各シーン生成/最初のシーン初期化
 	title = new Title();
 	title->Init(dxCommon, keyInput, padInput, audio);
@@ -97,7 +100,7 @@ void SceneManager::Update()
 
 	//シーン切り替え
 	if ((keyInput->PressKeyTrigger(DIK_RETURN) || padInput->IsPadButtonTrigger(XBOX_INPUT_B)) && sceneNo == titleScene && title->weaponFlag == false && title->breakFlag == false)
-	{		
+	{	
 		game->Finalize();
 		game->Init(dxCommon, keyInput, padInput, audio);
 		title->weaponFlag = true;
@@ -130,6 +133,7 @@ void SceneManager::Update()
 
 				if (count >= 12)
 				{
+					//audio->SoundStop(audio->xAudio2.Get(), Audio::loop);
 					sceneNo = gameScene;
 					alpha = 0;
 					titleGameFlag = false;
