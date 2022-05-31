@@ -138,7 +138,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (true) //ゲームループ
 	{
-		fpsLock.Update();
+		//fpsLock.Update();
 	#pragma region メッセージ確認
 		//メッセージがあるか
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))

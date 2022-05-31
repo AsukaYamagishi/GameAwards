@@ -338,28 +338,28 @@ bool GameScene::Update()
 			effects->FwLoad(isfirework);
 		}
 		else if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
-			boss->HitDamage(rightarm, damage);
+			boss->HitDamage(body, boss->damage(damage));
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
 		else if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
-			boss->HitDamage(leftarm, damage);
+			boss->HitDamage(body, boss->damage(damage));
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
 		else if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
-			boss->HitDamage(rightleg, damage);
+			boss->HitDamage(body, boss->damage(damage));
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
 			effects->FwLoad(isfirework);
 		}
 		else if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
-			boss->HitDamage(leftleg, damage);
+			boss->HitDamage(body, boss->damage(damage));
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
