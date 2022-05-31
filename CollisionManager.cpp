@@ -31,64 +31,6 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 			BaseCollider* colA = *itA;
 			BaseCollider* colB = *itB;
 
-#pragma region 初期当たり判定（全タイプの判定をして重くなるのでコメントアウット）
-			////ともに球
-			//if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&
-			//	colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
-			//{
-			//	Sphere* SphereA = dynamic_cast<Sphere*>(colA);
-			//	Sphere* SphereB = dynamic_cast<Sphere*>(colB);
-			//	DirectX::XMVECTOR inter;
-			//	//if (Collision::CheckSphere2plane(*SphereA, *SphereB, &inter))
-			//	{
-			//		colA->OnCollision(CollisionInfo(colB->GetObject3d(), colB, inter));
-			//		colB->OnCollision(CollisionInfo(colA->GetObject3d(), colA, inter));
-			//	}
-			//}
-			////メッシュと球
-			// if (colA->GetShapeType() == COLLISIONSHAPE_MESH &&
-			//	colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
-			//{
-			//	MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-			//	Sphere* sphere = dynamic_cast<Sphere*>(colB);
-			//	DirectX::XMVECTOR inter;
-			//	if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-			//	{
-			//		//hit[i] = 1;
-			//		colA->OnCollision(CollisionInfo(colB->GetObject3d(), colB, inter));
-			//		colB->OnCollision(CollisionInfo(colA->GetObject3d(), colA, inter));
-			//	}
-			//}
-			// //球とメッシュ
-			// if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&
-			//	colB->GetShapeType() == COLLISIONSHAPE_MESH)
-			//{
-			//	MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-			//	Sphere* sphere = dynamic_cast<Sphere*>(colA);
-			//	DirectX::XMVECTOR inter;
-			//	if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-			//	{
-			//		colA->OnCollision(CollisionInfo(colB->GetObject3d(), colB, inter));
-			//		colB->OnCollision(CollisionInfo(colA->GetObject3d(), colA, inter));
-			//	}
-			//}
-
-			 ////プレイヤーとボスの頭
-			 //if (colA->tag == TagHead &&
-				// colB->tag == TagPlayer)
-			 //{
-				// MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				// Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				// DirectX::XMVECTOR inter;
-				// if (meshCollider->CheckCollisionSphere(*sphere, &inter))
-				// {
-				//	// hit[7] = 1;
-				// }
-			 //}
-#pragma endregion
-
-
-
 			if (attackFlag[PlayerAttack] || input.PressKey(DIK_R)) {
 #pragma region ハンマーとボスの当たり判定
 				//プレイヤーとボスの頭
@@ -390,18 +332,18 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 #pragma endregion
 			}
 
-			if (attackFlag[BossPress]) {
+			/*if (attackFlag[BossPress]) {*/
 #pragma region ボスのプレスとプレイヤーの当たり判定
 				//ボスの攻撃とプレイヤーボディ
-				if (colA->tag == TagBody &&
+				if (colA->tag == TagHead &&
 					colB->tag == TagPlayer)
-				{
+				{					
 					MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
 					Sphere* sphere = dynamic_cast<Sphere*>(colB);
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToHead] = 1;
 					}
 				}
 				//プレイヤーとボスの右腕
@@ -413,7 +355,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToRightArm] = 1;
 					}
 				}
 				//プレイヤーとボスの左腕
@@ -425,7 +367,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToLeftArm] = 1;
 					}
 				}
 				//プレイヤーとボスの右足
@@ -437,7 +379,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToRightLeg] = 1;
 					}
 				}
 				//プレイヤーとボスの左足
@@ -449,21 +391,21 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToLeftLeg] = 1;
 					}
 				}
 
 				//--------------------------------------------------------------------------------//
 				//プレイヤーとボスの体
 				if (colA->tag == TagPlayer &&
-					colB->tag == TagBody)
+					colB->tag == TagHead)
 				{
 					MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
 					Sphere* sphere = dynamic_cast<Sphere*>(colA);
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToHead] = 1;
 					}
 				}
 				//プレイヤーとボスの右腕
@@ -475,7 +417,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToRightArm] = 1;
 					}
 				}
 				//プレイヤーとボスの左腕
@@ -487,7 +429,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToLeftArm] = 1;
 					}
 				}
 				//プレイヤーとボスの右足
@@ -499,7 +441,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToRightLeg] = 1;
 					}
 				}
 				//プレイヤーとボスの左足
@@ -511,11 +453,11 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					DirectX::XMVECTOR inter;
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
-						hit[BossAttackToPlayer] = 1;
+						hit[PlayerToLeftLeg] = 1;
 					}
 				}
 #pragma endregion
-			}
+			//}
 
 			if (attackFlag[BossBeam]) {
 #pragma region ボスの球とプレイヤー

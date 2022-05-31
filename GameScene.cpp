@@ -643,12 +643,35 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 部位の取得
-	if (keyInput->PressKey(DIK_R) || padInput->IsPadButtonTrigger(XBOX_INPUT_Y)) {
+	if (keyInput->PressKeyTrigger(DIK_E) && player->enemyWepon == false || padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon == false) {
+		
+		//頭とプレイヤーの距離
+		float distanceX = boss->head->GetPos().x - 5.0f - player->player->GetPos().x;
+		float distanceZ = boss->head->GetPos().z - player->player->GetPos().z;
+		float headDistance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+		//右腕とプレイヤーの距離
+		distanceX = boss->rightarm->GetPos().x - player->player->GetPos().x;
+		distanceZ = boss->rightarm->GetPos().z - player->player->GetPos().z;
+		float rightarmDistance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+		//左腕とプレイヤーの距離
+		distanceX = boss->leftarm->GetPos().x - player->player->GetPos().x;
+		distanceZ = boss->leftarm->GetPos().z - player->player->GetPos().z;
+		float leftarmDistance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+		//右足とプレイヤーの距離
+		distanceX = boss->rightleg->GetPos().x - player->player->GetPos().x;
+		distanceZ = boss->rightleg->GetPos().z - player->player->GetPos().z;
+		float rightlegDistance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+		//左足とプレイヤーの距離
+		distanceX = boss->leftleg->GetPos().x - player->player->GetPos().x;
+		distanceZ = boss->leftleg->GetPos().z - player->player->GetPos().z;
+		float leftlegDistance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+
+
 
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
 		}
-		if (hit[WwaponToHead] && boss->parthp[head] <= 0 && boss->head->GetOBJParent() == nullptr) {
+		if (hit[PlayerToHead] && boss->parthp[head] <= 0 && boss->head->GetOBJParent() == nullptr&& player->enemyWepon == false) {
 			boss->head->SetPos(Vector3(0, 0, 0));
 			boss->head->SetRotation(Vector3(0, 0, 0));
 			boss->head->SetOBJParent(player->player);
@@ -658,7 +681,7 @@ bool GameScene::Update()
 			//球を拾ったフラグ
 			player->headFlag = true;
 		}
-		if (hit[WwaponToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetOBJParent() == nullptr) {
+		if (hit[PlayerToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetOBJParent() == nullptr&& player->enemyWepon == false) {
 			boss->rightarm->SetPos(Vector3(0, 0, 0));
 			boss->rightarm->SetRotation(Vector3(0, 0, 0));
 			boss->rightarm->SetOBJParent(player->player);
@@ -666,7 +689,7 @@ bool GameScene::Update()
 			boss->rightarm->SetRotation(Vector3(0, 0, 190));
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] <= 0 && boss->leftarm->GetOBJParent() == nullptr) {
+		if (hit[PlayerToLeftArm] && boss->parthp[leftarm] <= 0 && boss->leftarm->GetOBJParent() == nullptr && player->enemyWepon == false) {
 			boss->leftarm->SetPos(Vector3(0, 0, 0));
 			boss->leftarm->SetRotation(Vector3(0, 0, 0));
 			boss->leftarm->SetOBJParent(player->player);
@@ -674,7 +697,7 @@ bool GameScene::Update()
 			boss->leftarm->SetRotation(Vector3(0, 0, -170));
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] <= 0 && boss->rightleg->GetOBJParent() == nullptr) {
+		if (hit[PlayerToRightLeg] && boss->parthp[rightleg] <= 0 && boss->rightleg->GetOBJParent() == nullptr && player->enemyWepon == false) {
 			boss->rightleg->SetPos(Vector3(0, 0, 0));
 			boss->rightleg->SetRotation(Vector3(0, 0, 0));
 			boss->rightleg->SetOBJParent(player->player);
@@ -682,7 +705,7 @@ bool GameScene::Update()
 			boss->rightleg->SetRotation(Vector3(0, 0, 200));
 			player->enemyWepon = true;
 		}
-		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] <= 0 && boss->leftleg->GetOBJParent() == nullptr) {
+		if (hit[PlayerToLeftLeg] && boss->parthp[leftleg] <= 0 && boss->leftleg->GetOBJParent() == nullptr && player->enemyWepon == false) {
 			boss->leftleg->SetPos(Vector3(0, 0, 0));
 			boss->leftleg->SetRotation(Vector3(0, 0, 0));
 			boss->leftleg->SetOBJParent(player->player);
@@ -699,7 +722,7 @@ bool GameScene::Update()
 #pragma endregion
 
 #pragma region 武器にした部位を落とす
-	else if (keyInput->PressKey(DIK_G) || (padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon))
+	else if (keyInput->PressKeyTrigger(DIK_E) && player->enemyWepon || (padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon))
 	{
 		//boss->head->SetParent(nullptr);
 		//boss->body->SetParent(nullptr);

@@ -38,6 +38,13 @@ enum AnyHit
 
 	BulletToPlayer,
 	BossAttackToPlayer,
+
+	PlayerToBody,
+	PlayerToHead,
+	PlayerToRightArm,
+	PlayerToLeftArm,
+	PlayerToRightLeg,
+	PlayerToLeftLeg,
 };
 
 enum AttackFlagNum
