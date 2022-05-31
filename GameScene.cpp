@@ -243,7 +243,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 	for (int i = 0; i < 6; i++)
 	{
-		fallFlag[0] = false;
+		fallFlag[i] = false;
 	}
 }
 
@@ -1028,7 +1028,7 @@ bool GameScene::Update()
 	attackFlag[BossPress] = boss->attackType;
 	attackFlag[BossBeam] = boss->attackType;
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
+	collisionManager->CheckAllCollision(hit, attackFlag, keyInput,player, dxCommon, camera, effects);
 
 
 
