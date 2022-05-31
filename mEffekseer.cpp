@@ -75,27 +75,18 @@ void mEffekseer::EffekseerSetting(DirectXCommon* dxCommon, Camera* camera, const
 
 void mEffekseer::Load_Effect()//playsceneとかで使えるように
 {
-	//_efkManager->SetSpeed(_efkHandle,10);
 	_efkHandle = _efkManager->Play(_effect, positionx, positiony, positionz);
 }
 
 void mEffekseer::Stop_Effect()
 {
-	//_efkManager->sc
-	//_efkManager->Release();
 	if (_efkManager->Exists(_efkHandle)) {
 		_efkManager->StopEffect(_efkHandle);
 	}
-
-	// _efkManager = nullptr;
 }
 
 void mEffekseer::EffekseerUpdate(DirectXCommon* dxCommon, Camera* camera)
 {
-	//if (Input::GetInstance()->Pushkey(DIK_SPACE)) {
-		// エフェクトの再生
-
-	//_efkHandle = _efkManager->Play(_effect, positionx, positiony, positionz);
 	_efkManager->SetScale(_efkHandle, scalex, scaley, scalez);
 	_efkManager->SetRotation(_efkHandle, rotationx, rotationy, rotationz);
 	SyncronizeEffekseerCamera(dxCommon, camera);

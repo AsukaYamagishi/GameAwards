@@ -94,8 +94,11 @@ private: //メンバ変数
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 
-	std::unique_ptr<Effects> effects = nullptr;
-	Effects* effect = nullptr;
+	Effects* effects = nullptr;
+	Effects* effects_2 = nullptr;
+
+	bool isfirework = false;
+	bool isexplosion = false;
 
 	//敵
 	//vector<Enemy*> enemys;
@@ -108,6 +111,8 @@ private: //メンバ変数
 
 	int pressTimer = 0;
 	float pressRadius = 0;
+	bool fireFlag = false;
+	float fireTimer = 0;
 
 	bool fallFlag[6] = { 0 };
 
