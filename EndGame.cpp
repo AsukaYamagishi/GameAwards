@@ -34,7 +34,7 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 		return;
 	}
 	Sprite::LoadTexture(3, L"Resources/sprite/failure.png");
-	Sprite::LoadTexture(20, L"Resources/sprite/number.png");
+	Sprite::LoadTexture(30, L"Resources/sprite/number.png");
 	//// ”wŒiƒXƒvƒ‰ƒCƒg¶¬
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 	spriteBG->SetSize({ 1280, 720 });
@@ -44,7 +44,7 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 	sprite1->SetSize({ 1280, 720 });
 	sprite1->Update();
 
-	number = Sprite::CreateSprite(20, { 0.0f,0.0f });
+	number = Sprite::CreateSprite(30, { 0.0f,0.0f });
 	number->Update();
 	
 #pragma endregion
