@@ -305,7 +305,7 @@ bool GameScene::Update()
 	if (boss->GetAttackType() == AttackType::BEAM)
 		if (hit[BulletToPlayer]) {
 			player->HitDamege(boss->boss->GetPos());
-			debugText.PrintDebugText("aaaaaaaaaaaaaaaaitaiiiiiiiiiiiiiiiii", 0, 0);
+			debugText.PrintDebugText("hit", 0, 0);
 		}
 
 	if (boss->GetAttackType() == AttackType::PRESS && boss->timer > 20)
@@ -1092,7 +1092,9 @@ void GameScene::Draw()
 #pragma region 3Dƒ‚ƒfƒ‹•`‰æ
 	//testObject->Draw(cmdList);
 	player->Draw();
-	weapon->Draw();
+	if (player->enemyWepon == false) {
+		weapon->Draw();
+	}
 	boss->Draw();
 	stage->Draw();
 	skydome->Draw();
