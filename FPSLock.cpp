@@ -24,5 +24,20 @@ void FPSLock::Update()
 		Sleep(sleepTime);	//待機
 		timeEndPeriod(1);	//戻す
 	}
+	if (frameTime > 0.0) { // 経過時間が0より大きい(こうしないと下の計算でゼロ除算になると思われ)
+		fps = (fps * 0.99f) + (0.01f / frameTime); // 平均fpsを計算
+#ifdef _DEBUG
+// デバッグ用(デバッガにFSP出す)
+#ifdef UNICODE
+		std::wstringstream stream;
+#else
+		std::stringstream stream;
+#endif
+		stream << fps << " FPS" << std::endl;
+		// カウンタ付けて10回に1回出力、とかにしないと見づらいかもね
+		OutputDebugString(stream.str().c_str());
+#endif // _DEBUG
+	}
+	timeStart = timeEnd;	//入れ替え
 }
 
