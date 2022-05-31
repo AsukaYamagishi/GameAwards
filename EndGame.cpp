@@ -87,7 +87,7 @@ void EndGame::Draw(bool winjude)
 		sprite1->Draw();
 	}
 
-	number->Draw();
+	//number->Draw();
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -122,8 +122,8 @@ void EndGame::Draw(bool winjude)
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
-	lank->Draw();
-	comma->Draw();
+	//lank->Draw();
+	//comma->Draw();
 	//AL3 1-2追加
 	//sprite1->Draw();
 	//sprite2->Draw();

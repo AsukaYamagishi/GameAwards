@@ -133,7 +133,7 @@ void SceneManager::Update()
 
 				if (count >= 12)
 				{
-					audio->SoundStop(audio->xAudio2.Get(), Audio::loop);
+					//audio->SoundStop(audio->xAudio2.Get(), Audio::loop);
 					sceneNo = gameScene;
 					alpha = 0;
 					titleGameFlag = false;
