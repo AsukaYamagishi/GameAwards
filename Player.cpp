@@ -317,7 +317,8 @@ void Player::KnockBack() {
 	Vector3 knockBackVector = oldPlayerPos - playerFront;
 	Vector3 playerPos = player->GetPos();
 	//プレイヤーを後ろに下げる
-	playerPos -= knockBackVector * xSpeed;
+	playerPos.x = knockBackVector.x - xSpeed;
+	playerPos.z = knockBackVector.z - xSpeed;
 
 	//Y軸の処理
 	jumpPower -= 0.5f;
