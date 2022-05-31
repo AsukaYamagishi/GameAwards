@@ -130,8 +130,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	playerHP = Sprite::CreateSprite(4, { 1070, 522 });
 	controler_rule = Sprite::CreateSprite(5, { 0,0 });
 	ketboard_rule = Sprite::CreateSprite(6, { 0,0 });
-	pose= Sprite::CreateSprite(7, { 1130,0 });
-	pose_key= Sprite::CreateSprite(8, { 1130,-10 });
+	pose = Sprite::CreateSprite(7, { 1130,0 });
+	pose_key = Sprite::CreateSprite(8, { 1130,-10 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -176,8 +176,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	{
 		arrow[i] = ModelDraw::Create();
 		arrow[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::arrow));
-		arrow[i]->SetRotation({90, 90, -90});
-		arrow[i]->SetScale({7,7,7});
+		arrow[i]->SetRotation({ 90, 90, -90 });
+		arrow[i]->SetScale({ 7,7,7 });
 		DrawFlag[i] = false;
 		frame = 0;
 		downTimer[i] = 0;
@@ -185,7 +185,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 	//プレイヤーなど生成
 	player = new Player();
-	player->Initialize(dxCommon, keyInput,padInput, audio);
+	player->Initialize(dxCommon, keyInput, padInput, audio);
 
 	boss = new Boss();
 	boss->Initialize(dxCommon, keyInput, audio, player->player);
@@ -201,8 +201,9 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	weapon = new Weapon();
 	weapon->Initialize(dxCommon, keyInput, audio);
 
-	effects = std::make_unique<Effects>();
-	effects->Initialize(dxCommon, camera);
+	effects = new Effects/*std::make_unique<Effects>()*/;
+	effects->FwInit(dxCommon, camera);
+
 
 	//プレイヤーに追従
 	weapon->weapon->SetOBJParent(player->player);
@@ -324,32 +325,44 @@ bool GameScene::Update()
 		if (hit[WwaponToHead] && boss->parthp[head] > 0) {
 			boss->HitDamage(head, damage);
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 		if (hit[WwaponToBody]) {
 			boss->HitDamage(body, damage);
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 		if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
 			boss->HitDamage(rightarm, damage);
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
 			boss->HitDamage(leftarm, damage);
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
 			boss->HitDamage(rightleg, damage);
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
 			boss->HitDamage(leftleg, damage);
 			player->attack = false;
-			particleMan->HitParticle();
+			//particleMan->HitParticle();
+			isfirework = true;
+			effects->FwLoad(isfirework);
 		}
 
 		/*if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
@@ -399,7 +412,7 @@ bool GameScene::Update()
 		}*/
 
 #pragma region メッシュとの
-			//頭
+		//頭
 		if (hit[Ghead] && boss->parthp[head] > 0)
 		{
 			debugText.PrintDebugText("head", 0, 0);
@@ -535,7 +548,7 @@ bool GameScene::Update()
 	{
 		if (boss->leftarm->GetOBJParent() == nullptr) {
 			boss->Fall(leftarm);
-			
+
 			arrow[2]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[2] = true;
 
@@ -543,7 +556,7 @@ bool GameScene::Update()
 
 			if (downTimer[2] >= 50)
 			{
-				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 40 - (downTimer[2] / 10), arrowPos[2].z + 10});
+				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 40 - (downTimer[2] / 10), arrowPos[2].z + 10 });
 				downTimer[2] = 0;
 			}
 			else {
@@ -566,11 +579,11 @@ bool GameScene::Update()
 
 			if (downTimer[3] >= 50)
 			{
-				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40 - (downTimer[3] / 10), arrowPos[3].z});
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40 - (downTimer[3] / 10), arrowPos[3].z });
 				downTimer[3] = 0;
 			}
 			else {
-				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z});
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z });
 			}
 		}
 		if (boss->rightleg->GetOBJParent() == boss->boss) {
@@ -891,9 +904,11 @@ bool GameScene::Update()
 		ketboard_rule->Update();
 		pose->Update();
 		pose_key->Update();
-		effects->Update(dxCommon, camera, player);
+		effects->FwUpdate(dxCommon, camera, player, keyInput);
 	}
-	
+
+
+
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
 	std::ostringstream oss;
@@ -921,7 +936,7 @@ bool GameScene::Update()
 	attackFlag[BossPress] = boss->attackType;
 	attackFlag[BossBeam] = boss->attackType;
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
+	collisionManager->CheckAllCollision(hit, attackFlag, keyInput, player, dxCommon, camera, effects);
 	//fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
@@ -981,7 +996,7 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dモデル描画
-	testObject->Draw(cmdList);
+	//testObject->Draw(cmdList);
 	player->Draw();
 	weapon->Draw();
 	boss->Draw();
@@ -990,7 +1005,8 @@ void GameScene::Draw()
 	ParticleManager::PreDraw(cmdList);
 	particleMan->Draw();
 	ParticleManager::PostDraw();
-	//effects->Draw(dxCommon);
+	effects->FwDraw(dxCommon);
+
 
 #pragma endregion
 
@@ -1018,8 +1034,8 @@ void GameScene::Draw()
 			pose_key->Draw();
 		}
 	}
-	
-	
+
+
 	// デバッグテキストの描画
 	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理

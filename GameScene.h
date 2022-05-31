@@ -94,8 +94,9 @@ private: //メンバ変数
 	//パーティクル
 	ParticleManager* particleMan = nullptr;
 
-	std::unique_ptr<Effects> effects = nullptr;
-	Effects* effect = nullptr;
+	/*std::unique_ptr<Effects>*/Effects* effects = nullptr;
+
+	bool isfirework = false;
 
 	//敵
 	//vector<Enemy*> enemys;
@@ -106,6 +107,8 @@ private: //メンバ変数
 	int soundNo = 0;
 	int seNo = 0;
 
+	bool fireFlag = false;
+	float fireTimer = 0;
 
 	bool LockFlag = false;
 	bool cameraFlag = false;

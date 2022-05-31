@@ -14,11 +14,11 @@ CollisionManager* CollisionManager::GetInstance()
 	return &instance;
 }
 
-void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], const KeyboardInput& input)
+void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], KeyboardInput* input, Player* player, DirectXCommon* dxCommon, Camera* camera, Effects* effects)
 {
 	std::forward_list<BaseCollider*>::iterator itA;
 	std::forward_list<BaseCollider*>::iterator itB;
-
+	
 	int i = 0;
 	//全ての組み合わせについて総当たりチェック
 	itA = colliders.begin();
@@ -89,7 +89,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 
 
 
-			if (attackFlag[PlayerAttack] || input.PressKey(DIK_R)) {
+			if (attackFlag[PlayerAttack] || input->PressKey(DIK_R)) {
 #pragma region ハンマーとボスの当たり判定
 				//プレイヤーとボスの頭
 				if (colA->tag == TagHead &&
@@ -101,6 +101,7 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
 						hit[WwaponToHead] = 1;
+						effects->FwUpdate(dxCommon, camera, player, input);
 					}
 				}
 				//プレイヤーとボスの体
@@ -113,6 +114,8 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], co
 					if (meshCollider->CheckCollisionSphere(*sphere, &inter))
 					{
 						hit[WwaponToBody] = 1;
+						//effects->FwUpdate(dxCommon, camera, player, input);
+						effects->FwDraw(dxCommon);
 					}
 				}
 				//プレイヤーとボスの右腕

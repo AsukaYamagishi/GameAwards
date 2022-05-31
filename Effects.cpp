@@ -2,29 +2,53 @@
 
 Effects::~Effects()
 {
-	delete effect;
+	delete firework;
 }
 
-void Effects::Initialize(DirectXCommon* dxCommon, Camera* camera)
+void Effects::FwInit(DirectXCommon* dxCommon, Camera* camera)
 {
 	//エフェクトのインスタンス生成
-	effect = new mEffekseer();
-
+	firework = new mEffekseer();
 	//エフェクトのセット
-	effect->EffekseerSetting(dxCommon, camera, (const EFK_CHAR*)L"Effects/10/SimpleLaser.efk", (const EFK_CHAR*)L"Effects");
+	firework->EffekseerSetting(dxCommon, camera, (const EFK_CHAR*)L"Effects/10/firework.efk", (const EFK_CHAR*)L"Effects/Texture");
 }
 
-void Effects::Update(DirectXCommon* dxCommon, Camera* camera, Player* player)
+void Effects::FwLoad(bool &isfirework)
 {
-	effect->SetPosition(player->GetPosX(), player->GetPosY(), player->GetPosZ());
-	//effect->SetRotation()
-	effect->Load_Effect();
-
-	effect->EffekseerUpdate(dxCommon, camera);
+	if (isfirework == true) {
+		fwFlag = true;
+	}
+	if (fwFlag == true) {
+		firework->Load_Effect();
+		fwFlag = false;
+		isfirework = false;
+	}
 }
 
-void Effects::Draw(DirectXCommon* dxCommon) 
-
+void Effects::FwUpdate(DirectXCommon* dxCommon, Camera* camera, Player* player, KeyboardInput* keyInput)
 {
-	effect->EffekseerDraw(dxCommon->GetCommandList());
+	//if (keyInput->PressKey(DIK_Z)) {
+	//	fireFlag = true;
+	//	fwFlag = true;
+	//}
+	//if (fireFlag == true) {
+	//	fireTimer++;
+	//	firework->SetPosition(player->GetPosX(), player->GetPosY(), player->GetPosZ());
+	//	firework->SetScale(2, 2, 2);
+	//	if (fireTimer >= 10) {
+	//		fireFlag = false;
+	//		fwFlag = false;
+	//		fireTimer = 0;
+	//	}
+	//}
+	firework->SetPosition(player->GetPosX(), player->GetPosY(), player->GetPosZ());
+	firework->SetScale(4, 4, 4);
+	firework->EffekseerUpdate(dxCommon, camera);
+}
+
+void Effects::FwDraw(DirectXCommon* dxCommon)
+{
+	//if (fireFlag == true) {
+		firework->EffekseerDraw(dxCommon->GetCommandList());
+	//}
 }
