@@ -55,6 +55,7 @@ void EndGame::Update()
 	number->SetSize({ 128, 128 });
 	number->SetTextureRect({ 0,0 }, { 32, 32 });
 	number->Update();
+	audio->SoundStop(audio->xAudio2.Get(), Audio::loop);
 }
 
 void EndGame::Draw(bool winjude)

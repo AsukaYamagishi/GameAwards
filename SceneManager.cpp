@@ -22,8 +22,10 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 	this->audio = audio;
 #pragma endregion
 
-	soundData = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
-	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);
+	soundData[0] = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0], Audio::loop, 0.2f);
+
+	soundData[1] = audio->SoundLoadWave("Resources/Sound/BGM/Boss_01.wav");
 
 	//各シーン生成/最初のシーン初期化
 	title = new Title();
@@ -134,6 +136,7 @@ void SceneManager::Update()
 				if (count >= 12)
 				{
 					audio->SoundStop(audio->xAudio2.Get(), Audio::loop);
+					audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1], Audio::loop, 0.2f);
 					sceneNo = gameScene;
 					alpha = 0;
 					titleGameFlag = false;

@@ -221,8 +221,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 	soundNo = 0;
 
-	soundData[0] = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
-	soundData[1] = audio->SoundLoadWave("Resources/Sound/BGM/Boss_01.wav");
+	/*soundData[0] = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/Sound/BGM/Boss_01.wav");*/
 	soundSE[0] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Boss01.wav");
 	soundSE[1] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Boss02.wav");
 	soundSE[2] = audio->SoundLoadWave("Resources/Sound/SE/Attacked_Player.wav");
@@ -230,7 +230,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	soundSE[4] = audio->SoundLoadWave("Resources/Sound/SE/Disassembly.wav");
 	soundSE[5] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Boss01.wav");
 	soundSE[6] = audio->SoundLoadWave("Resources/Sound/SE/WeaponAttack_Normal.wav");
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1], Audio::loop, 0.2f);
 
 #pragma endregion
 
@@ -776,30 +776,30 @@ bool GameScene::Update()
 #pragma endregion
 
 
-	if (keyInput->PressKeyTrigger(DIK_P)) {
-		audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
-		if (soundNo < 1) {
-			soundNo++;
-		}
-		else {
-			soundNo = 0;
-		}
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
-	}
-	if (bgmflag == false)
-	{
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
-		bgmflag = true;
-	}
-	if (keyInput->PressKeyTrigger(DIK_L)) {
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
-		if (seNo < 6) {
-			seNo++;
-		}
-		else {
-			seNo = 0;
-		}
-	}
+	//if (keyInput->PressKeyTrigger(DIK_P)) {
+	//	audio->SoundStop(audio->xAudio2.Get(), Audio::IsLoop::loop);
+	//	if (soundNo < 1) {
+	//		soundNo++;
+	//	}
+	//	else {
+	//		soundNo = 0;
+	//	}
+	//	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	//}
+	//if (bgmflag == false)
+	//{
+	//	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+	//	bgmflag = true;
+	//}
+	//if (keyInput->PressKeyTrigger(DIK_L)) {
+	//	audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
+	//	if (seNo < 6) {
+	//		seNo++;
+	//	}
+	//	else {
+	//		seNo = 0;
+	//	}
+	//}
 
 	//if (keyInput->PressKeyTrigger(DIK_K)) {
 	//	player->KnockBack();
