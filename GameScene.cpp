@@ -324,7 +324,7 @@ bool GameScene::Update()
 	if (player->attack)
 	{
 		if (hit[WwaponToHead] && boss->parthp[head] > 0) {
-			boss->HitDamage(head,boss->damage(damage));
+			boss->HitDamage(head, boss->damage(damage));
 			player->attack = false;
 			//particleMan->HitParticle();
 			isfirework = true;
@@ -431,7 +431,8 @@ bool GameScene::Update()
 
 		if (boss->head->GetOBJParent() == boss->boss) {
 			boss->head->SetOBJParent(nullptr);
-			boss->head->SetPos(boss->boss->GetPos());
+			boss->head->SetRotation({ 0.0f,0.0f,0.0f });
+			boss->head->SetPos({ boss->boss->GetPos().x,5.0f,boss->boss->GetPos().z });
 		}
 		if (boss->head->GetOBJParent() == nullptr) {
 			boss->Fall(head);
@@ -946,8 +947,13 @@ bool GameScene::Update()
 	attackFlag[BossPress] = boss->attackType;
 	attackFlag[BossBeam] = boss->attackType == AttackType::BEAM;
 	attackFlag[BossRush] = boss->attackType == AttackType::RUSH;
+	//突進の攻撃判定を短くするため
+	if (boss->GetAttackTime() > 70 || boss->GetAttackTime() < 60)
+	{
+		attackFlag[BossRush] = 0;
+	}
 	//全ての衝突をチェック
-	collisionManager->CheckAllCollision(hit, attackFlag, keyInput,player, dxCommon, camera, effects);
+	collisionManager->CheckAllCollision(hit, attackFlag, keyInput, player, dxCommon, camera, effects);
 
 
 
