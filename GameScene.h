@@ -109,6 +109,8 @@ private: //ƒƒ“ƒo•Ï”
 	int pressTimer = 0;
 	float pressRadius = 0;
 
+	bool fallFlag[6] = { 0 };
+
 	bool LockFlag = false;
 	bool cameraFlag = false;
 	float cameraAngle;

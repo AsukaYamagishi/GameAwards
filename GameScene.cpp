@@ -482,6 +482,12 @@ bool GameScene::Update()
 	//ƒp[ƒc—Ž‰ºˆ—
 	if (boss->parthp[head] <= 0)
 	{
+		if (fallFlag[0] == false)
+		{
+			//—Ž‚¿‚½’¼Œã‚Ìˆ—
+			fallFlag[0] = true;
+		}
+
 		if (boss->head->GetOBJParent() == boss->boss) {
 			boss->head->SetOBJParent(nullptr);
 			boss->head->SetPos(boss->boss->GetPos());
@@ -512,6 +518,12 @@ bool GameScene::Update()
 	}
 	if (boss->parthp[rightarm] <= 0)
 	{
+		if (fallFlag[2] == false)
+		{
+			//—Ž‚¿‚½’¼Œã‚Ìˆ—
+			fallFlag[2] = true;
+		}
+
 		if (boss->rightarm->GetOBJParent() == nullptr) {
 			boss->Fall(rightarm);
 			arrow[1]->SetRotation({ 90, 90, -90 + frame });
@@ -535,6 +547,12 @@ bool GameScene::Update()
 	}
 	if (boss->parthp[leftarm] <= 0)
 	{
+		if (fallFlag[3] == false)
+		{
+			//—Ž‚¿‚½’¼Œã‚Ìˆ—
+			fallFlag[3] = true;
+		}
+
 		if (boss->leftarm->GetOBJParent() == nullptr) {
 			boss->Fall(leftarm);
 
@@ -559,6 +577,12 @@ bool GameScene::Update()
 	}
 	if (boss->parthp[rightleg] <= 0)
 	{
+		if (fallFlag[4] == false)
+		{
+			//—Ž‚¿‚½’¼Œã‚Ìˆ—
+			fallFlag[4] = true;
+		}
+
 		if (boss->rightleg->GetOBJParent() == nullptr) {
 			boss->Fall(rightleg);
 			arrow[3]->SetRotation({ 90, 90, -90 + frame });
@@ -583,6 +607,12 @@ bool GameScene::Update()
 	}
 	if (boss->parthp[leftleg] <= 0)
 	{
+		if (fallFlag[5] == false)
+		{
+			//—Ž‚¿‚½’¼Œã‚Ìˆ—
+			fallFlag[5] = true;
+		}
+
 		if (boss->leftleg->GetOBJParent() == nullptr) {
 			boss->Fall(leftleg);
 			arrow[4]->SetRotation({ 90, 90, -90 + frame });
