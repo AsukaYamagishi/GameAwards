@@ -26,16 +26,38 @@ private:
 
 private:
 	mEffekseer* firework = nullptr;
+	mEffekseer* explosion = nullptr;
 
-	bool fireFlag = false;
-	float fireTimer = 0;
+	//火花関連のフラグ
 	bool fwFlag = false;
+
+	//爆破関連のフラグ
+	bool elFlag = false;
 
 public:
 	~Effects();
 
 public:
+
+	/// <summary>
+	/// 火花の初期化
+	/// </summary>
 	void FwInit(DirectXCommon* dxCommon, Camera* camera);
+
+	/// <summary>
+	/// 爆破の初期化
+	/// </summary>
+	void Elinit(DirectXCommon* dxCommon, Camera* camera);
+
+	/// <summary>
+	/// 火花のロード
+	/// </summary>
+	void FwLoad(bool& isfirework);
+
+	/// <summary>
+	/// 爆破のロード
+	/// </summary>
+	void ElLoad(bool& isexplosion);
 
 	/// <summary>
 	/// 火花の毎フレーム処理
@@ -43,13 +65,18 @@ public:
 	void FwUpdate(DirectXCommon* dxCommon, Camera* camera, Player* player, KeyboardInput* keyInput);
 
 	/// <summary>
+	/// 爆破の毎フレーム処理
+	/// </summary>
+	void ElUpdate(DirectXCommon* dxCommon, Camera* camera, Player* player, KeyboardInput* keyInput);
+
+	/// <summary>
 	/// 火花の描画処理
 	/// </summary>
 	void FwDraw(DirectXCommon* dxCommon);
 
 	/// <summary>
-	/// 火花のロード
+	/// 爆破の描画処理
 	/// </summary>
-	void FwLoad(bool &isfirework);
+	void ElDraw(DirectXCommon* dxCommon);
 };
 

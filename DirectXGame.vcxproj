@@ -166,6 +166,7 @@
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="Effects.h" />
+    <ClInclude Include="FPSLock.h" />
     <ClInclude Include="mEffekseer.h" />
     <ClInclude Include="FbxBaseCollider.h" />
     <ClInclude Include="FbxCollisionManager.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="Effects.cpp" />
+    <ClCompile Include="FPSLock.cpp" />
     <ClCompile Include="mEffekseer.cpp" />
     <ClCompile Include="FbxCollisionManager.cpp" />
     <ClCompile Include="FbxDraw.cpp" />

@@ -95,8 +95,10 @@ private: //ƒƒ“ƒo•Ï”
 	ParticleManager* particleMan = nullptr;
 
 	/*std::unique_ptr<Effects>*/Effects* effects = nullptr;
+	Effects* effects_2 = nullptr;
 
 	bool isfirework = false;
+	bool isexplosion = false;
 
 	//“G
 	//vector<Enemy*> enemys;
@@ -109,6 +111,8 @@ private: //ƒƒ“ƒo•Ï”
 
 	bool fireFlag = false;
 	float fireTimer = 0;
+
+	bool fallFlag[6] = { 0 };
 
 	bool LockFlag = false;
 	bool cameraFlag = false;

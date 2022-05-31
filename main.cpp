@@ -25,7 +25,7 @@
 #include "ModelManager.h"
 #include "FbxInput.h"
 #include "Camera.h"
-
+#include "FPSLock.h"	//FPSを固定
 
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"d3d12.lib")
@@ -89,6 +89,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ControllerInput* padInput = ControllerInput::GetInstance();
 	padInput->Init();
 
+	FPSLock fpsLock;
 	////DirectX初期化処理　ここまで
 
 
@@ -137,6 +138,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (true) //ゲームループ
 	{
+		fpsLock.Update();
 	#pragma region メッセージ確認
 		//メッセージがあるか
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))

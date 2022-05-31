@@ -98,10 +98,28 @@ Boss::Boss()
 	fbxLeftLeg->PlayAnimation(true);
 
 	fbxRightArmWarkModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm_walk");
-	fbxLeftArmWarkModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm_walk");
-	fbxRightArmPressModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm_Press");
-	fbxLeftArmPressModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm_Press");
+	fbxRightArmWalk = new FbxDraw();
+	fbxRightArmWalk->Init();
+	fbxRightArmWalk->SetModel(fbxRightArmWarkModel.get());
+	fbxRightArmWalk->PlayAnimation(true);
 
+	fbxLeftArmWarkModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm_walk");
+	fbxLeftArmWalk = new FbxDraw();
+	fbxLeftArmWalk->Init();
+	fbxLeftArmWalk->SetModel(fbxLeftArmWarkModel.get());
+	fbxLeftArmWalk->PlayAnimation(true);
+
+	fbxRightArmPressModel = FbxInput::GetInstance()->LoadFbxFromFile("Right_arm_Press");
+	fbxRightArmPress = new FbxDraw();
+	fbxRightArmPress->Init();
+	fbxRightArmPress->SetModel(fbxRightArmPressModel.get());
+	fbxRightArmPress->PlayAnimation(true);
+
+	fbxLeftArmPressModel = FbxInput::GetInstance()->LoadFbxFromFile("Left_arm_Press");
+	fbxLeftArmPress = new FbxDraw();
+	fbxLeftArmPress->Init();
+	fbxLeftArmPress->SetModel(fbxLeftArmPressModel.get());
+	fbxLeftArmPress->PlayAnimation(true);
 
 	fbxparantboss = new FbxDraw();
 	fbxparantboss->Init();
@@ -165,6 +183,22 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	fbxLeftLeg->SetScale(Vector3(0.01, 0.01, 0.01));
 	fbxLeftLeg->SetRotation(Vector3(0, 0, 0));
 	
+	fbxRightArmWalk->SetPosition(Vector3(0, 0, 0));
+	fbxRightArmWalk->SetScale(Vector3(0.01, 0.01, 0.01));
+	fbxRightArmWalk->SetRotation(Vector3(0, 0, 0));
+
+	fbxLeftArmWalk->SetPosition(Vector3(0, 0, 0.0));
+	fbxLeftArmWalk->SetScale(Vector3(0.01, 0.01, 0.01));
+	fbxLeftArmWalk->SetRotation(Vector3(0, 0, 0));
+
+	fbxRightArmPress->SetPosition(Vector3(0, 0, 0));
+	fbxRightArmPress->SetScale(Vector3(0.01, 0.01, 0.01));
+	fbxRightArmPress->SetRotation(Vector3(0, 0, 0));
+
+	fbxLeftArmPress->SetPosition(Vector3(0, 0, 0.0));
+	fbxLeftArmPress->SetScale(Vector3(0.01, 0.01, 0.01));
+	fbxLeftArmPress->SetRotation(Vector3(0, 0, 0));
+
 	fbxRightArm->Update();
 	fbxLeftArm->Update();
 	fbxRightLeg->Update();
@@ -178,6 +212,10 @@ void Boss::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audi
 	fbxLeftArm->SetOBJParent(boss);
 	fbxRightLeg->SetOBJParent(boss);
 	fbxLeftLeg->SetOBJParent(boss);
+	fbxLeftArmWalk->SetOBJParent(boss);
+	fbxRightArmWalk->SetOBJParent(boss);
+	fbxLeftArmPress->SetOBJParent(boss);
+	fbxRightArmPress->SetOBJParent(boss);
 
 	//fbxleftarm->SetPosition(Vector3(100.0f, 0.0f, 0.0f));
 
@@ -194,6 +232,10 @@ void Boss::Update()
 	fbxLeftArm->Update();
 	fbxRightLeg->Update();
 	fbxLeftLeg->Update();
+	fbxLeftArmWalk->Update();
+	fbxRightArmWalk->Update();
+	fbxLeftArmPress->Update();
+	fbxRightArmPress->Update();
 	fbxparantboss->Update();
 
 
@@ -244,9 +286,19 @@ void Boss::Update()
 		}
 
 		if (attackType == BEAM) {
+			fbxLeftArm->StopAnimation();
+			fbxRightArm->StopAnimation();
+			fbxLeftLeg->StopAnimation();
+			fbxRightLeg->StopAnimation();
+			fbxLeftArmWalk->StopAnimation();
+			fbxRightArmWalk->StopAnimation();
 			BeamAttack();
 		}
 		else if (attackType == PRESS) {
+			fbxLeftArm->StopAnimation();
+			fbxRightArm->StopAnimation();
+			fbxLeftLeg->StopAnimation();
+			fbxRightLeg->StopAnimation();
 			PressAttack();
 		}
 		else if (attackType == RUSH) {
@@ -275,7 +327,18 @@ void Boss::Draw()
 	ModelDraw::PreDraw(cmdList);
 	head->Draw();
 	body->Draw();
-	//rightarm->Draw();
+	if (rightarm->GetOBJParent() != boss) {
+		rightarm->Draw();
+	}
+	if (leftarm->GetOBJParent() != boss) {
+		leftarm->Draw();
+	}
+	if (rightleg->GetOBJParent() != boss) {
+		rightleg->Draw();
+	}
+	if (leftleg->GetOBJParent() != boss) {
+		leftleg->Draw();
+	}
 	//leftarm->Draw();
 	//rightleg->Draw();
 	//leftleg->Draw();
@@ -283,13 +346,37 @@ void Boss::Draw()
 		bullet->Draw();
 	}
 	if (shockFlag == true) {
-		//shockWave->Draw();
+		shockWave->Draw();
 	}
 	
-	fbxRightArm->Draw(cmdList);
-	fbxLeftArm->Draw(cmdList);
-	fbxRightLeg->Draw(cmdList);
-	fbxLeftLeg->Draw(cmdList);
+	if (noneLeg == false) {
+		if (rightarm->GetOBJParent() == boss) {
+			fbxLeftArm->Draw(cmdList);
+		}
+		if (leftarm->GetOBJParent() == boss) {
+			fbxRightArm->Draw(cmdList);
+		}
+		if (rightleg->GetOBJParent() == boss) {
+			fbxLeftLeg->Draw(cmdList);
+		}
+		if (leftleg->GetOBJParent() == boss) {
+			fbxRightLeg->Draw(cmdList);
+		}
+	}
+	else if (noneLeg == true) {
+		if (rightarm->GetOBJParent() == boss && attackType != PRESS) {
+			fbxLeftArmWalk->Draw(cmdList);
+		}
+		if (leftarm->GetOBJParent() == boss && attackType != PRESS) {
+			fbxRightArmWalk->Draw(cmdList);
+		}
+		if (rightarm->GetOBJParent() == boss && attackType == PRESS) {
+			fbxLeftArmPress->Draw(cmdList);
+		}
+		if (leftarm->GetOBJParent() == boss && attackType == PRESS) {
+			fbxRightArmPress->Draw(cmdList);
+		}
+	}
 
 	ModelDraw::PostDraw();
 }
@@ -519,6 +606,12 @@ void Boss::BeamAttack() {
 		coolTime = initAttack;
 		boss->SetPos(oldBossPos);
 		attackTime = initAttack;
+		fbxLeftArm->PlayAnimation();
+		fbxRightArm->PlayAnimation();
+		fbxLeftLeg->PlayAnimation();
+		fbxRightLeg->PlayAnimation();
+		fbxLeftArmWalk->PlayAnimation();
+		fbxRightArmWalk->PlayAnimation();
 		attackType = NONE;
 		attackFlag = false;
 	}
@@ -550,13 +643,22 @@ void Boss::PressAttack() {
 		shakePosX = oldBossPos.x + rand() % 4 - 2;
 		shakePosZ = oldBossPos.z + rand() % 4 - 2;
 		shockPos = boss->GetPos();
-		shockPos.y = shockPos.y - 4.0f;
+		if (noneLeg == false && noneLeftArm == false && noneRightArm == false) {
+			shockPos.y = shockPos.y - 4.0f;
+		}
+		if (noneLeftArm == true || noneRightArm == true) {
+			shockPos.y = 5.0f;
+		}
 		boss->SetPos(Vector3(shakePosX, oldBossPos.y, shakePosZ));
 		shockWave->SetPos(shockPos);
 	}
 	if (chargeTime <= timeOver) {
 		pressPower -= 0.5f;
 		pressPos.y += pressPower;
+		if (noneLeg == true) {
+			fbxLeftArmPress->PlayAnimation();
+			fbxRightArmPress->PlayAnimation();
+		}
 		if (shockFlag == false) {
 			boss->SetPos(pressPos);
 		}
@@ -584,6 +686,12 @@ void Boss::PressAttack() {
 		pressWaitTime = initPressWaitTime;
 		pressWaitFlag = false;
 		boss->SetPos(oldBossPos);
+		fbxLeftArm->PlayAnimation();
+		fbxRightArm->PlayAnimation();
+		fbxLeftLeg->PlayAnimation();
+		fbxRightLeg->PlayAnimation();
+		fbxLeftArmWalk->PlayAnimation();
+		fbxRightArmWalk->PlayAnimation();
 		attackType = NONE;
 		attackFlag = false;
 		shockFlag = false;
@@ -604,7 +712,9 @@ void Boss::PosCorrection() {
 	//¶‹r‚Æ‰E‹r‚ªŽæ‚ê‚Ä‚¢‚é‚Æ‚«
 	if (leftleg->GetOBJParent() != boss && rightleg->GetOBJParent() != boss && noneArm != true) {
 
-		noneLeg = true;
+		if (noneLeg == false) {
+			noneLeg = true;
+		}
 
 		if (correctionPos.y > -0.5f) {
 			correctionPos.y -= 0.5f;
@@ -617,9 +727,41 @@ void Boss::PosCorrection() {
 		correctionPos = boss->GetPos();
 	}
 
+	if (noneLeg == true && leftarm->GetOBJParent() != boss && noneArm == false) {
+		noneLeftArm = true;
+
+		if (correctionPos.y > -6.0f) {
+			correctionPos.y -= 0.5f;
+		}
+
+		if (attackFlag == false && attackType != PRESS) {
+			boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
+		}
+
+	}
+	else if (noneLeg == true && rightarm->GetOBJParent() != boss && noneArm == false) {
+		noneRightArm = true;
+
+		if (correctionPos.y > -6.0f) {
+			correctionPos.y -= 0.5f;
+		}
+
+		if (attackFlag == false && attackType != PRESS) {
+			boss->SetPos(Vector3(boss->GetPos().x, correctionPos.y, boss->GetPos().z));
+		}
+	}
+
 	if (noneLeg == true && leftarm->GetOBJParent() != boss && rightarm->GetOBJParent() != boss) {
 
 		noneArm = true;
+		if (noneLeftArm == true) {
+			noneLeftArm = false;
+			correctionPos.y = -1.0f;
+		}
+		if (noneRightArm == true) {
+			noneRightArm = false;
+			correctionPos.y = -1.0f;
+		}
 
 		if (correctionPos.y > -3.0f) {
 			correctionPos.y -= 0.5f;
