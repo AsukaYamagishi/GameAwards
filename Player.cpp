@@ -293,8 +293,8 @@ void Player::HitDamege() {
 }
 
 void Player::KnockBack() {
-	const float xSpeed = 2.0f;
-	const float ySpeed = 2.0f;
+	float xSpeed = 2.0f;
+	float ySpeed = 2.0f;
 	float jumpPower;
 
 	if (knockBackFlag == false) {
@@ -317,8 +317,15 @@ void Player::KnockBack() {
 	Vector3 knockBackVector = oldPlayerPos - playerFront;
 	Vector3 playerPos = player->GetPos();
 	//プレイヤーを後ろに下げる
-	playerPos.x = knockBackVector.x - xSpeed;
-	playerPos.z = knockBackVector.z - xSpeed;
+	playerPos.x -= xSpeed;
+	playerPos.z -= xSpeed;
+
+	Vector3 nowPos = playerPos - (knockBackVector * xSpeed);
+
+	if (nowPos == playerPos )
+	{
+		xSpeed = 0;
+	}
 
 	//Y軸の処理
 	jumpPower -= 0.5f;
