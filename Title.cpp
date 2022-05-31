@@ -77,8 +77,8 @@ void Title::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerInp
 #pragma region 音楽リソース初期設定
 
 
-	soundData = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);
+	/*soundData = audio->SoundLoadWave("Resources/Sound/BGM/Title.wav");
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData, Audio::loop, 0.2f);*/
 
 #pragma endregion
 	weaponFlag = false;
