@@ -798,14 +798,14 @@ bool GameScene::Update()
 		player->KnockBack();
 	}
 
-	if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == false) {
+	/*if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == false) {
 		LockFlag = true;
-	}
+	}*//*
 
-	else if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == true || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == true)
+	if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == true || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == true)
 	{
 		LockFlag = false;
-	}
+	}*/
 
 
 	//debugText.PrintDebugText("WASD:MOVE", 25, 15, 1.5f);
@@ -829,43 +829,46 @@ bool GameScene::Update()
 	//camera->target.y = 10.0f;
 	//testObject->Update();
 
-	XMFLOAT3 rote = player->GetNoAttackRotation();
-	XMFLOAT3 pos = player->player->GetPos();
-	XMVECTOR movement = { 0, 0, 1.0f, 0 };
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rote.y));
-	movement = XMVector3TransformNormal(movement, camera->matRot);
-
-	movement *= XMVECTOR{ -1, -1, -1 };
-	if (player->attack == false)
-	{
-		matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
-	}
-	camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
-	camera->eye.y = 20;
-	camera->target = player->player->GetPos();
-	//プレイヤーがジャンプした時視点だけ上に向くのを防止するための処理
-	camera->target.y = player->graundheight;
+	
 
 	if (LockFlag == true) {
 		cameraFlag = true;
-		camera->matRot = XMMatrixIdentity();
+		
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
-		float length = sqrtf(powf(dir.x, 2.0f) + powf(dir.y, 2.0f) + powf(dir.z, 2.0f));
-		Vector3 target = Vector3(dir.x / length, dir.y / length, dir.z / length);
-		/*dir.Normalize();
-		dir = dir * Vector3(1, 1, -1);*/
+		/*float length = sqrtf(powf(dir.x, 2.0f) + powf(dir.y, 2.0f) + powf(dir.z, 2.0f));
+		Vector3 target = Vector3(dir.x / length, dir.y / length, dir.z / length);*/
+		dir.Normalize();
+		dir = dir * Vector3(-1, -1, -1);
+		camera->eye = player->player->GetPos() + dir * XMVECTOR{ 100, 100, 100 };
 		camera->eye.y = player->graundheight;
 		camera->target.x = boss->body->GetPos().x;
-		camera->target.z = boss->body->GetPos().z + target.z;
+		camera->target.z = boss->body->GetPos().z;
 
-		if (camera->eye.z > 0)
+		if (camera->eye.z >= 0 && padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) == 0 || camera->eye.z >= 0 && padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) == 0)
 		{
 			camera->matRot = XMMatrixRotationY(160);
-			camera->eye = Vector3(player->player->GetPos().x, player->player->GetPos().y - target.y, player->player->GetPos().z + 100);
 		}
-		else {
-			camera->eye = Vector3(player->player->GetPos().x, player->player->GetPos().y - target.y, player->player->GetPos().z - 100);
+		else if(camera->eye.z < 0 && padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) == 0 || camera->eye.z < 0 && padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) == 0) {
+			camera->matRot = XMMatrixIdentity();
 		}
+	}
+	else {
+		XMFLOAT3 rote = player->GetNoAttackRotation();
+		XMFLOAT3 pos = player->player->GetPos();
+		XMVECTOR movement = { 0, 0, 1.0f, 0 };
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rote.y));
+		movement = XMVector3TransformNormal(movement, camera->matRot);
+
+		movement *= XMVECTOR{ -1, -1, -1 };
+		if (player->attack == false)
+		{
+			matRot = XMMatrixRotationY((XMConvertToRadians(rote.y)));
+		}
+		camera->eye = player->player->GetPos() + movement * XMVECTOR{ 100, 100, 100 };
+		camera->eye.y = 20;
+		camera->target = player->player->GetPos();
+		//プレイヤーがジャンプした時視点だけ上に向くのを防止するための処理
+		camera->target.y = player->graundheight;
 	}
 
 
