@@ -30,6 +30,7 @@ private: //メンバ変数
 	//ゲームシーン用
 	Sprite* spriteBG = nullptr;
 	Sprite* sprite1 = nullptr;
+	Sprite* number = nullptr;
 
 	//Audio::SoundData soundData[2];
 #pragma endregion

@@ -34,6 +34,7 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 		return;
 	}
 	Sprite::LoadTexture(3, L"Resources/sprite/failure.png");
+	Sprite::LoadTexture(20, L"Resources/sprite/number.png");
 	//// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 	spriteBG->SetSize({ 1280, 720 });
@@ -42,12 +43,18 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 	sprite1 = Sprite::CreateSprite(3, { 0.0f,0.0f });
 	sprite1->SetSize({ 1280, 720 });
 	sprite1->Update();
+
+	number = Sprite::CreateSprite(20, { 0.0f,0.0f });
+	number->Update();
+	
 #pragma endregion
 }
 
 void EndGame::Update()
 {
-	
+	number->SetSize({ 128, 128 });
+	number->SetTextureRect({ 0,0 }, { 32, 32 });
+	number->Update();
 }
 
 void EndGame::Draw(bool winjude)
@@ -67,6 +74,8 @@ void EndGame::Draw(bool winjude)
 	{
 		sprite1->Draw();
 	}
+
+	number->Draw();
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
