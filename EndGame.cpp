@@ -35,6 +35,8 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 	}
 	Sprite::LoadTexture(3, L"Resources/sprite/failure.png");
 	Sprite::LoadTexture(30, L"Resources/sprite/number.png");
+	Sprite::LoadTexture(31, L"Resources/sprite/lank.png");
+	Sprite::LoadTexture(32, L"Resources/sprite/comma.png");
 	//// 背景スプライト生成
 	spriteBG = Sprite::CreateSprite(2, { 0.0f,0.0f });
 	spriteBG->SetSize({ 1280, 720 });
@@ -46,6 +48,12 @@ void EndGame::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, ControllerI
 
 	number = Sprite::CreateSprite(30, { 0.0f,0.0f });
 	number->Update();
+
+	lank = Sprite::CreateSprite(31, { 0.0f,0.0f });
+	lank->Update();
+
+	comma = Sprite::CreateSprite(32, { 0.0f,0.0f });
+	comma->Update();
 	
 #pragma endregion
 }
@@ -56,6 +64,10 @@ void EndGame::Update()
 	number->SetTextureRect({ 0,0 }, { 32, 32 });
 	number->Update();
 	audio->SoundStop(audio->xAudio2.Get(), Audio::loop);
+
+	lank->SetSize({ 128, 128 });
+	lank->SetTextureRect({ 0,0 }, { 128, 128 });
+	lank->Update();
 }
 
 void EndGame::Draw(bool winjude)
@@ -111,7 +123,8 @@ void EndGame::Draw(bool winjude)
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
-
+	lank->Draw();
+	comma->Draw();
 	//AL3 1-2追加
 	//sprite1->Draw();
 	//sprite2->Draw();
