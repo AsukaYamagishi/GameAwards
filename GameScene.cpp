@@ -706,8 +706,8 @@ bool GameScene::Update()
 			boss->head->SetPos(Vector3(0, 0, 0));
 			boss->head->SetRotation(Vector3(0, 0, 0));
 			boss->head->SetOBJParent(player->player);
-			boss->head->SetPos(Vector3(5, -35, 0));
-			boss->head->SetRotation(Vector3(20, -90, 0));
+			boss->head->SetPos(Vector3(0, -34, -5));
+			boss->head->SetRotation(Vector3(0, -90, 0));
 			player->enemyWepon = true;
 			//球を拾ったフラグ
 			player->headFlag = true;
@@ -1132,7 +1132,7 @@ void GameScene::Draw()
 
 
 	// デバッグテキストの描画
-	debugText.DrawAll(cmdList);
+	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
