@@ -269,31 +269,15 @@ bool GameScene::Update()
 
 
 #pragma region 当たり判定
-	//Capsule capsule(Vector3(-5, +10, -30), Vector3(+5, -10, -20), 5, (0, 255, 255));
-	////体の各部位のカプセル
-	//Capsule headCapsule(Vector3(0, +50, 0), Vector3(0, 40, 0), 3, (0, 255, 255));
-	//Capsule bodyCapsule(Vector3(0, 50, 5), Vector3(0, 20, 5), 6, (0, 255, 255));
-	//Capsule rightAramCapsule(Vector3(-10, 50, 5), Vector3(-20, 5, -5), 5, (0, 255, 255));
-	//Capsule leftAramCapsule(Vector3(20, 50, 5), Vector3(20, 5, 20), 1, (0, 255, 255));
-	//Capsule rightLegCapsule(Vector3(-5, 20, 5), Vector3(-5, 0, 5), 1, (0, 255, 255));
-	//Capsule leftLegCapsule(Vector3(5, 20, 5), Vector3(+5, 0, 5), 1, (0, 255, 255));
-
-	////プレイヤーの攻撃範囲
-	//Vector3 startpoint = player->player->GetPos();
-	//Vector3 endpoint = player->player->GetPos() + Vector3(0.0f, 0.0f, 5.0f);
-	//Capsule attackCapsule(startpoint, endpoint, 3, (0, 255, 255));
-	int damage = 1;
+	int damage = 2;
 	//敵のパーツ保持中（今回は左腕）
 	if (player->enemyWepon == true)
 	{
-		/*endpoint = player->player->GetPos() + Vector3(0.0f, 0.0f, 80.0f);
-		attackCapsule.endPosition = endpoint;
-		attackCapsule.radius = 6;*/
-		damage = 3;
+		damage = 5;
 	}
 	else
 	{
-		damage = 1;
+		damage = 2;
 	}
 #pragma endregion
 	if (hit[headToPlayer])
@@ -303,12 +287,20 @@ bool GameScene::Update()
 
 #pragma region プレイヤーのダメージ処理
 	if (boss->GetAttackType() == AttackType::BEAM)
+	{
 		if (hit[BulletToPlayer]) {
 			player->HitDamege();
 			debugText.PrintDebugText("hit", 0, 0);
 		}
-
+	}
 	if (boss->GetAttackType() == AttackType::PRESS && boss->timer > 20)
+	{
+		if (hit[BossAttackToPlayer])
+		{
+			player->HitDamege();
+		}
+	}
+	if (boss->GetAttackType() == AttackType::RUSH)
 	{
 		if (hit[BossAttackToPlayer])
 		{
@@ -323,132 +315,35 @@ bool GameScene::Update()
 	if (player->attack)
 	{
 		if (hit[WwaponToHead] && boss->parthp[head] > 0) {
-			boss->HitDamage(head, damage);
+			boss->HitDamage(head,boss->damage(damage));
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		if (hit[WwaponToBody]) {
-			boss->HitDamage(body, damage);
+		else if (hit[WwaponToBody]) {
+			boss->HitDamage(body, boss->damage(damage));
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
-			boss->HitDamage(rightarm, damage);
+		else if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
+			boss->HitDamage(rightarm, boss->damage(damage));
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
-			boss->HitDamage(leftarm, damage);
+		else if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
+			boss->HitDamage(leftarm, boss->damage(damage));
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
-			boss->HitDamage(rightleg, damage);
+		else if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
+			boss->HitDamage(rightleg, boss->damage(damage));
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
-			boss->HitDamage(leftleg, damage);
+		else if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
+			boss->HitDamage(leftleg, boss->damage(damage));
 			player->attack = false;
 			particleMan->HitParticle();
 		}
-
-		/*if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
-		{
-			debugText.PrintDebugText("head", 0, 0);
-			boss->HitDamage(head, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(bodyCapsule, attackCapsule))
-		{
-			debugText.PrintDebugText("body", 0, 15);
-			boss->HitDamage(body, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
-		{
-			debugText.PrintDebugText("rightAram", 0, 30);
-			boss->HitDamage(rightarm, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
-		{
-			debugText.PrintDebugText("leftAram", 0, 45);
-			boss->HitDamage(leftarm, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(rightLegCapsule, attackCapsule) && boss->parthp[4] > 0)
-		{
-			debugText.PrintDebugText("rightLeg", 0, 60);
-			boss->HitDamage(rightleg, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(leftLegCapsule, attackCapsule) && boss->parthp[5] > 0)
-		{
-			debugText.PrintDebugText("leftLeg", 0, 75);
-			boss->HitDamage(leftleg, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (!player->oldattack){
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
-		}*/
-
-#pragma region メッシュとの
-		//頭
-		if (hit[Ghead] && boss->parthp[head] > 0)
-		{
-			debugText.PrintDebugText("head", 0, 0);
-			//boss->HitDamage(head, damage);
-			player->attack = false;
-			//particleMan->HitParticle();			
-		}
-		//体
-		if (hit[Gbody] && boss->parthp[body] > 0)
-		{
-			debugText.PrintDebugText("body", 0, 15);
-			//boss->HitDamage(body, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//右腕
-		if (hit[Grightarm] && boss->parthp[rightarm] > 0)
-		{
-			debugText.PrintDebugText("rightAram", 0, 30);
-			//boss->HitDamage(rightarm, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//左腕
-		if (hit[Gleftarm] && boss->parthp[leftarm] > 0)
-		{
-			debugText.PrintDebugText("leftAram", 0, 45);
-			//boss->HitDamage(leftarm, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//右足
-		if (hit[Grightleg] && boss->parthp[rightleg] > 0)
-		{
-			debugText.PrintDebugText("rightLeg", 0, 60);
-			//boss->HitDamage(rightleg, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//左足
-		if (hit[Gleftleg] && boss->parthp[leftleg] > 0)
-		{
-			debugText.PrintDebugText("leftLeg", 0, 75);
-			//boss->HitDamage(leftleg, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-#pragma endregion
 
 
 		if (!player->oldattack) {
@@ -992,7 +887,8 @@ bool GameScene::Update()
 
 	attackFlag[PlayerAttack] = player->attack;
 	attackFlag[BossPress] = boss->attackType;
-	attackFlag[BossBeam] = boss->attackType;
+	attackFlag[BossBeam] = boss->attackType == AttackType::BEAM;
+	attackFlag[BossRush] = boss->attackType == AttackType::RUSH;
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
 
@@ -1026,7 +922,7 @@ bool GameScene::Update()
 			a++;
 		}
 	}
-	else if(boss->attackType != AttackType::PRESS)
+	else if (boss->attackType != AttackType::PRESS)
 	{
 		pressRadius = 0;
 		pressTimer = 0;
@@ -1130,7 +1026,7 @@ void GameScene::Draw()
 
 
 	// デバッグテキストの描画
-	debugText.DrawAll(cmdList);
+	//debugText.DrawAll(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion

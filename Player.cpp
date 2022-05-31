@@ -79,7 +79,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 
 	//ジャンプ
 	Vector3 jumppos = player->GetPos();
-	if (jumppos.y <=graundheight)
+	if (jumppos.y <= graundheight)
 	{
 		jumpadd = initjumpNum;
 		//jumppos.y = graundheight;
@@ -190,12 +190,22 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 
 	Vector3 move = { forvardvec.m128_f32[0] * speed,forvardvec.m128_f32[1] * speed,forvardvec.m128_f32[2] * speed };
 
-	//プレイヤーがエリア外に出ないようにする
+	//プレイヤーがエリア外に出ないようにする	
 	Vector3 genten = { 0.0f, 0.0f, 0.0f };
 	float distance = 0.0f;
-	float distanceX = genten.x - (player->GetPos().x + move.x);
-	float distanceZ = genten.z - (player->GetPos().z + move.z);
-	distance = sqrtf((distanceX* distanceX) + (distanceZ * distanceZ));
+	float distanceX = genten.x - (player->GetPos().x);
+	float distanceZ = genten.z - (player->GetPos().z);
+	distance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
+	//ノックバックで吹っ飛ばされてた時の対処で、吹き飛ばされる前の座標に戻す
+	if (distance > 960.0f) {
+		player->SetPos({ oldPlayerPos2.x, player->GetPos().y, oldPlayerPos2.z });
+	}
+
+	//移動でエリア外に行かないようにする
+	distance = 0.0f;
+	distanceX = genten.x - (player->GetPos().x + move.x);
+	distanceZ = genten.z - (player->GetPos().z + move.z);
+	distance = sqrtf((distanceX * distanceX) + (distanceZ * distanceZ));
 	if (distance > 960.0f) { move = { 0.0f,0.0f,0.0f }; }
 
 	player->SetPos(player->GetPos() + move);
@@ -203,7 +213,8 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 		float buff = atan2f(playermatrot.m128_f32[0], playermatrot.m128_f32[2]);
 		player->SetRotation(XMFLOAT3(0, buff * 180.0f / 3.14f, 0));
 	}
-	
+	//エリア内にいるプレイヤーの座標を保持（ノックバックで吹っ飛ばされたと起用）
+	oldPlayerPos2 = player->GetPos();
 
 
 #pragma endregion
@@ -230,7 +241,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			attacktorota += Vector3(0.0f, 5.0f, 0.0f);
 			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
 				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D) ||
-				padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 || 
+				padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 ||
 				padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) != 0) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
@@ -238,7 +249,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 				player->SetRotation(player->GetRotation() + Vector3(0.0f, 5.0f, 0.0f));
 			}
 
-		
+
 		}
 		else if (attacktime >= 30 && attacktime < 59)
 		{
@@ -246,7 +257,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			attacktorota += Vector3(0.0f, -5.0f, 0.0f);
 			if (keyInput->PressKey(DIK_W) || keyInput->PressKey(DIK_S) ||
 				keyInput->PressKey(DIK_A) || keyInput->PressKey(DIK_D) ||
-				padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 || 
+				padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 ||
 				padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) != 0) {
 				player->SetRotation(player->GetRotation() + attacktorota);
 			}
@@ -279,7 +290,7 @@ void Player::Draw()
 	player->Draw();
 	bullet->Draw();
 	if (attack == true && headFlag == true) {
-		
+
 	}
 	ModelDraw::PostDraw();
 }
@@ -312,7 +323,7 @@ void Player::KnockBack() {
 	matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
 
 	XMVECTOR playerFront = oldPlayerPos + movement * XMVECTOR{ 50, 50, 50 };
-	
+
 	//プレイヤーの少し前からプレイヤーへのベクトルを求める
 	Vector3 knockBackVector = oldPlayerPos - playerFront;
 	Vector3 playerPos = player->GetPos();
