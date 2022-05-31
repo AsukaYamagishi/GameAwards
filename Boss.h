@@ -157,6 +157,8 @@ private:
 	float shakePosZ = 0.0f;
 	bool noneLeg = false;
 	bool noneArm = false;
+	bool noneLeftArm = false;
+	bool noneRightArm = false;
 	//ƒr[ƒ€UŒ‚—p•Ï”
 	Vector3 bulletPos = { 0, 0, 0 };
 	Vector3 bulletScale = { 0, 0, 0 };
