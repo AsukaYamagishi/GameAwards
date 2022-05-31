@@ -73,6 +73,7 @@ private:
 	float jumpadd = initjumpNum;
 	float gravity = 0;
 	Vector3 oldPlayerPos = { 0, 0, 0 };
+	Vector3 oldPlayerPos2 = { 0, 0, 0 };	//エリアないにとどめる用のold変数
 	Vector3 testPos = { 0, 0, 0 };
 	Vector3 playerFront = { 0, 0, 0 };
 	Vector3 bulletPos = { 0, 0, 0 };

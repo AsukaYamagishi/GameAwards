@@ -96,8 +96,8 @@ public:
 	ModelDraw* rightarm = nullptr;
 	ModelDraw* leftleg = nullptr;
 	ModelDraw* rightleg = nullptr;
-	
-	
+
+
 
 	FbxDraw* fbxparantboss = nullptr;
 
@@ -125,9 +125,9 @@ public:
 	std::unique_ptr<FbxModel> fbxLeftArmPressModel;
 
 
-	const int maxhp = 18;
+	const int maxhp = 30;
 	int hp = maxhp;
-	int parthp[6] = { 3,3,3,3,3,3 };
+	int parthp[6] = { maxhp / 6,maxhp / 6,maxhp / 6,maxhp / 6,maxhp / 6,maxhp / 6 };
 	float angle = 0.0f;
 	float watch = 0.0f;
 	float watchB = 0.0f;
@@ -136,11 +136,11 @@ public:
 
 	int timer = 0;
 private:
-	DirectXCommon *dxCommon = nullptr;
-	KeyboardInput *input = nullptr;
-	Audio *audio = nullptr;
-	ModelDraw *player = nullptr;
-	ModelDraw *bullet = nullptr;
+	DirectXCommon* dxCommon = nullptr;
+	KeyboardInput* input = nullptr;
+	Audio* audio = nullptr;
+	ModelDraw* player = nullptr;
+	ModelDraw* bullet = nullptr;
 	ModelDraw* shockWave = nullptr;
 	//プレイヤーへの移動速度の割合
 	float move = 128.0f;
@@ -173,7 +173,7 @@ private:
 	bool pressWaitFlag = false;
 	//突進攻撃用変数
 	int rushCount = 0;
-	
+
 	//SE用変数
 	Audio::SoundData soundSE[2];
 };

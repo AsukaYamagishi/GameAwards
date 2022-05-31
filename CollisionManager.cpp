@@ -520,6 +520,35 @@ void CollisionManager::CheckAllCollision(bool hit[], const bool attackFlag[], Ke
 #pragma endregion
 			//}
 
+			//ボスの突進とプレイヤーの当たり判定
+				if (attackFlag[BossRush])
+				{
+					//ボスの攻撃とプレイヤー
+					if (colA->tag == TagHead &&
+						colB->tag == TagPlayer)
+					{
+						MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
+						Sphere* sphere = dynamic_cast<Sphere*>(colB);
+						DirectX::XMVECTOR inter;
+						if (meshCollider->CheckCollisionSphere(*sphere, &inter))
+						{
+							hit[BossAttackToPlayer] = 1;
+						}
+					}
+					//ボスの攻撃とプレイヤー
+					if (colA->tag == TagBody &&
+						colB->tag == TagPlayer)
+					{
+						MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
+						Sphere* sphere = dynamic_cast<Sphere*>(colB);
+						DirectX::XMVECTOR inter;
+						if (meshCollider->CheckCollisionSphere(*sphere, &inter))
+						{
+							hit[BossAttackToPlayer] = 1;
+						}
+					}
+				}
+
 			if (attackFlag[BossBeam]) {
 #pragma region ボスの球とプレイヤー
 				//ボスの球とプレイヤー
