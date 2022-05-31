@@ -51,5 +51,6 @@ enum AttackFlagNum
 {
 	PlayerAttack,
 	BossBeam,
-	BossPress
+	BossPress,
+	BossRush
 };
