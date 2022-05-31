@@ -13,6 +13,12 @@ Player::Player()
 	player->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Player));
 	bullet = ModelDraw::Create();
 	bullet->SetModel(ModelManager::GetIns()->GetModel(ModelManager::Bullet));
+
+	playerWalkModel = FbxInput::GetInstance()->LoadFbxFromFile("Player_walk");
+	playerWalk = new FbxDraw();
+	playerWalk->Init();
+	playerWalk->SetModel(playerWalkModel.get());
+	playerWalk->PlayAnimation(true);
 }
 
 Player::~Player()
@@ -36,6 +42,7 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* keyInput, Contro
 
 	player->SetScale(Vector3(1, 1, 1));
 	player->SetPos(Vector3(0, 5, -100));
+	playerWalk->SetScale(Vector3(0.01f, 0.01f, 0.01f));
 	bullet->SetScale(Vector3(10, 10, 10));
 	bullet->SetPos(Vector3(10, -100, 10));
 
@@ -119,24 +126,24 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 
 	XMVECTOR forvardvec = {};
 
-	bool isinput = false;
+	isWalk = false;
 
 	if (knockBackFlag == false) {
 		if (keyInput->PressKey(DIK_W)) {
 			forvardvec.m128_f32[2] += 1;
-			isinput = true;
+			isWalk = true;
 		}
 		else if (keyInput->PressKey(DIK_S)) {
 			forvardvec.m128_f32[2] -= 1;
-			isinput = true;
+			isWalk = true;
 		}
 		if (keyInput->PressKey(DIK_A)) {
 			forvardvec.m128_f32[0] -= 1;
-			isinput = true;
+			isWalk = true;
 		}
 		if (keyInput->PressKey(DIK_D)) {
 			forvardvec.m128_f32[0] += 1;
-			isinput = true;
+			isWalk = true;
 		}
 
 		if (padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) != 0 || padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) != 0)
@@ -144,7 +151,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 			forvardvec.m128_f32[0] += 1.0f * (padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) / 1000);
 			forvardvec.m128_f32[2] += 1.0f * -(padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) / 1000);
 
-			isinput = true;
+			isWalk = true;
 		}
 	}
 
@@ -199,7 +206,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 	if (distance > 960.0f) { move = { 0.0f,0.0f,0.0f }; }
 
 	player->SetPos(player->GetPos() + move);
-	if (isinput) {
+	if (isWalk) {
 		float buff = atan2f(playermatrot.m128_f32[0], playermatrot.m128_f32[2]);
 		player->SetRotation(XMFLOAT3(0, buff * 180.0f / 3.14f, 0));
 	}
@@ -266,6 +273,10 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 		damageCoolTime--;
 	}
 
+	playerWalk->SetPosition(player->GetPos());
+	playerWalk->SetRotation(player->GetRotation());
+
+	playerWalk->Update();
 	player->Update();
 	bullet->Update();
 }
@@ -276,23 +287,29 @@ void Player::Draw()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 	ModelDraw::PreDraw(cmdList);
-	player->Draw();
 	bullet->Draw();
+
+	if (isWalk == false) {
+		player->Draw();
+	}
+	else {
+		playerWalk->Draw(cmdList);
+	}
 	if (attack == true && headFlag == true) {
 		
 	}
 	ModelDraw::PostDraw();
 }
 
-void Player::HitDamege() {
+void Player::HitDamege(Vector3 bossPos) {
 	if (damageCoolTime <= 0) {
 		hp -= 1;
 		damageCoolTime = 100.0f;
-		KnockBack();
+		KnockBack(bossPos);
 	}
 }
 
-void Player::KnockBack() {
+void Player::KnockBack(Vector3 bossPos) {
 	const float xSpeed = 2.0f;
 	const float ySpeed = 2.0f;
 	float jumpPower;
@@ -302,29 +319,19 @@ void Player::KnockBack() {
 		knockBackFlag = true;
 		jumpPower = 5.0f;
 	}
-
-	//プレイヤーの正面から少し前を求める
-	XMVECTOR movement = { 0, 0, 1.0f, 0 };
-	XMMATRIX matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
-	movement = XMVector3TransformNormal(movement, matRot);
-
-	movement *= XMVECTOR{ -1, -1, -1 };
-	matRot = XMMatrixRotationY((XMConvertToRadians(player->GetRotation().y)));
-
-	XMVECTOR playerFront = oldPlayerPos + movement * XMVECTOR{ 50, 50, 50 };
 	
 	//プレイヤーの少し前からプレイヤーへのベクトルを求める
-	Vector3 knockBackVector = oldPlayerPos - playerFront;
-	Vector3 playerPos = player->GetPos();
+	Vector3 knockBackVector = bossPos - oldPlayerPos;
+	//Vector3 playerPos = player->GetPos();
 	//プレイヤーを後ろに下げる
-	playerPos -= knockBackVector * xSpeed;
+	oldPlayerPos -= knockBackVector * xSpeed;
 
 	//Y軸の処理
 	jumpPower -= 0.5f;
 
-	playerPos.y += jumpPower;
+	oldPlayerPos.y += jumpPower;
 
-	player->SetPos(playerPos);
+	player->SetPos(oldPlayerPos);
 	knockBackFlag = false;
 }
 
@@ -332,7 +339,7 @@ void Player::KnockBack() {
 
 void Player::BeamAttack() {
 	//説明変数
-	const float shotSpeed = 10.0f;
+	const float shotSpeed = 20.0f;
 
 	//ボスの正面から少し前を求める
 	XMVECTOR movement = { 0, 0, 1.0f, 0 };

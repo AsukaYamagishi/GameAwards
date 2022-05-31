@@ -303,7 +303,7 @@ bool GameScene::Update()
 #pragma region プレイヤーのダメージ処理
 	if (boss->GetAttackType() == AttackType::BEAM)
 		if (hit[BulletToPlayer]) {
-			player->HitDamege();
+			player->HitDamege(boss->boss->GetPos());
 			debugText.PrintDebugText("aaaaaaaaaaaaaaaaitaiiiiiiiiiiiiiiiii", 0, 0);
 		}
 
@@ -311,7 +311,7 @@ bool GameScene::Update()
 	{
 		if (hit[BossAttackToPlayer])
 		{
-			player->HitDamege();
+			player->HitDamege(boss->boss->GetPos());
 		}
 	}
 
@@ -817,9 +817,9 @@ bool GameScene::Update()
 		}
 	}
 
-	if (keyInput->PressKeyTrigger(DIK_K)) {
-		player->KnockBack();
-	}
+	//if (keyInput->PressKeyTrigger(DIK_K)) {
+	//	player->KnockBack();
+	//}
 
 	/*if (keyInput->PressKeyTrigger(DIK_H) && LockFlag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_X) && LockFlag == false) {
 		LockFlag = true;
