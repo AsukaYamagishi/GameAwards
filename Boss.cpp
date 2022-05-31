@@ -244,14 +244,14 @@ void Boss::Update()
 	const float beamRange = 60.0f;
 	const float pressRange = 0.0f;
 	//デバッグ用に0キーを押すとボスの動きが止まる
-	if (input->PressKeyTrigger(DIK_0)) {
-		if (stopFlag == false) {
-			stopFlag = true;
-		}
-		else {
-			stopFlag = false;
-		}
-	}
+	//if (input->PressKeyTrigger(DIK_0)) {
+	//	if (stopFlag == false) {
+	//		stopFlag = true;
+	//	}
+	//	else {
+	//		stopFlag = false;
+	//	}
+	//}
 
 	//クールタイムを減算し続ける
 	coolTime -= 1.0f;

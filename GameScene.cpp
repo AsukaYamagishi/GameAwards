@@ -587,23 +587,23 @@ bool GameScene::Update()
 	}
 
 	//デバッグ用にパーツに直接ダメージ
-	if (keyInput->PressKeyTrigger(DIK_1))
-	{
-		boss->parthp[rightarm]--;
-	}
-	if (keyInput->PressKeyTrigger(DIK_2))
-	{
-		boss->parthp[leftarm]--;
-		particleMan->HitParticle();
-	}
-	if (keyInput->PressKeyTrigger(DIK_3))
-	{
-		boss->parthp[rightleg]--;
-	}
-	if (keyInput->PressKeyTrigger(DIK_4))
-	{
-		boss->parthp[leftleg]--;
-	}
+	//if (keyInput->PressKeyTrigger(DIK_1))
+	//{
+	//	boss->parthp[rightarm]--;
+	//}
+	//if (keyInput->PressKeyTrigger(DIK_2))
+	//{
+	//	boss->parthp[leftarm]--;
+	//	particleMan->HitParticle();
+	//}
+	//if (keyInput->PressKeyTrigger(DIK_3))
+	//{
+	//	boss->parthp[rightleg]--;
+	//}
+	//if (keyInput->PressKeyTrigger(DIK_4))
+	//{
+	//	boss->parthp[leftleg]--;
+	//}
 #pragma endregion
 
 #pragma region HPバーのサイズ
@@ -994,7 +994,7 @@ bool GameScene::Update()
 
 	//return false;
 	//ボスが死んだらエンドシーンに移行
-	if (keyInput->PressKeyTrigger(DIK_END) || boss->hp <= 0 || player->hp <= 0)
+	if (boss->hp <= 0 || player->hp <= 0)
 	{
 		gameFlag = true;
 		if (boss->hp <= 0)

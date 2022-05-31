@@ -188,12 +188,12 @@ void SceneManager::Update()
 	}
 
 	//ゲームシーンデバッグ用
-	if (keyInput->PressKeyTrigger(DIK_M))
-	{
-		game->Finalize();
-		game->Init(dxCommon, keyInput, padInput, audio);
-		sceneNo = gameScene;
-	}
+	//if (keyInput->PressKeyTrigger(DIK_M))
+	//{
+	//	game->Finalize();
+	//	game->Init(dxCommon, keyInput, padInput, audio);
+	//	sceneNo = gameScene;
+	//}
 
 #pragma region シーンアップデート
 	
