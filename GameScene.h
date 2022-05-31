@@ -106,11 +106,14 @@ private: //メンバ変数
 	int soundNo = 0;
 	int seNo = 0;
 
+	int pressTimer = 0;
+	float pressRadius = 0;
 
 	bool LockFlag = false;
 	bool cameraFlag = false;
 	float cameraAngle;
 
+	bool bgmflag = false;
 public:
 	//ゲームシーン終了用
 	bool gameFlag = false;

@@ -85,7 +85,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 		//jumppos.y = graundheight;
 		jumpflag = false;
 	}
-	if ((keyInput->PressKey(DIK_LSHIFT) || padInput->IsPadButtonTrigger(XBOX_INPUT_A)) && jumppos.y <= graundheight) {
+	if ((keyInput->PressKey(DIK_UP) || padInput->IsPadButtonTrigger(XBOX_INPUT_A)) && jumppos.y <= graundheight) {
 		jumpflag = true;
 	}
 	//ジャンプフラグがあったら加算させて上昇させる

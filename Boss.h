@@ -131,7 +131,7 @@ public:
 	float angle = 0.0f;
 	float watch = 0.0f;
 	float watchB = 0.0f;
-	bool stopFlag = true;
+	bool stopFlag = false;
 	int attackType = NONE;
 
 	int timer = 0;

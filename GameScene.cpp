@@ -9,6 +9,7 @@
 #include"CollisionTypes.h"
 #include"FbxMeshCollider.h"
 #include "FbxSphereCollider.h"
+#include "SphereCollider.h"
 
 using namespace DirectX;
 enum mesh
@@ -130,8 +131,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	playerHP = Sprite::CreateSprite(4, { 1070, 522 });
 	controler_rule = Sprite::CreateSprite(5, { 0,0 });
 	ketboard_rule = Sprite::CreateSprite(6, { 0,0 });
-	pose= Sprite::CreateSprite(7, { 1130,0 });
-	pose_key= Sprite::CreateSprite(8, { 1130,-10 });
+	pose = Sprite::CreateSprite(7, { 1130,0 });
+	pose_key = Sprite::CreateSprite(8, { 1130,-10 });
 #pragma endregion
 	//デバイスをセット
 	FbxDraw::SetDevice(dxCommon->GetDevice());
@@ -176,8 +177,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 	{
 		arrow[i] = ModelDraw::Create();
 		arrow[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::arrow));
-		arrow[i]->SetRotation({90, 90, -90});
-		arrow[i]->SetScale({7,7,7});
+		arrow[i]->SetRotation({ 90, 90, -90 });
+		arrow[i]->SetScale({ 7,7,7 });
 		DrawFlag[i] = false;
 		frame = 0;
 		downTimer[i] = 0;
@@ -185,7 +186,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* keyInput, Controlle
 
 	//プレイヤーなど生成
 	player = new Player();
-	player->Initialize(dxCommon, keyInput,padInput, audio);
+	player->Initialize(dxCommon, keyInput, padInput, audio);
 
 	boss = new Boss();
 	boss->Initialize(dxCommon, keyInput, audio, player->player);
@@ -304,7 +305,7 @@ bool GameScene::Update()
 	if (boss->GetAttackType() == AttackType::BEAM)
 		if (hit[BulletToPlayer]) {
 			player->HitDamege();
-			debugText.PrintDebugText("aaaaaaaaaaaaaaaaitaiiiiiiiiiiiiiiiii", 0, 0);
+			debugText.PrintDebugText("hit", 0, 0);
 		}
 
 	if (boss->GetAttackType() == AttackType::PRESS && boss->timer > 20)
@@ -399,7 +400,7 @@ bool GameScene::Update()
 		}*/
 
 #pragma region メッシュとの
-			//頭
+		//頭
 		if (hit[Ghead] && boss->parthp[head] > 0)
 		{
 			debugText.PrintDebugText("head", 0, 0);
@@ -536,7 +537,7 @@ bool GameScene::Update()
 	{
 		if (boss->leftarm->GetOBJParent() == nullptr) {
 			boss->Fall(leftarm);
-			
+
 			arrow[2]->SetRotation({ 90, 90, -90 + frame });
 			DrawFlag[2] = true;
 
@@ -544,7 +545,7 @@ bool GameScene::Update()
 
 			if (downTimer[2] >= 50)
 			{
-				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 40 - (downTimer[2] / 10), arrowPos[2].z + 10});
+				arrow[2]->SetPos({ arrowPos[2].x - 10, arrowPos[2].y + 40 - (downTimer[2] / 10), arrowPos[2].z + 10 });
 				downTimer[2] = 0;
 			}
 			else {
@@ -567,11 +568,11 @@ bool GameScene::Update()
 
 			if (downTimer[3] >= 50)
 			{
-				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40 - (downTimer[3] / 10), arrowPos[3].z});
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 40 - (downTimer[3] / 10), arrowPos[3].z });
 				downTimer[3] = 0;
 			}
 			else {
-				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z});
+				arrow[3]->SetPos({ arrowPos[3].x - 10, arrowPos[3].y + 35 + (downTimer[3] / 10), arrowPos[3].z });
 			}
 		}
 		if (boss->rightleg->GetOBJParent() == boss->boss) {
@@ -644,7 +645,7 @@ bool GameScene::Update()
 
 #pragma region 部位の取得
 	if (keyInput->PressKeyTrigger(DIK_E) && player->enemyWepon == false || padInput->IsPadButtonTrigger(XBOX_INPUT_Y) && player->enemyWepon == false) {
-		
+
 		//頭とプレイヤーの距離
 		float distanceX = boss->head->GetPos().x - 5.0f - player->player->GetPos().x;
 		float distanceZ = boss->head->GetPos().z - player->player->GetPos().z;
@@ -671,7 +672,7 @@ bool GameScene::Update()
 		if (hit[WwaponToBody]) {
 			//ボディが壊れたらボス死亡
 		}
-		if (hit[PlayerToHead] && boss->parthp[head] <= 0 && boss->head->GetOBJParent() == nullptr&& player->enemyWepon == false) {
+		if (hit[PlayerToHead] && boss->parthp[head] <= 0 && boss->head->GetOBJParent() == nullptr && player->enemyWepon == false) {
 			boss->head->SetPos(Vector3(0, 0, 0));
 			boss->head->SetRotation(Vector3(0, 0, 0));
 			boss->head->SetOBJParent(player->player);
@@ -681,7 +682,7 @@ bool GameScene::Update()
 			//球を拾ったフラグ
 			player->headFlag = true;
 		}
-		if (hit[PlayerToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetOBJParent() == nullptr&& player->enemyWepon == false) {
+		if (hit[PlayerToRightArm] && boss->parthp[rightarm] <= 0 && boss->rightarm->GetOBJParent() == nullptr && player->enemyWepon == false) {
 			boss->rightarm->SetPos(Vector3(0, 0, 0));
 			boss->rightarm->SetRotation(Vector3(0, 0, 0));
 			boss->rightarm->SetOBJParent(player->player);
@@ -806,7 +807,11 @@ bool GameScene::Update()
 		}
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
 	}
-
+	if (bgmflag == false)
+	{
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[soundNo], Audio::loop, 0.2f);
+		bgmflag = true;
+	}
 	if (keyInput->PressKeyTrigger(DIK_L)) {
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[seNo]);
 		if (seNo < 6) {
@@ -852,11 +857,11 @@ bool GameScene::Update()
 	//camera->target.y = 10.0f;
 	//testObject->Update();
 
-	
+
 
 	if (LockFlag == true) {
 		cameraFlag = true;
-		
+
 		Vector3 dir = boss->body->GetPos() - player->player->GetPos();
 		/*float length = sqrtf(powf(dir.x, 2.0f) + powf(dir.y, 2.0f) + powf(dir.z, 2.0f));
 		Vector3 target = Vector3(dir.x / length, dir.y / length, dir.z / length);*/
@@ -871,7 +876,7 @@ bool GameScene::Update()
 		{
 			camera->matRot = XMMatrixRotationY(160);
 		}
-		else if(camera->eye.z < 0 && padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) == 0 || camera->eye.z < 0 && padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) == 0) {
+		else if (camera->eye.z < 0 && padInput->IsPadStick(INPUT_AXIS_LX, 0.1f) == 0 || camera->eye.z < 0 && padInput->IsPadStick(INPUT_AXIS_LY, 0.1f) == 0) {
 			camera->matRot = XMMatrixIdentity();
 		}
 	}
@@ -931,7 +936,7 @@ bool GameScene::Update()
 		pose_key->Update();
 		effects->Update(dxCommon, camera, player);
 	}
-	
+
 #pragma region デバッグテキスト設定
 	//int型からatr型へ変換
 	std::ostringstream oss;
@@ -960,6 +965,42 @@ bool GameScene::Update()
 	attackFlag[BossBeam] = boss->attackType;
 	//全ての衝突をチェック
 	collisionManager->CheckAllCollision(hit, attackFlag, *keyInput);
+
+
+
+
+	//プレスの当たり判定
+	if (boss->attackType == AttackType::PRESS && pressTimer < 80)
+	{
+		pressTimer++;
+		pressRadius += 0.55f;
+		if (pressRadius >= 50)
+		{
+			pressRadius = 0;
+		}
+		Sphere plessSphere;
+		plessSphere.center = boss->boss->GetPos();
+		plessSphere.radius = pressRadius;
+		Sphere playerSphere;
+		playerSphere.center = player->player->GetPos();
+		playerSphere.radius = 1;
+		if (Collision::IsBallToBallCollision(plessSphere, playerSphere))
+		{
+			//プレイヤーが地面についていたらダメージ
+			if (player->player->GetPos().y <= 5)
+			{
+				hit[BossAttackToPlayer] = true;
+				debugText.PrintDebugText("press", 500, 100);
+			}
+			int a = 0;
+			a++;
+		}
+	}
+	else if(boss->attackType != AttackType::PRESS)
+	{
+		pressRadius = 0;
+		pressTimer = 0;
+	}
 	//fbxcollisionManager->CheckAllCollision(hit);
 
 	//return false;
@@ -1056,10 +1097,10 @@ void GameScene::Draw()
 			pose_key->Draw();
 		}
 	}
-	
-	
+
+
 	// デバッグテキストの描画
-	//debugText.DrawAll(cmdList);
+	debugText.DrawAll(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
