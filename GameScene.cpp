@@ -280,8 +280,20 @@ bool GameScene::Update()
 #pragma region 当たり判定
 	int damage = 2;
 	//敵のパーツ保持中（今回は左腕）
-	if (player->enemyWepon == true)
+	if (player->enemyWepon == true && boss->leftleg->GetOBJParent() == player->player)
 	{
+		damage = 5;
+	}
+	else if (player->enemyWepon == true && boss->rightleg->GetOBJParent() == player->player) {
+		damage = 5;
+	}
+	else if (player->enemyWepon == true && boss->leftarm->GetOBJParent() == player->player) {
+		damage = 10;
+	}
+	else if (player->enemyWepon == true && boss->rightarm->GetOBJParent() == player->player) {
+		damage = 10;
+	}
+	else if (player->enemyWepon == true && boss->head->GetOBJParent() == player->player) {
 		damage = 5;
 	}
 	else

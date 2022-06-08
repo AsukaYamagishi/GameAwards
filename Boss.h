@@ -125,9 +125,9 @@ public:
 	std::unique_ptr<FbxModel> fbxLeftArmPressModel;
 
 
-	const int maxhp = 30;
+	const int maxhp = 200;
 	int hp = maxhp;
-	int parthp[6] = { maxhp / 6,maxhp / 6,maxhp / 6,maxhp / 6,maxhp / 6,maxhp / 6 };
+	int parthp[6] = { maxhp / 4,maxhp / 6,maxhp / 5,maxhp / 5,maxhp / 10,maxhp / 10 };
 	float angle = 0.0f;
 	float watch = 0.0f;
 	float watchB = 0.0f;

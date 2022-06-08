@@ -705,7 +705,7 @@ int Boss::damage(float weaponATK) {
 	int damage = 0;
 	damage = weaponATK * partsDEF;
 
-	return damage;
+ 	return damage;
 }
 
 void Boss::PosCorrection() {
