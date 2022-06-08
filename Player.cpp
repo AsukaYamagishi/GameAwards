@@ -96,7 +96,7 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 
 	}
 	if ((keyInput->PressKeyTrigger(DIK_UP) && jumpflag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_A) && jumpflag == false)) {
-		jumpPower = 7.0f;
+		jumpPower = 6.0f;
 		jumpflag = true;
 	}
 	//ジャンプフラグがあったら加算させて上昇させる

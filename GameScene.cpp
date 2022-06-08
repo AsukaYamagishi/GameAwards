@@ -314,7 +314,7 @@ bool GameScene::Update()
 			debugText.PrintDebugText("hit", 0, 0);
 		}
 	}
-	if (boss->GetAttackType() == AttackType::PRESS && boss->timer > 20 && player->jumpflag != true)
+	if (boss->GetAttackType() == AttackType::PRESS && boss->timer > 20 && boss->timer < 50 && player->jumpflag != true)
 	{
 		if (hit[BossAttackToPlayer])
 		{
