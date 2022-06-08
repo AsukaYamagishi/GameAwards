@@ -85,44 +85,28 @@ void Player::Update(Camera camera, Vector3 bossPos, bool cameraFlag)
 	//}
 
 	//ジャンプ
-	Vector3 jumppos = player->GetPos();
-	if (jumppos.y <= graundheight)
+	jumpPos = player->GetPos();
+	if (jumpPos.y <= graundheight)
 	{
 		jumpadd = initjumpNum;
-		//jumppos.y = graundheight;
 		jumpflag = false;
+		if (jumpflag == false) {
+			jumpPos.y = graundheight;
+		}
+
 	}
-	if ((keyInput->PressKey(DIK_UP) || padInput->IsPadButtonTrigger(XBOX_INPUT_A)) && jumppos.y <= graundheight) {
+	if ((keyInput->PressKeyTrigger(DIK_UP) && jumpflag == false || padInput->IsPadButtonTrigger(XBOX_INPUT_A) && jumpflag == false)) {
+		jumpPower = 7.0f;
 		jumpflag = true;
 	}
 	//ジャンプフラグがあったら加算させて上昇させる
 	if (jumpflag == true)
 	{
-		jumpadd += 0.05f;
-		if (jumpadd >= 0)
-		{
-			jumpadd -= 0.1f;
-			jumppos.y += jumpadd;
-		}
-		else
-		{
-			jumpflag = false;
-			jumpadd = initjumpNum;
-		}
+		Jump();
 	}
 
-	//重力の処理
-	if (!jumpflag && jumppos.y > graundheight)
-	{
-		gravity -= 0.095;
-		jumppos.y += gravity;
-	}
-	if (jumppos.y <= graundheight)
-	{
-		gravity = 0.0f;
-		jumppos.y = graundheight;
-	}
-	player->SetPos(jumppos);
+	
+	player->SetPos(jumpPos);
 
 	XMVECTOR forvardvec = {};
 
@@ -323,12 +307,13 @@ void Player::HitDamege(Vector3 bossPos) {
 void Player::KnockBack(Vector3 bossPos) {
 	const float xSpeed = 2.0f;
 	const float ySpeed = 2.0f;
-	float jumpPower;
+	float knockbackPower;
+	Vector3 knockbackPos = player->GetPos();
 
 	if (knockBackFlag == false) {
 		oldPlayerPos = player->GetPos();
 		knockBackFlag = true;
-		jumpPower = 5.0f;
+		knockbackPower = 5.0f;
 	}
 
 	//プレイヤーの正面から少し前を求める
@@ -345,14 +330,15 @@ void Player::KnockBack(Vector3 bossPos) {
 	Vector3 knockBackVector = bossPos - oldPlayerPos;
 	//Vector3 playerPos = player->GetPos();
 	//プレイヤーを後ろに下げる
-	oldPlayerPos -= knockBackVector * xSpeed;
+	knockbackPos -= knockBackVector * xSpeed;
 
 	//Y軸の処理
-	jumpPower -= 0.5f;
+	knockbackPower -= 0.5f;
 
-	oldPlayerPos.y += jumpPower;
+	knockbackPos.y = graundheight;
 
-	player->SetPos(oldPlayerPos);
+	player->SetPos(knockbackPos);
+
 	knockBackFlag = false;
 }
 
@@ -382,4 +368,9 @@ void Player::BeamAttack() {
 
 	bulletPos -= direction * shotSpeed;
 	bullet->SetPos(bulletPos);
+}
+
+void Player::Jump() {
+	jumpPower -= 0.5f;
+	jumpPos.y += jumpPower;
 }

@@ -43,6 +43,9 @@ public:
 	//ノックバック処理
 	void KnockBack(Vector3 bossPos);
 
+	//ジャンプ処理
+	void Jump();
+
 	//プレイヤーが撃つ球
 	ModelDraw* bullet = nullptr;
 
@@ -69,9 +72,11 @@ private:
 	Audio* audio = nullptr;
 
 	float move = 1.5f;	
-	const float initjumpNum = 2.0f;
+	const float initjumpNum = 0.5f;
 	float jumpadd = initjumpNum;
+	float jumpPower;
 	float gravity = 0;
+	Vector3 jumpPos = { 0, 0, 0 };
 	Vector3 oldPlayerPos = { 0, 0, 0 };
 	Vector3 oldPlayerPos2 = { 0, 0, 0 };	//エリアないにとどめる用のold変数
 	Vector3 testPos = { 0, 0, 0 };
