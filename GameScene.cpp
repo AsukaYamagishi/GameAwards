@@ -329,153 +329,151 @@ bool GameScene::Update()
 
 
 #pragma region UŒ‚ˆ—
-	if (player->attack)
-	{
-		if (hit[WwaponToHead] && boss->parthp[head] > 0) {
-			boss->HitDamage(head, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-			isfirework = true;
-			effects->FwLoad(isfirework);
-		}
-		if (hit[WwaponToBody]) {
-			boss->HitDamage(body, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-			isfirework = true;
-			effects->FwLoad(isfirework);
-		}
-		if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
-			boss->HitDamage(rightarm, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-			isfirework = true;
-			effects->FwLoad(isfirework);
-		}
-		if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
-			boss->HitDamage(leftarm, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-			isfirework = true;
-			effects->FwLoad(isfirework);
-		}
-		if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
-			boss->HitDamage(rightleg, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-			isfirework = true;
-			effects->FwLoad(isfirework);
-		}
-		if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
-			boss->HitDamage(leftleg, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-			isfirework = true;
-			effects->FwLoad(isfirework);
-		}
+	if (player->attack == false){}
 
-		/*if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
-		{
-			debugText.PrintDebugText("head", 0, 0);
-			boss->HitDamage(head, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(bodyCapsule, attackCapsule))
-		{
-			debugText.PrintDebugText("body", 0, 15);
-			boss->HitDamage(body, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
-		{
-			debugText.PrintDebugText("rightAram", 0, 30);
-			boss->HitDamage(rightarm, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
-		{
-			debugText.PrintDebugText("leftAram", 0, 45);
-			boss->HitDamage(leftarm, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(rightLegCapsule, attackCapsule) && boss->parthp[4] > 0)
-		{
-			debugText.PrintDebugText("rightLeg", 0, 60);
-			boss->HitDamage(rightleg, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (mCollision::testCapsuleCapsule(leftLegCapsule, attackCapsule) && boss->parthp[5] > 0)
-		{
-			debugText.PrintDebugText("leftLeg", 0, 75);
-			boss->HitDamage(leftleg, damage);
-			player->attack = false;
-			particleMan->HitParticle();
-		}
-		if (!player->oldattack){
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
-		}*/
+	if (hit[WwaponToHead] && boss->parthp[head] > 0) {
+		boss->HitDamage(head, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+		isfirework = true;
+		effects->FwLoad(isfirework);
+	}
+	if (hit[WwaponToBody]) {
+		boss->HitDamage(body, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+		isfirework = true;
+		effects->FwLoad(isfirework);
+	}
+	if (hit[WwaponToRightArm] && boss->parthp[rightarm] > 0) {
+		boss->HitDamage(rightarm, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+		isfirework = true;
+		effects->FwLoad(isfirework);
+	}
+	if (hit[WwaponToLeftArm] && boss->parthp[leftarm] > 0) {
+		boss->HitDamage(leftarm, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+		isfirework = true;
+		effects->FwLoad(isfirework);
+	}
+	if (hit[WwaponToRightLeg] && boss->parthp[rightleg] > 0) {
+		boss->HitDamage(rightleg, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+		isfirework = true;
+		effects->FwLoad(isfirework);
+	}
+	if (hit[WwaponToLeftLeg] && boss->parthp[leftleg] > 0) {
+		boss->HitDamage(leftleg, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+		isfirework = true;
+		effects->FwLoad(isfirework);
+	}
+
+	/*if (mCollision::testCapsuleCapsule(headCapsule, attackCapsule) && boss->parthp[0] > 0)
+	{
+		debugText.PrintDebugText("head", 0, 0);
+		boss->HitDamage(head, damage);
+		player->attack = false;
+		particleMan->HitParticle();
+	}
+	if (mCollision::testCapsuleCapsule(bodyCapsule, attackCapsule))
+	{
+		debugText.PrintDebugText("body", 0, 15);
+		boss->HitDamage(body, damage);
+		player->attack = false;
+		particleMan->HitParticle();
+	}
+	if (mCollision::testCapsuleCapsule(rightAramCapsule, attackCapsule) && boss->parthp[2] > 0)
+	{
+		debugText.PrintDebugText("rightAram", 0, 30);
+		boss->HitDamage(rightarm, damage);
+		player->attack = false;
+		particleMan->HitParticle();
+	}
+	if (mCollision::testCapsuleCapsule(leftAramCapsule, attackCapsule) && boss->parthp[3] > 0)
+	{
+		debugText.PrintDebugText("leftAram", 0, 45);
+		boss->HitDamage(leftarm, damage);
+		player->attack = false;
+		particleMan->HitParticle();
+	}
+	if (mCollision::testCapsuleCapsule(rightLegCapsule, attackCapsule) && boss->parthp[4] > 0)
+	{
+		debugText.PrintDebugText("rightLeg", 0, 60);
+		boss->HitDamage(rightleg, damage);
+		player->attack = false;
+		particleMan->HitParticle();
+	}
+	if (mCollision::testCapsuleCapsule(leftLegCapsule, attackCapsule) && boss->parthp[5] > 0)
+	{
+		debugText.PrintDebugText("leftLeg", 0, 75);
+		boss->HitDamage(leftleg, damage);
+		player->attack = false;
+		particleMan->HitParticle();
+	}
+	if (!player->oldattack){
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
+	}*/
 
 #pragma region ƒƒbƒVƒ…‚Æ‚Ì
-		//“ª
-		if (hit[Ghead] && boss->parthp[head] > 0)
-		{
-			debugText.PrintDebugText("head", 0, 0);
-			//boss->HitDamage(head, damage);
-			player->attack = false;
-			//particleMan->HitParticle();			
-		}
-		//‘Ì
-		if (hit[Gbody] && boss->parthp[body] > 0)
-		{
-			debugText.PrintDebugText("body", 0, 15);
-			//boss->HitDamage(body, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//‰E˜r
-		if (hit[Grightarm] && boss->parthp[rightarm] > 0)
-		{
-			debugText.PrintDebugText("rightAram", 0, 30);
-			//boss->HitDamage(rightarm, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//¶˜r
-		if (hit[Gleftarm] && boss->parthp[leftarm] > 0)
-		{
-			debugText.PrintDebugText("leftAram", 0, 45);
-			//boss->HitDamage(leftarm, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//‰E‘«
-		if (hit[Grightleg] && boss->parthp[rightleg] > 0)
-		{
-			debugText.PrintDebugText("rightLeg", 0, 60);
-			//boss->HitDamage(rightleg, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
-		//¶‘«
-		if (hit[Gleftleg] && boss->parthp[leftleg] > 0)
-		{
-			debugText.PrintDebugText("leftLeg", 0, 75);
-			//boss->HitDamage(leftleg, damage);
-			player->attack = false;
-			//particleMan->HitParticle();
-		}
+	//“ª
+	if (hit[Ghead] && boss->parthp[head] > 0)
+	{
+		debugText.PrintDebugText("head", 0, 0);
+		//boss->HitDamage(head, damage);
+		player->attack = false;
+		//particleMan->HitParticle();			
+	}
+	//‘Ì
+	if (hit[Gbody] && boss->parthp[body] > 0)
+	{
+		debugText.PrintDebugText("body", 0, 15);
+		//boss->HitDamage(body, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+	}
+	//‰E˜r
+	if (hit[Grightarm] && boss->parthp[rightarm] > 0)
+	{
+		debugText.PrintDebugText("rightAram", 0, 30);
+		//boss->HitDamage(rightarm, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+	}
+	//¶˜r
+	if (hit[Gleftarm] && boss->parthp[leftarm] > 0)
+	{
+		debugText.PrintDebugText("leftAram", 0, 45);
+		//boss->HitDamage(leftarm, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+	}
+	//‰E‘«
+	if (hit[Grightleg] && boss->parthp[rightleg] > 0)
+	{
+		debugText.PrintDebugText("rightLeg", 0, 60);
+		//boss->HitDamage(rightleg, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+	}
+	//¶‘«
+	if (hit[Gleftleg] && boss->parthp[leftleg] > 0)
+	{
+		debugText.PrintDebugText("leftLeg", 0, 75);
+		//boss->HitDamage(leftleg, damage);
+		player->attack = false;
+		//particleMan->HitParticle();
+	}
 #pragma endregion
 
 
-		if (!player->oldattack) {
-			//audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
-		}
-
+	if (!player->oldattack) {
+		//audio->SoundPlayWave(audio->xAudio2.Get(), soundSE[soundNo], Audio::not);
 	}
 #pragma endregion
 
